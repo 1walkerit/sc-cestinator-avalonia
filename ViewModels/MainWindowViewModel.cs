@@ -1,11 +1,13 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Media;
 using ScCestinator.Services;
 
 namespace ScCestinator.ViewModels;
@@ -22,6 +24,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public AsyncRelayCommand InstallCommand { get; }
     public AsyncRelayCommand UninstallCommand { get; }
     public AsyncRelayCommand BrowseFolderCommand { get; }
+    public ICommand OpenUrlCommand { get; }
 
     public string AppVersion { get; }
 
@@ -50,6 +53,25 @@ public class MainWindowViewModel : INotifyPropertyChanged
             execute: BrowseFolderAsync,
             canExecute: () => !IsBusy
         );
+
+        OpenUrlCommand = new RelayCommand(param =>
+        {
+            try
+            {
+                if (param is not string url || string.IsNullOrWhiteSpace(url))
+                    return;
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch
+            {
+                Status = "Nepodařilo se otevřít odkaz.";
+            }
+        });
 
         // Load last used path
         var settings = _settingsService.LoadSettings();
@@ -80,6 +102,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
         set
         {
             _status = value;
+            OnPropertyChanged();
+            UpdateStatusBrush();
+        }
+    }
+
+    private IBrush _statusBrush = Brushes.Black;
+    public IBrush StatusBrush
+    {
+        get => _statusBrush;
+        private set
+        {
+            _statusBrush = value;
             OnPropertyChanged();
         }
     }
@@ -336,5 +370,36 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private void OnPropertyChanged([CallerMemberName] string? name = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    private void UpdateStatusBrush()
+    {
+        if (string.IsNullOrWhiteSpace(Status))
+        {
+            StatusBrush = Brushes.Black;
+            return;
+        }
+
+        var s = Status;
+
+        if (s.Contains("✔") || s.Contains("aktuální", StringComparison.OrdinalIgnoreCase) ||
+            s.Contains("dokončena", StringComparison.OrdinalIgnoreCase) ||
+            s.Contains("hotovo", StringComparison.OrdinalIgnoreCase))
+        {
+            StatusBrush = Brushes.ForestGreen;
+            return;
+        }
+
+        if (s.Contains("chyba", StringComparison.OrdinalIgnoreCase) ||
+            s.Contains("neexistuje", StringComparison.OrdinalIgnoreCase) ||
+            s.Contains("neplatná", StringComparison.OrdinalIgnoreCase) ||
+            s.Contains("chybí", StringComparison.OrdinalIgnoreCase) ||
+            s.Contains("nepodařilo", StringComparison.OrdinalIgnoreCase))
+        {
+            StatusBrush = Brushes.Firebrick;
+            return;
+        }
+
+        StatusBrush = Brushes.Black;
     }
 }
