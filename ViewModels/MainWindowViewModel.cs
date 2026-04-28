@@ -190,18 +190,23 @@ public class MainWindowViewModel : INotifyPropertyChanged
         if (string.IsNullOrWhiteSpace(InputPath))
             return;
 
+        Status = "Kontroluji cestu ke Star Citizenu...";
         var result = _pathService.ValidateStarCitizenPath(InputPath);
 
         if (result.LivePath == null)
             return;
 
         IsBusy = true;
-        Status = "Instaluji...";
 
         try
         {
-            await _localizationService.InstallOrUpdateAsync(result.LivePath, true);
-            Status = "Instalace dokončena ✔";
+            await _localizationService.InstallOrUpdateAsync(
+                result.LivePath,
+                true,
+                progress => Status = progress
+            );
+            
+            Status = "Hotovo ✔";
             ValidatePath();
         }
         catch (HttpRequestException ex)

@@ -31,7 +31,7 @@ public sealed class LocalizationService
         return firstLine.Trim().TrimStart(';').Trim();
     }
 
-    public async Task InstallOrUpdateAsync(string livePath, bool createBackup)
+    public async Task InstallOrUpdateAsync(string livePath, bool createBackup, Action<string>? progressCallback = null)
     {
         var dataPath = Path.Combine(livePath, "data");
         var localizationPath = Path.Combine(dataPath, "Localization");
@@ -39,11 +39,13 @@ public sealed class LocalizationService
         var globalIniPath = Path.Combine(englishPath, "global.ini");
 
         // 🔹 vytvoření složek
+        progressCallback?.Invoke("Připravuji složky...");
         Directory.CreateDirectory(englishPath);
 
         // 🔹 záloha
         if (createBackup && Directory.Exists(localizationPath))
         {
+            progressCallback?.Invoke("Vytvářím zálohu původního souboru...");
             var backupPath = localizationPath + ".bak";
 
             if (Directory.Exists(backupPath))
@@ -53,9 +55,11 @@ public sealed class LocalizationService
         }
 
         // 🔹 stažení souboru
+        progressCallback?.Invoke("Stahuji češtinu z GitHubu...");
         var content = await _httpClient.GetStringAsync(Constants.GitHubLocalizationUrl);
 
         // 🔹 uložení
+        progressCallback?.Invoke("Instaluji novou verzi...");
         await File.WriteAllTextAsync(globalIniPath, content);
     }
 
