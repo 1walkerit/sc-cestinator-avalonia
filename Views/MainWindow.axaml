@@ -128,24 +128,57 @@
 
             <!-- Header -->
             <Border Grid.Row="0" Background="#CC1E88E5" Padding="20,12">
-                <Grid>
+                <Grid ColumnDefinitions="*,Auto">
                     <TextBlock Text="SC Češtinátor Linux"
+                               Grid.Column="0"
                                FontSize="24"
                                FontWeight="Bold"
                                Foreground="White"
                                VerticalAlignment="Center" />
-                    <TextBlock Text="{Binding AppVersion}"
-                               FontSize="11"
-                               Foreground="White"
-                               Opacity="0.85"
-                               HorizontalAlignment="Right"
-                               VerticalAlignment="Center" />
+
+                    <StackPanel Grid.Column="1"
+                                Spacing="6"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="{Binding AppVersion}"
+                                   FontSize="11"
+                                   Foreground="White"
+                                   Opacity="0.85"
+                                   HorizontalAlignment="Right" />
+
+                        <Menu HorizontalAlignment="Right"
+                              Background="Transparent"
+                              Foreground="White">
+                            <MenuItem Header="Užitečné odkazy ▾"
+                                      Background="#55203040"
+                                      Foreground="White">
+                                <MenuItem Header="CZ lokalizace"
+                                          Command="{Binding OpenUrlCommand}"
+                                          CommandParameter="https://github.com/JarredSC/Star-Citizen-CZ-lokalizace" />
+                                <MenuItem Header="Star Citizen web"
+                                          Command="{Binding OpenUrlCommand}"
+                                          CommandParameter="https://robertsspaceindustries.com" />
+                                <MenuItem Header="RSI Hangar"
+                                          Command="{Binding OpenUrlCommand}"
+                                          CommandParameter="https://robertsspaceindustries.com/account/pledges" />
+                                <MenuItem Header="Spectrum"
+                                          Command="{Binding OpenUrlCommand}"
+                                          CommandParameter="https://robertsspaceindustries.com/spectrum/community/SC" />
+                                <MenuItem Header="Issue Council"
+                                          Command="{Binding OpenUrlCommand}"
+                                          CommandParameter="https://issue-council.robertsspaceindustries.com" />
+                                <MenuItem Header="Launcher ke stažení"
+                                          Command="{Binding OpenUrlCommand}"
+                                          CommandParameter="https://robertsspaceindustries.com/download" />
+                            </MenuItem>
+                        </Menu>
+                    </StackPanel>
                 </Grid>
             </Border>
 
             <!-- Main Content -->
-            <Grid Grid.Row="1" ColumnDefinitions="*,240" ColumnSpacing="16" Margin="20">
-                <ScrollViewer Grid.Column="0">
+            <Grid Grid.Row="1" Margin="20">
+                <ScrollViewer>
                     <StackPanel Spacing="20">
 
                 <!-- Star Citizen Path Section -->
@@ -251,57 +284,6 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                <Border Grid.Column="1"
-                        BorderBrush="#55FFFFFF"
-                        BorderThickness="1"
-                        CornerRadius="8"
-                        Padding="18"
-                        Background="#BB101820"
-                        BoxShadow="0 6 18 #30000000">
-                    <StackPanel Spacing="14">
-                        <TextBlock Text="Užitečné odkazy"
-                                   FontSize="15"
-                                   FontWeight="SemiBold"
-                                   Foreground="White"
-                                   Margin="0,0,0,6" />
-
-                        <Button Classes="link-button"
-                                Content="CZ lokalizace"
-                                Command="{Binding OpenUrlCommand}"
-                                CommandParameter="https://github.com/JarredSC/Star-Citizen-CZ-lokalizace"
-                                HorizontalAlignment="Stretch" />
-
-                        <Button Classes="link-button"
-                                Content="Star Citizen web"
-                                Command="{Binding OpenUrlCommand}"
-                                CommandParameter="https://robertsspaceindustries.com"
-                                HorizontalAlignment="Stretch" />
-
-                        <Button Classes="link-button"
-                                Content="RSI Account / Hangar"
-                                Command="{Binding OpenUrlCommand}"
-                                CommandParameter="https://robertsspaceindustries.com/account/pledges"
-                                HorizontalAlignment="Stretch" />
-
-                        <Button Classes="link-button"
-                                Content="Spectrum"
-                                Command="{Binding OpenUrlCommand}"
-                                CommandParameter="https://robertsspaceindustries.com/spectrum/community/SC"
-                                HorizontalAlignment="Stretch" />
-
-                        <Button Classes="link-button"
-                                Content="Issue Council"
-                                Command="{Binding OpenUrlCommand}"
-                                CommandParameter="https://issue-council.robertsspaceindustries.com"
-                                HorizontalAlignment="Stretch" />
-
-                        <Button Classes="link-button"
-                                Content="Launcher ke stažení"
-                                Command="{Binding OpenUrlCommand}"
-                                CommandParameter="https://robertsspaceindustries.com/download"
-                                HorizontalAlignment="Stretch" />
-                    </StackPanel>
-                </Border>
             </Grid>
         </Grid>
     </Grid>
