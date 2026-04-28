@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,16 +16,23 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly LocalizationService _localizationService = new();
     private readonly GitHubService _gitHubService = new();
     private readonly IFolderPickerService _folderPickerService;
+    private readonly SettingsService _settingsService = new();
 
-    public ICommand InstallCommand { get; }
-    public ICommand BrowseFolderCommand { get; }
+    public AsyncRelayCommand InstallCommand { get; }
+    public AsyncRelayCommand BrowseFolderCommand { get; }
+
+    public string AppVersion { get; }
 
     public MainWindowViewModel(IFolderPickerService folderPickerService)
     {
         _folderPickerService = folderPickerService;
 
-        InstallCommand = new RelayCommand(
-            execute: async () => await InstallAsync(),
+        // Get app version from assembly
+        var version = Assembly.GetExecutingAssembly().GetName().Version;
+        AppVersion = $"Verze: {version?.Major}.{version?.Minor}.{version?.Build ?? 0}";
+
+        InstallCommand = new AsyncRelayCommand(
+            execute: InstallAsync,
             canExecute: () => IsUpdateAvailable && !IsBusy
         );
 
@@ -32,6 +40,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
             execute: BrowseFolderAsync,
             canExecute: () => !IsBusy
         );
+
+        // Load last used path
+        var settings = _settingsService.LoadSettings();
+        if (!string.IsNullOrWhiteSpace(settings.LastUsedPath))
+        {
+            InputPath = settings.LastUsedPath;
+        }
     }
 
     private string? _inputPath;
@@ -42,7 +57,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             _inputPath = value;
             OnPropertyChanged();
-            ValidatePath();
+            
+            // Fire and forget with proper error handling
+            _ = ValidatePathAsync();
         }
     }
 
@@ -87,7 +104,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             _isUpdateAvailable = value;
             OnPropertyChanged();
-            (InstallCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            InstallCommand?.RaiseCanExecuteChanged();
         }
     }
 
@@ -99,8 +116,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             _isBusy = value;
             OnPropertyChanged();
-            (InstallCommand as RelayCommand)?.RaiseCanExecuteChanged();
-            (BrowseFolderCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
+            InstallCommand?.RaiseCanExecuteChanged();
+            BrowseFolderCommand?.RaiseCanExecuteChanged();
         }
     }
 
@@ -115,6 +132,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
             if (selectedPath != null)
             {
                 InputPath = selectedPath;
+                
+                // Save path when selected via folder picker
+                _settingsService.SaveSettings(new AppSettings { LastUsedPath = selectedPath });
             }
             else
             {
@@ -127,61 +147,73 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    private async void ValidatePath()
+    private async Task ValidatePathAsync()
     {
-        var result = _pathService.ValidateStarCitizenPath(InputPath);
-
-        LocalVersion = "-";
-        OnlineVersion = "-";
-        IsUpdateAvailable = false;
-
-        if (result.LivePath == null)
+        try
         {
-            Status = "Neplatná cesta";
-            return;
-        }
+            var result = _pathService.ValidateStarCitizenPath(InputPath);
 
-        if (!result.LiveExists)
-        {
-            Status = $"LIVE složka neexistuje: {result.LivePath}";
-            return;
-        }
-
-        if (!result.DataExists)
-        {
-            Status = "Chybí složka data";
-            return;
-        }
-
-        if (result.GlobalIniExists)
-        {
-            var local = await _localizationService.ReadLocalVersionAsync(result.GlobalIniPath);
-            LocalVersion = local ?? "neznámá";
-        }
-        else
-        {
-            LocalVersion = "nenainstalováno";
-        }
-
-        var online = await _gitHubService.GetOnlineVersionAsync();
-        OnlineVersion = online ?? "neznámá";
-
-        if (LocalVersion == "nenainstalováno")
-        {
-            Status = "Lokalizace není nainstalována";
-            IsUpdateAvailable = true;
-            return;
-        }
-
-        if (LocalVersion != OnlineVersion)
-        {
-            Status = $"Je dostupná aktualizace ({LocalVersion} → {OnlineVersion})";
-            IsUpdateAvailable = true;
-        }
-        else
-        {
-            Status = "Máte aktuální verzi ✔";
+            LocalVersion = "-";
+            OnlineVersion = "-";
             IsUpdateAvailable = false;
+
+            if (result.LivePath == null)
+            {
+                Status = "Neplatná cesta";
+                return;
+            }
+
+            if (!result.LiveExists)
+            {
+                Status = $"LIVE složka neexistuje: {result.LivePath}";
+                return;
+            }
+
+            if (!result.DataExists)
+            {
+                Status = "Chybí složka data";
+                return;
+            }
+
+            if (result.GlobalIniExists)
+            {
+                var local = await _localizationService.ReadLocalVersionAsync(result.GlobalIniPath);
+                LocalVersion = local ?? "neznámá";
+            }
+            else
+            {
+                LocalVersion = "nenainstalováno";
+            }
+
+            var online = await _gitHubService.GetOnlineVersionAsync();
+            OnlineVersion = online ?? "neznámá";
+
+            if (LocalVersion == "nenainstalováno")
+            {
+                Status = "Lokalizace není nainstalována";
+                IsUpdateAvailable = true;
+            }
+            else if (LocalVersion != OnlineVersion)
+            {
+                Status = $"Je dostupná aktualizace ({LocalVersion} → {OnlineVersion})";
+                IsUpdateAvailable = true;
+            }
+            else
+            {
+                Status = "Máte aktuální verzi ✔";
+                IsUpdateAvailable = false;
+            }
+            
+            // Save path when validation succeeds (path is valid and has data folder)
+            if (!string.IsNullOrWhiteSpace(InputPath))
+            {
+                _settingsService.SaveSettings(new AppSettings { LastUsedPath = InputPath });
+            }
+        }
+        catch
+        {
+            // Silently handle validation errors to avoid crashing on property change
+            Status = "Chyba při ověřování cesty";
         }
     }
 
@@ -207,7 +239,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             );
             
             Status = "Hotovo ✔";
-            ValidatePath();
+            await ValidatePathAsync();
         }
         catch (HttpRequestException ex)
         {
