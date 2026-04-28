@@ -27,15 +27,26 @@ public class SettingsService
                 return JsonSerializer.Deserialize<AppSettings>(json) ?? new AppSettings();
             }
         }
-        catch
+        catch (JsonException)
         {
-            // If loading fails, return default settings
+            // Corrupted settings file - return defaults
+            return new AppSettings();
+        }
+        catch (IOException)
+        {
+            // File access error - return defaults
+            return new AppSettings();
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // Permission error - return defaults
+            return new AppSettings();
         }
 
         return new AppSettings();
     }
 
-    public void SaveSettings(AppSettings settings)
+    public bool SaveSettings(AppSettings settings)
     {
         try
         {
@@ -51,10 +62,22 @@ public class SettingsService
             });
 
             File.WriteAllText(SettingsPath, json);
+            return true;
         }
-        catch
+        catch (IOException)
         {
-            // Silently fail if saving fails
+            // File I/O error - fail gracefully
+            return false;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // Permission error - fail gracefully
+            return false;
+        }
+        catch (JsonException)
+        {
+            // Serialization error - fail gracefully
+            return false;
         }
     }
 }

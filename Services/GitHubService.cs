@@ -7,10 +7,7 @@ namespace ScCestinator.Services;
 
 public sealed class GitHubService
 {
-    private static readonly HttpClient _httpClient = new()
-    {
-        Timeout = TimeSpan.FromSeconds(30)
-    };
+    private static readonly HttpClient _httpClient = HttpClientFactory.GetSharedClient();
 
     public async Task<string?> GetOnlineVersionAsync()
     {
