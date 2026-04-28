@@ -25,10 +25,7 @@ public sealed class LocalizationService
 
         var firstLine = await reader.ReadLineAsync();
 
-        if (string.IsNullOrWhiteSpace(firstLine))
-            return null;
-
-        return firstLine.Trim().TrimStart(';').Trim();
+        return VersionParser.ParseVersionFromFirstLine(firstLine);
     }
 
     public async Task InstallOrUpdateAsync(string livePath, bool createBackup, Action<string>? progressCallback = null)

@@ -21,10 +21,7 @@ public sealed class GitHubService
             using var reader = new StringReader(content);
             var firstLine = reader.ReadLine();
 
-            if (string.IsNullOrWhiteSpace(firstLine))
-                return null;
-
-            return firstLine.Trim().TrimStart(';').Trim();
+            return VersionParser.ParseVersionFromFirstLine(firstLine);
         }
         catch
         {
