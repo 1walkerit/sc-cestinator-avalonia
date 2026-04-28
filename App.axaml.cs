@@ -21,13 +21,15 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var folderPickerService = new Services.FolderPickerService();
-            var viewModel = new MainWindowViewModel(folderPickerService);
+            var confirmationDialogService = new Services.ConfirmationDialogService();
+            var viewModel = new MainWindowViewModel(folderPickerService, confirmationDialogService);
             var mainWindow = new MainWindow
             {
                 DataContext = viewModel
             };
             
             folderPickerService.SetWindow(mainWindow);
+            confirmationDialogService.SetWindow(mainWindow);
             desktop.MainWindow = mainWindow;
         }
 

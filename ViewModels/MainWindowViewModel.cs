@@ -16,16 +16,21 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly LocalizationService _localizationService = new();
     private readonly GitHubService _gitHubService = new();
     private readonly IFolderPickerService _folderPickerService;
+    private readonly IConfirmationDialogService _confirmationDialogService;
     private readonly SettingsService _settingsService = new();
 
     public AsyncRelayCommand InstallCommand { get; }
+    public AsyncRelayCommand UninstallCommand { get; }
     public AsyncRelayCommand BrowseFolderCommand { get; }
 
     public string AppVersion { get; }
 
-    public MainWindowViewModel(IFolderPickerService folderPickerService)
+    public MainWindowViewModel(
+        IFolderPickerService folderPickerService,
+        IConfirmationDialogService confirmationDialogService)
     {
         _folderPickerService = folderPickerService;
+        _confirmationDialogService = confirmationDialogService;
 
         // Get app version from assembly
         var version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -34,6 +39,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         InstallCommand = new AsyncRelayCommand(
             execute: InstallAsync,
             canExecute: () => IsUpdateAvailable && !IsBusy
+        );
+
+        UninstallCommand = new AsyncRelayCommand(
+            execute: UninstallAsync,
+            canExecute: () => LocalVersion != "-" && LocalVersion != "nenainstalováno" && !IsBusy
         );
 
         BrowseFolderCommand = new AsyncRelayCommand(
@@ -82,6 +92,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             _localVersion = value;
             OnPropertyChanged();
+            UninstallCommand?.RaiseCanExecuteChanged();
         }
     }
 
@@ -117,6 +128,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             _isBusy = value;
             OnPropertyChanged();
             InstallCommand?.RaiseCanExecuteChanged();
+            UninstallCommand?.RaiseCanExecuteChanged();
             BrowseFolderCommand?.RaiseCanExecuteChanged();
         }
     }
@@ -260,6 +272,58 @@ public class MainWindowViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             Status = $"Chyba při instalaci: {ex.Message}";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    public async Task UninstallAsync()
+    {
+        if (string.IsNullOrWhiteSpace(InputPath))
+            return;
+
+        var confirmed = await _confirmationDialogService.ConfirmUninstallAsync();
+        if (!confirmed)
+        {
+            Status = "Odinstalace zrušena";
+            return;
+        }
+
+        Status = "Kontroluji cestu ke Star Citizenu...";
+        var result = _pathService.ValidateStarCitizenPath(InputPath);
+
+        if (result.LivePath == null)
+            return;
+
+        IsBusy = true;
+
+        try
+        {
+            await _localizationService.UninstallAsync(
+                result.LivePath,
+                progress => Status = progress
+            );
+
+            Status = "Odinstalace dokončena ✔";
+            await ValidatePathAsync();
+        }
+        catch (FileNotFoundException ex)
+        {
+            Status = ex.Message;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Status = "Chyba: Přístup odepřen - zkontrolujte oprávnění";
+        }
+        catch (IOException ex)
+        {
+            Status = $"Chyba I/O: {ex.Message}";
+        }
+        catch (Exception ex)
+        {
+            Status = $"Chyba při odinstalaci: {ex.Message}";
         }
         finally
         {

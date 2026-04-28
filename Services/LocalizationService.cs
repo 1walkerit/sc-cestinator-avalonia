@@ -57,6 +57,30 @@ public sealed class LocalizationService
         await File.WriteAllTextAsync(globalIniPath, content);
     }
 
+    public async Task UninstallAsync(string livePath, Action<string>? progressCallback = null)
+    {
+        var dataPath = Path.Combine(livePath, "data");
+        var localizationPath = Path.Combine(dataPath, "Localization");
+        var englishPath = Path.Combine(localizationPath, "english");
+        var globalIniPath = Path.Combine(englishPath, "global.ini");
+
+        // Check if file exists
+        if (!File.Exists(globalIniPath))
+        {
+            throw new FileNotFoundException("Soubor global.ini nebyl nalezen");
+        }
+
+        // Create backup with timestamp
+        progressCallback?.Invoke("Vytvářím zálohu...");
+        var timestamp = DateTime.Now.ToString("yyyy-MM-dd-HHmm");
+        var backupPath = $"{globalIniPath}.backup-{timestamp}";
+        File.Copy(globalIniPath, backupPath, true);
+
+        // Delete the file
+        progressCallback?.Invoke("Odstraňuji češtinu...");
+        File.Delete(globalIniPath);
+    }
+
     private void DirectoryCopy(string sourceDir, string destDir)
     {
         var dir = new DirectoryInfo(sourceDir);
