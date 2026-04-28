@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Layout;
 
 namespace ScCestinator.Services;
 
@@ -21,17 +22,51 @@ public class ConfirmationDialogService : IConfirmationDialogService
 
         var dialog = new Window
         {
-            Title = "Potvrzení",
-            Width = 360,
-            Height = 150,
+            Title = "Potvrzení odinstalace",
+            Width = 420,
+            Height = 200,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            CanResize = false
+            CanResize = false,
+            Background = new SolidColorBrush(Color.Parse("#BB101820"))
         };
 
         var result = false;
 
-        var yesButton = new Button { Content = "Ano", Width = 90 };
-        var noButton = new Button { Content = "Ne", Width = 90 };
+        var yesButton = new Button
+        {
+            Content = "Ano",
+            Width = 120,
+            Height = 40,
+            Background = new SolidColorBrush(Color.Parse("#AA4444")),
+            Foreground = Brushes.White,
+            FontWeight = FontWeight.SemiBold,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+            VerticalContentAlignment = VerticalAlignment.Center,
+            Padding = new Thickness(12, 6)
+        };
+        var yesNormalBackground = new SolidColorBrush(Color.Parse("#AA4444"));
+        var yesHoverBackground = new SolidColorBrush(Color.Parse("#963D3D"));
+        yesButton.Background = yesNormalBackground;
+        yesButton.PointerEntered += (_, _) => yesButton.Background = yesHoverBackground;
+        yesButton.PointerExited += (_, _) => yesButton.Background = yesNormalBackground;
+
+        var noButton = new Button
+        {
+            Content = "Ne",
+            Width = 120,
+            Height = 40,
+            Background = new SolidColorBrush(Color.Parse("#6A6A6A")),
+            Foreground = Brushes.White,
+            FontWeight = FontWeight.SemiBold,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+            VerticalContentAlignment = VerticalAlignment.Center,
+            Padding = new Thickness(12, 6)
+        };
+        var noNormalBackground = new SolidColorBrush(Color.Parse("#6A6A6A"));
+        var noHoverBackground = new SolidColorBrush(Color.Parse("#5E5E5E"));
+        noButton.Background = noNormalBackground;
+        noButton.PointerEntered += (_, _) => noButton.Background = noHoverBackground;
+        noButton.PointerExited += (_, _) => noButton.Background = noNormalBackground;
 
         yesButton.Click += (_, _) =>
         {
@@ -41,23 +76,35 @@ public class ConfirmationDialogService : IConfirmationDialogService
 
         noButton.Click += (_, _) => dialog.Close();
 
-        dialog.Content = new StackPanel
+        dialog.Content = new Border
         {
             Margin = new Thickness(16),
-            Spacing = 14,
-            Children =
+            Padding = new Thickness(18),
+            CornerRadius = new CornerRadius(10),
+            Background = new SolidColorBrush(Color.Parse("#E6FFFFFF")),
+            Child = new StackPanel
             {
-                new TextBlock
+                Spacing = 16,
+                VerticalAlignment = VerticalAlignment.Center,
+                Children =
                 {
-                    Text = "Opravdu chcete odinstalovat češtinu?",
-                    TextWrapping = TextWrapping.Wrap
-                },
-                new StackPanel
-                {
-                    Orientation = Avalonia.Layout.Orientation.Horizontal,
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right,
-                    Spacing = 8,
-                    Children = { yesButton, noButton }
+                    new TextBlock
+                    {
+                        Text = "Opravdu chcete odinstalovat češtinu?",
+                        FontSize = 17,
+                        FontWeight = FontWeight.SemiBold,
+                        Foreground = new SolidColorBrush(Color.Parse("#1C1C1C")),
+                        TextWrapping = TextWrapping.Wrap,
+                        TextAlignment = TextAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    },
+                    new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Spacing = 12,
+                        Children = { yesButton, noButton }
+                    }
                 }
             }
         };

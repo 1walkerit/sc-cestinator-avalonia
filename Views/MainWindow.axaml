@@ -10,15 +10,104 @@
         MinHeight="500">
 
     <Window.Styles>
+        <Style Selector="Button.browse-button">
+            <Setter Property="Background" Value="#55203040" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#55FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style Selector="Button.browse-button:pointerover">
+            <Setter Property="Background" Value="#88304860" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#AAFFFFFF" />
+        </Style>
+        <Style Selector="Button.browse-button:disabled">
+            <Setter Property="Background" Value="#33203040" />
+            <Setter Property="Foreground" Value="#B0FFFFFF" />
+            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+            <Setter Property="Opacity" Value="0.75" />
+        </Style>
+        <Style Selector="Button.browse-button:disabled:pointerover">
+            <Setter Property="Background" Value="#33203040" />
+            <Setter Property="Foreground" Value="#B0FFFFFF" />
+            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+        </Style>
+
         <Style Selector="Button.link-button">
-            <Setter Property="Background" Value="#66202A36" />
+            <Setter Property="Background" Value="#55203040" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="#55FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="12,10" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
         <Style Selector="Button.link-button:pointerover">
-            <Setter Property="Background" Value="#88405A78" />
+            <Setter Property="Background" Value="#88304860" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#AAFFFFFF" />
+        </Style>
+        <Style Selector="Button.link-button:disabled">
+            <Setter Property="Background" Value="#33203040" />
+            <Setter Property="Foreground" Value="#B0FFFFFF" />
+            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+            <Setter Property="Opacity" Value="0.75" />
+        </Style>
+        <Style Selector="Button.link-button:disabled:pointerover">
+            <Setter Property="Background" Value="#33203040" />
+            <Setter Property="Foreground" Value="#B0FFFFFF" />
+            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+        </Style>
+
+        <Style Selector="Button.action-primary">
+            <Setter Property="Background" Value="#1B4E78" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#55FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style Selector="Button.action-primary:pointerover">
+            <Setter Property="Background" Value="#236291" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#AAFFFFFF" />
+        </Style>
+
+        <Style Selector="Button.action-danger">
+            <Setter Property="Background" Value="#6D2F2F" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#55FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <Style Selector="Button.action-danger:pointerover">
+            <Setter Property="Background" Value="#834040" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#AAFFFFFF" />
+        </Style>
+
+        <Style Selector="Button.action-primary:disabled, Button.action-danger:disabled">
+            <Setter Property="Opacity" Value="0.75" />
+            <Setter Property="Foreground" Value="#B0FFFFFF" />
+            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+        </Style>
+        <Style Selector="Button.action-primary:disabled">
+            <Setter Property="Background" Value="#2E4960" />
+        </Style>
+        <Style Selector="Button.action-danger:disabled">
+            <Setter Property="Background" Value="#4A3333" />
+        </Style>
+        <Style Selector="Button.action-primary:disabled:pointerover, Button.action-danger:disabled:pointerover">
+            <Setter Property="Foreground" Value="#B0FFFFFF" />
+            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+        </Style>
+        <Style Selector="Button.action-primary:disabled:pointerover">
+            <Setter Property="Background" Value="#2E4960" />
+        </Style>
+        <Style Selector="Button.action-danger:disabled:pointerover">
+            <Setter Property="Background" Value="#4A3333" />
         </Style>
     </Window.Styles>
 
@@ -76,12 +165,15 @@
                                      PlaceholderText="Zadejte cestu nebo vyberte složku..."
                                      VerticalContentAlignment="Center"
                                      Height="36" />
-                            <Button Grid.Column="1" 
-                                    Content="Vybrat složku" 
-                                    Command="{Binding BrowseFolderCommand}"
-                                    Margin="10,0,0,0"
+                             <Button Grid.Column="1" 
+                                     Content="Vybrat složku" 
+                                     Command="{Binding BrowseFolderCommand}"
+                                     Classes="browse-button"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Margin="10,0,0,0"
                                     Height="36"
-                                    Padding="15,0" />
+                                    Padding="12,6" />
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -116,36 +208,45 @@
                                        Text="Status:"
                                        FontWeight="Medium"
                                        Margin="0,8,10,0" />
-                            <TextBlock Grid.Row="2" Grid.Column="1"
-                                       Text="{Binding Status}"
-                                       Foreground="{Binding StatusBrush}"
-                                       FontWeight="SemiBold"
-                                       Margin="0,8,0,0" />
+                            <Border Grid.Row="2" Grid.Column="1"
+                                    Background="#CCFFFFFF"
+                                    CornerRadius="6"
+                                    Padding="8,3"
+                                    Margin="0,8,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Status}"
+                                           Foreground="{Binding StatusBrush}"
+                                           FontWeight="Bold" />
+                            </Border>
                         </Grid>
                     </StackPanel>
                 </Border>
 
                 <!-- Action Buttons -->
-                <StackPanel Spacing="10" HorizontalAlignment="Stretch">
-                    <Button Content="Instalovat / Aktualizovat češtinu"
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Button Grid.Column="0"
+                            Content="Instalovat / Aktualizovat češtinu"
                             Command="{Binding InstallCommand}"
                             HorizontalAlignment="Stretch"
-                            Background="#007ACC"
-                            Foreground="White"
-                            FontWeight="Bold"
-                            Height="48"
-                            FontSize="16"
-                            Classes="accent" />
+                            Classes="action-primary"
+                            Height="40"
+                            FontSize="15"
+                            Padding="12,6"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center" />
 
-                    <Button Content="Odinstalovat češtinu"
+                    <Button Grid.Column="1"
+                            Content="Odinstalovat češtinu"
                             Command="{Binding UninstallCommand}"
                             HorizontalAlignment="Stretch"
-                            Background="#AA4444"
-                            Foreground="White"
-                            Height="48"
-                            FontSize="16"
-                            FontWeight="SemiBold" />
-                </StackPanel>
+                            Classes="action-danger"
+                            Height="40"
+                            FontSize="15"
+                            Padding="12,6"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center" />
+                </Grid>
 
                     </StackPanel>
                 </ScrollViewer>

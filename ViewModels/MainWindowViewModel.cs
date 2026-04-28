@@ -394,6 +394,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             s.Contains("neexistuje", StringComparison.OrdinalIgnoreCase) ||
             s.Contains("neplatná", StringComparison.OrdinalIgnoreCase) ||
             s.Contains("chybí", StringComparison.OrdinalIgnoreCase) ||
+            s.Contains("není nainstalována", StringComparison.OrdinalIgnoreCase) ||
             s.Contains("nepodařilo", StringComparison.OrdinalIgnoreCase))
         {
             StatusBrush = Brushes.Firebrick;
