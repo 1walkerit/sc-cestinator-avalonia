@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel;
+using System.IO;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -196,18 +198,35 @@ public class MainWindowViewModel : INotifyPropertyChanged
         IsBusy = true;
         Status = "Instaluji...";
 
-        var success = await _localizationService.InstallOrUpdateAsync(result.LivePath, true);
-
-        IsBusy = false;
-
-        if (success)
+        try
         {
+            await _localizationService.InstallOrUpdateAsync(result.LivePath, true);
             Status = "Instalace dokončena ✔";
             ValidatePath();
         }
-        else
+        catch (HttpRequestException ex)
         {
-            Status = "Chyba při instalaci ❌";
+            Status = $"Chyba sítě: {ex.Message}";
+        }
+        catch (TaskCanceledException)
+        {
+            Status = "Chyba: Vypršel časový limit připojení";
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Status = "Chyba: Přístup odepřen - zkontrolujte oprávnění";
+        }
+        catch (IOException ex)
+        {
+            Status = $"Chyba I/O: {ex.Message}";
+        }
+        catch (Exception ex)
+        {
+            Status = $"Chyba při instalaci: {ex.Message}";
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 

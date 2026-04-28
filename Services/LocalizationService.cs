@@ -31,41 +31,32 @@ public sealed class LocalizationService
         return firstLine.Trim().TrimStart(';').Trim();
     }
 
-    public async Task<bool> InstallOrUpdateAsync(string livePath, bool createBackup)
+    public async Task InstallOrUpdateAsync(string livePath, bool createBackup)
     {
-        try
+        var dataPath = Path.Combine(livePath, "data");
+        var localizationPath = Path.Combine(dataPath, "Localization");
+        var englishPath = Path.Combine(localizationPath, "english");
+        var globalIniPath = Path.Combine(englishPath, "global.ini");
+
+        // 🔹 vytvoření složek
+        Directory.CreateDirectory(englishPath);
+
+        // 🔹 záloha
+        if (createBackup && Directory.Exists(localizationPath))
         {
-            var dataPath = Path.Combine(livePath, "data");
-            var localizationPath = Path.Combine(dataPath, "Localization");
-            var englishPath = Path.Combine(localizationPath, "english");
-            var globalIniPath = Path.Combine(englishPath, "global.ini");
+            var backupPath = localizationPath + ".bak";
 
-            // 🔹 vytvoření složek
-            Directory.CreateDirectory(englishPath);
+            if (Directory.Exists(backupPath))
+                Directory.Delete(backupPath, true);
 
-            // 🔹 záloha
-            if (createBackup && Directory.Exists(localizationPath))
-            {
-                var backupPath = localizationPath + ".bak";
-
-                if (Directory.Exists(backupPath))
-                    Directory.Delete(backupPath, true);
-
-                DirectoryCopy(localizationPath, backupPath);
-            }
-
-            // 🔹 stažení souboru
-            var content = await _httpClient.GetStringAsync(Constants.GitHubLocalizationUrl);
-
-            // 🔹 uložení
-            await File.WriteAllTextAsync(globalIniPath, content);
-
-            return true;
+            DirectoryCopy(localizationPath, backupPath);
         }
-        catch
-        {
-            return false;
-        }
+
+        // 🔹 stažení souboru
+        var content = await _httpClient.GetStringAsync(Constants.GitHubLocalizationUrl);
+
+        // 🔹 uložení
+        await File.WriteAllTextAsync(globalIniPath, content);
     }
 
     private void DirectoryCopy(string sourceDir, string destDir)
