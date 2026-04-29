@@ -1,18 +1,34 @@
-# SC Češtinátor (Avalonia / C#)
+# SC Češtinátor Avalonia
 
-Linux GUI nástroj pro instalaci české lokalizace do Star Citizen.
+Linux GUI nástroj pro instalaci a správu české lokalizace do Star Citizen.
 
-## ✨ Funkce
-- instalace / aktualizace češtiny
-- odinstalace se zálohou
+Toto je nová verze aplikace napsaná v C# / Avalonia UI.
+
+Původní Python verze:
+https://github.com/1walkerit/sc-cestinator-linux
+
+## Funkce
+
+- instalace a aktualizace české lokalizace
+- odinstalace češtiny se zálohou původního souboru
 - detekce lokální a online verze
 - výběr složky Star Citizen
 - uložení poslední použité cesty
-- užitečné odkazy v aplikaci
+- užitečné odkazy v horním menu
+- moderní grafické rozhraní pro Linux
 
-## 🖼️ Screenshot
-(přidej ten poslední screenshot – fakt se povedl)
+## Screenshot
 
-## ▶️ Spuštění (vývoj)
+Sem vlož screenshot aplikace.
+
+## Požadavky
+
+Pro běh ze zdrojového kódu:
+
+- .NET 8 SDK
+- Linux
+
+## Spuštění ze zdrojového kódu
+
 ```bash
-dotnet run
+dotnet run --project src/ScCestinator/ScCestinator.csproj
