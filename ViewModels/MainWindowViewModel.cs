@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -27,6 +28,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand OpenUrlCommand { get; }
     public ICommand DownloadLatestVersionCommand { get; }
     public ICommand OpenDownloadFolderCommand { get; }
+
+    public ICommand OpenGameFolderCommand { get; }
+    public ICommand ClearLogsCommand { get; }
+    public ICommand ClearShadersCommand { get; }
+
 
     public string AppVersion { get; }
 
@@ -89,6 +95,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         });
 DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync);
         OpenDownloadFolderCommand = new RelayCommand(OpenDownloadFolder);
+
+        OpenGameFolderCommand = new RelayCommand(OpenGameFolder);
+        ClearLogsCommand = new RelayCommand(ClearLogs);
+        ClearShadersCommand = new RelayCommand(ClearShaders);
+
 
         // Load last used path
         var settings = _settingsService.LoadSettings();
@@ -243,6 +254,105 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
     }
 
 
+
+
+    
+    private void OpenGameFolder()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(InputPath) || !Directory.Exists(InputPath))
+            {
+                Status = "Neplatná cesta ke hře.";
+                return;
+            }
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = InputPath,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Status = $"Nepodařilo se otevřít složku: {ex.Message}";
+        }
+    }
+
+    private void ClearLogs()
+    {
+        Status = "Vyčištění logů zatím není implementováno.";
+    }
+
+
+    private void ClearShaders()
+    {
+        try
+        {
+            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+            var paths = new[]
+            {
+                Path.Combine(home, ".cache", "mesa_shader_cache"),
+                Path.Combine(home, ".cache", "nvidia")
+            };
+
+            int totalDeleted = 0;
+            int foldersProcessed = 0;
+
+            foreach (var dir in paths)
+            {
+                if (!Directory.Exists(dir))
+                {
+                    Console.WriteLine($"[Shaders] Nenalezeno: {dir}");
+                    continue;
+                }
+
+                foldersProcessed++;
+
+                var files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories);
+                foreach (var file in files)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                        totalDeleted++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Shaders] Chyba mazání {file}: {ex.Message}");
+                    }
+                }
+
+                var subDirs = Directory.GetDirectories(dir, "*", SearchOption.AllDirectories)
+                    .OrderByDescending(d => d.Length);
+
+                foreach (var subDir in subDirs)
+                {
+                    try
+                    {
+                        if (!Directory.EnumerateFileSystemEntries(subDir).Any())
+                        {
+                            Directory.Delete(subDir);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Shaders] Chyba mazání složky {subDir}: {ex.Message}");
+                    }
+                }
+            }
+
+            Status = $"Shadery vyčištěny ({foldersProcessed} složky)";
+            Console.WriteLine($"[Shaders] Smazáno souborů: {totalDeleted}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Status = "Chyba při mazání shaderů";
+        }
+    }
 
 
     private void OpenDownloadFolder()
