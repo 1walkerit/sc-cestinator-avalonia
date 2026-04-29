@@ -4,10 +4,10 @@
         x:Class="ScCestinator.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="SC Češtinátor Linux"
-        Width="900"
-        Height="600"
-        MinWidth="800"
-        MinHeight="500">
+        Width="1000"
+        Height="550"
+        MinWidth="1000"
+        MinHeight="550">
 
     <Window.Styles>
         <Style Selector="Button.browse-button">
@@ -132,7 +132,7 @@
             <Setter Property="Foreground" Value="White" />
         </Style>
         <Style Selector="MenuItem">
-            <Setter Property="Background" Value="#AA1E1E1E" />
+            <Setter Property="Background" Value="#AA0B1A2B" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="#40FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
@@ -163,7 +163,7 @@
     </Window.Styles>
 
     <Grid Margin="0">
-        <Image Source="avares://ScCestinator/Assets/background.jpg"
+        <Image Source="avares://ScCestinator/Assets/background.png"
                Stretch="UniformToFill"
                ZIndex="0" />
 
@@ -195,7 +195,8 @@
                               Background="Transparent"
                               Foreground="White">
                             <MenuItem Header="Odkazy"
-                                      Background="#55203040"
+                                      FontWeight="Bold"
+                                      Background="#AA0B1A2B"
                                       Foreground="White">
                                 <MenuItem Header="Star Citizen Česko Slovensko">
                                     <MenuItem Header="Organizace" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/orgs/CZSK" />
@@ -250,13 +251,19 @@
 
                     <StackPanel Grid.Column="2"
                                 Spacing="6"
-                                HorizontalAlignment="Left"
+                                HorizontalAlignment="Right"
                                 VerticalAlignment="Center">
-                        <TextBlock Text="{Binding AppVersion}"
-                                   FontSize="11"
-                                   Foreground="White"
-                                   Opacity="0.85"
-                                   HorizontalAlignment="Left" />
+                        <Border Background="#AA0B1A2B"
+                                Padding="10,4"
+                                CornerRadius="6"
+                                HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding AppVersion}"
+                                       FontWeight="Bold"
+                                       FontSize="11"
+                                       Foreground="White"
+                                       Opacity="0.95"
+                                       HorizontalAlignment="Right" />
+                        </Border>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -271,9 +278,11 @@
                         BorderThickness="1"
                         CornerRadius="15"
                         Padding="15"
-                        Margin="10">
+                        Margin="10"
+                        Background="#AA0B1A2B">
                     <StackPanel Spacing="12">
                         <TextBlock Text="Cesta ke Star Citizen" 
+                                   Foreground="#F0FFFFFF"
                                    FontSize="16" 
                                    FontWeight="SemiBold" />
                         
@@ -300,30 +309,37 @@
                 <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                         BorderThickness="1"
                         CornerRadius="8"
-                        Padding="20">
+                        Padding="20"
+                        Background="#AA0B1A2B">
                     <StackPanel Spacing="12">
                         <TextBlock Text="Informace o verzi" 
                                    FontSize="16" 
-                                   FontWeight="SemiBold" />
+                                   FontWeight="SemiBold" 
+                                   Foreground="#F0FFFFFF"/>
                         
                         <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
                             <TextBlock Grid.Row="0" Grid.Column="0" 
                                        Text="Lokální verze:" 
+                                       Foreground="#AAFFFFFF"
                                        FontWeight="Medium"
                                        Margin="0,0,10,8" />
                             <TextBlock Grid.Row="0" Grid.Column="1" 
                                        Text="{Binding LocalVersion}"
+                                       Foreground="#AAFFFFFF"
                                        Margin="0,0,0,8" />
                             
                             <TextBlock Grid.Row="1" Grid.Column="0" 
                                        Text="Online verze:" 
+                                       Foreground="#AAFFFFFF"
                                        FontWeight="Medium"
                                        Margin="0,0,10,0" />
                             <TextBlock Grid.Row="1" Grid.Column="1" 
-                                       Text="{Binding OnlineVersion}" />
+                                       Text="{Binding OnlineVersion}"
+                                       Foreground="#AAFFFFFF" />
 
                             <TextBlock Grid.Row="2" Grid.Column="0"
                                        Text="Status:"
+                                       Foreground="#AAFFFFFF"
                                        FontWeight="Medium"
                                        Margin="0,8,10,0" />
                             <Border Grid.Row="2" Grid.Column="1"
