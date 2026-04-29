@@ -38,6 +38,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // Get app version from assembly
         var version = Assembly.GetExecutingAssembly().GetName().Version;
         AppVersion = $"Verze: {version?.Major}.{version?.Minor}.{version?.Build ?? 0}";
+        var currentVersion = $"{version?.Major}.{version?.Minor}.{version?.Build ?? 0}";
 
         InstallCommand = new AsyncRelayCommand(
             execute: InstallAsync,
@@ -233,6 +234,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
             var online = await _gitHubService.GetOnlineVersionAsync();
             OnlineVersion = online ?? "neznámá";
+            var latestAppVersion = await _gitHubService.GetLatestAppVersionAsync();
+
+            if (!string.IsNullOrWhiteSpace(latestAppVersion))
+            {
+                if (latestAppVersion != currentVersion)
+                {
+                    Status = $"Je dostupná nová verze aplikace ({currentVersion} → {latestAppVersion})";
+                }
+            }
 
             if (LocalVersion == "nenainstalováno")
             {
