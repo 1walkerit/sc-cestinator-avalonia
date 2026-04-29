@@ -60,6 +60,22 @@
             <Setter Property="BorderBrush" Value="#44FFFFFF" />
         </Style>
 
+        <Style Selector="Button.link-compact">
+            <Setter Property="Background" Value="#55203040" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#55FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="8,5" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="Button.link-compact:pointerover">
+            <Setter Property="Background" Value="#88304860" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#AAFFFFFF" />
+        </Style>
+
         <Style Selector="Button.action-primary">
             <Setter Property="Background" Value="#1B4E78" />
             <Setter Property="Foreground" Value="White" />
@@ -109,6 +125,27 @@
         <Style Selector="Button.action-danger:disabled:pointerover">
             <Setter Property="Background" Value="#4A3333" />
         </Style>
+
+        <!-- Dark transparent glass look for header menu and submenu items -->
+        <Style Selector="Menu">
+            <Setter Property="Background" Value="#CC1A1A1A" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="MenuItem">
+            <Setter Property="Background" Value="#AA1E1E1E" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#40FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="CornerRadius" Value="6" />
+        </Style>
+        <Style Selector="MenuItem:pointerover">
+            <Setter Property="Background" Value="#CC2A2A2A" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="MenuItem:open">
+            <Setter Property="Background" Value="#CC1A1A1A" />
+        </Style>
     </Window.Styles>
 
     <Grid Margin="0">
@@ -128,50 +165,84 @@
 
             <!-- Header -->
             <Border Grid.Row="0" Background="#CC1E88E5" Padding="20,12">
-                <Grid ColumnDefinitions="*,Auto">
-                    <TextBlock Text="SC Češtinátor Linux"
-                               Grid.Column="0"
-                               FontSize="24"
-                               FontWeight="Bold"
-                               Foreground="White"
-                               VerticalAlignment="Center" />
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal"
+                                Spacing="16"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="SC Češtinátor Linux"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   VerticalAlignment="Center" />
 
-                    <StackPanel Grid.Column="1"
+                        <Menu HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Background="Transparent"
+                              Foreground="White">
+                            <MenuItem Header="Odkazy"
+                                      Background="#55203040"
+                                      Foreground="White">
+                                <MenuItem Header="Star Citizen Česko Slovensko">
+                                    <MenuItem Header="Organizace" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/orgs/CZSK" />
+                                    <MenuItem Header="Připojit se na náš Discord" Command="{Binding OpenUrlCommand}" CommandParameter="https://discord.gg/scczsk" />
+                                    <MenuItem Header="Kanál s návody" Command="{Binding OpenUrlCommand}" CommandParameter="https://discord.com/channels/926921932341919765/1019872713713659965" />
+                                    <MenuItem Header="Diskuze k překladu Star Citizen" Command="{Binding OpenUrlCommand}" CommandParameter="https://discord.com/channels/926921932341919765/1162077785376964719" />
+                                    <MenuItem Header="Co je to PTU a jak funguje" Command="{Binding OpenUrlCommand}" CommandParameter="https://discord.com/channels/926921932341919765/1139302959239397446" />
+                                    <MenuItem Header="Komunitní mapa hráčů" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.google.com/maps/d/u/2/viewer?mid=1D-N794_RD7wsDt5AayWjf0QJ82fwe0o&amp;hl=cs&amp;ll=49.53699999999999%2C16.512000000000018&amp;z=8" />
+                                    <MenuItem Header="Star Citizen CZ/SK Wiki" Command="{Binding OpenUrlCommand}" CommandParameter="https://wiki.theravens.cz/star-citizen/index.php/Hlavn%C3%AD_strana" />
+                                    <MenuItem Header="CZ/SK Bar Citizen" Command="{Binding OpenUrlCommand}" CommandParameter="https://barcitizen.star-citizen.cz/" />
+                                    <MenuItem Header="Náš Facebook" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.facebook.com/StarCitizenCzSk" />
+                                    <MenuItem Header="Náš Youtube" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.youtube.com/c/StarCitizen%C4%8Cesko-Slovensko" />
+                                    <MenuItem Header="Anonymní feedback" Command="{Binding OpenUrlCommand}" CommandParameter="https://feedback.star-citizen.cz/" />
+                                </MenuItem>
+
+                                <MenuItem Header="Roberts Space Industries">
+                                    <MenuItem Header="Můj RSI účet" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/account/settings" />
+                                    <MenuItem Header="Můj RSI hangár" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/account/pledges" />
+                                    <MenuItem Header="Herní balíky" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/store/pledge/browse/game-packages" />
+                                    <MenuItem Header="Samostatné lodě" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/pledge/ships" />
+                                    <MenuItem Header="Spectrum" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/spectrum/community/SC" />
+                                    <MenuItem Header="Issue Council" Command="{Binding OpenUrlCommand}" CommandParameter="https://issue-council.robertsspaceindustries.com/" />
+                                    <MenuItem Header="Telemetrie" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/telemetry" />
+                                    <MenuItem Header="Stav RSI služeb" Command="{Binding OpenUrlCommand}" CommandParameter="https://status.robertsspaceindustries.com/" />
+                                    <MenuItem Header="Plán vývoje" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/roadmap/release-view" />
+                                    <MenuItem Header="Financování vývoje" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/funding-goals" />
+                                    <MenuItem Header="Hvězdná mapa" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/starmap" />
+                                    <MenuItem Header="Tabulka náhradních lodí" Command="{Binding OpenUrlCommand}" CommandParameter="https://support.robertsspaceindustries.com/hc/en-us/articles/360003093114-Loaner-Ship-Matrix" />
+                                    <MenuItem Header="Oprava herní postavy" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/account/reset" />
+                                    <MenuItem Header="Kopírovat herní postavu do PTU" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/account/copy/ptu" />
+                                </MenuItem>
+
+                                <MenuItem Header="Nástroje a komunitní weby">
+                                    <MenuItem Header="Erkul" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.erkul.games/" />
+                                    <MenuItem Header="CCUgame" Command="{Binding OpenUrlCommand}" CommandParameter="https://ccugame.app/" />
+                                    <MenuItem Header="UEXcorp" Command="{Binding OpenUrlCommand}" CommandParameter="https://uexcorp.space/" />
+                                    <MenuItem Header="Prodej a pronájem lodí ingame" Command="{Binding OpenUrlCommand}" CommandParameter="https://wiki.star-citizen.cz/N%C3%A1kup,_prodej_a_pron%C3%A1jem_lod%C3%AD" />
+                                    <MenuItem Header="SC Mission Database" Command="{Binding OpenUrlCommand}" CommandParameter="https://scmdb.net/" />
+                                    <MenuItem Header="SC Trade Tools" Command="{Binding OpenUrlCommand}" CommandParameter="https://sc-trade.tools/" />
+                                    <MenuItem Header="SC Crafter" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.sccrafter.com/" />
+                                    <MenuItem Header="SC Blueprint Finder" Command="{Binding OpenUrlCommand}" CommandParameter="https://scblueprints.app/" />
+                                    <MenuItem Header="Hangar" Command="{Binding OpenUrlCommand}" CommandParameter="https://hangar.link/" />
+                                    <MenuItem Header="Armory" Command="{Binding OpenUrlCommand}" CommandParameter="https://armory.thespacecoder.space/" />
+                                    <MenuItem Header="VerseGuide" Command="{Binding OpenUrlCommand}" CommandParameter="https://verseguide.com/" />
+                                    <MenuItem Header="Finder" Command="{Binding OpenUrlCommand}" CommandParameter="https://finder.cstone.space/" />
+                                    <MenuItem Header="SC Ships Performances Viewer" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.spviewer.eu/" />
+                                    <MenuItem Header="Star Citizen Characters" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.star-citizen-characters.com/" />
+                                </MenuItem>
+                            </MenuItem>
+                        </Menu>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2"
                                 Spacing="6"
-                                HorizontalAlignment="Right"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Center">
                         <TextBlock Text="{Binding AppVersion}"
                                    FontSize="11"
                                    Foreground="White"
                                    Opacity="0.85"
-                                   HorizontalAlignment="Right" />
-
-                        <Menu HorizontalAlignment="Right"
-                              Background="Transparent"
-                              Foreground="White">
-                            <MenuItem Header="Užitečné odkazy ▾"
-                                      Background="#55203040"
-                                      Foreground="White">
-                                <MenuItem Header="CZ lokalizace"
-                                          Command="{Binding OpenUrlCommand}"
-                                          CommandParameter="https://github.com/JarredSC/Star-Citizen-CZ-lokalizace" />
-                                <MenuItem Header="Star Citizen web"
-                                          Command="{Binding OpenUrlCommand}"
-                                          CommandParameter="https://robertsspaceindustries.com" />
-                                <MenuItem Header="RSI Hangar"
-                                          Command="{Binding OpenUrlCommand}"
-                                          CommandParameter="https://robertsspaceindustries.com/account/pledges" />
-                                <MenuItem Header="Spectrum"
-                                          Command="{Binding OpenUrlCommand}"
-                                          CommandParameter="https://robertsspaceindustries.com/spectrum/community/SC" />
-                                <MenuItem Header="Issue Council"
-                                          Command="{Binding OpenUrlCommand}"
-                                          CommandParameter="https://issue-council.robertsspaceindustries.com" />
-                                <MenuItem Header="Launcher ke stažení"
-                                          Command="{Binding OpenUrlCommand}"
-                                          CommandParameter="https://robertsspaceindustries.com/download" />
-                            </MenuItem>
-                        </Menu>
+                                   HorizontalAlignment="Left" />
                     </StackPanel>
                 </Grid>
             </Border>

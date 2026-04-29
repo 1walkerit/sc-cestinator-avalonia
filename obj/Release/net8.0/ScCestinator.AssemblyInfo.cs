@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ScCestinator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a726d47fca652efc7ab384c31559823389ca5b03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d5aae3f61ae47f5809e4645e68475c4a5f401ba3")]
 [assembly: System.Reflection.AssemblyProductAttribute("ScCestinator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ScCestinator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
