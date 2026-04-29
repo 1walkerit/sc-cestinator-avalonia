@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +14,8 @@ public sealed class GitHubService
     {
         try
         {
-            var content = await _httpClient.GetStringAsync(Constants.GitHubLocalizationUrl);
+            var contentBytes = await _httpClient.GetByteArrayAsync(Constants.GitHubLocalizationUrl);
+            var content = Encoding.UTF8.GetString(contentBytes);
 
             using var reader = new StringReader(content);
             var firstLine = reader.ReadLine();

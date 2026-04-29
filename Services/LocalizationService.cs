@@ -50,11 +50,11 @@ public sealed class LocalizationService
 
         // 🔹 stažení souboru
         progressCallback?.Invoke("Stahuji češtinu z GitHubu...");
-        var content = await _httpClient.GetStringAsync(Constants.GitHubLocalizationUrl);
+        var contentBytes = await _httpClient.GetByteArrayAsync(Constants.GitHubLocalizationUrl);
 
         // 🔹 uložení
         progressCallback?.Invoke("Instaluji novou verzi...");
-        await File.WriteAllTextAsync(globalIniPath, content);
+        await File.WriteAllBytesAsync(globalIniPath, contentBytes);
     }
 
     public async Task UninstallAsync(string livePath, Action<string>? progressCallback = null)
