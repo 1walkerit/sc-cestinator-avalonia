@@ -34,6 +34,7 @@ Pro běh ze zdrojového kódu:
 
 ```bash
 dotnet run --project src/ScCestinator/ScCestinator.csproj
+```
 
 ## ▶️ Spuštění (Linux)
 
