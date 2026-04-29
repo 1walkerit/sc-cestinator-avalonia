@@ -1,3 +1,4 @@
+
 # SC Češtinátor Avalonia
 
 Linux GUI nástroj pro instalaci a správu české lokalizace do Star Citizen.
@@ -19,7 +20,7 @@ https://github.com/1walkerit/sc-cestinator-linux
 
 ## Screenshot
 
-Sem vlož screenshot aplikace.
+<img width="1238" height="712" alt="screenshot-sc" src="https://github.com/user-attachments/assets/9271c155-fe6b-4f9b-858d-0fdc99ffe049" />
 
 ## Požadavky
 
