@@ -146,6 +146,20 @@
         <Style Selector="MenuItem:open">
             <Setter Property="Background" Value="#CC1A1A1A" />
         </Style>
+        <Style Selector="MenuItem /template/ Popup Border">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="#40FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="Border#PART_PopupBorder">
+            <Setter Property="Background" Value="#CC102A52" />
+            <Setter Property="BorderBrush" Value="#66FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="MenuItem /template/ Popup MenuItem">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
     </Window.Styles>
 
     <Grid Margin="0">
