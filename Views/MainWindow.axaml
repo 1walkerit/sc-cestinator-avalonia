@@ -271,6 +271,18 @@
                                     <MenuItem Header="Star Citizen Characters" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.star-citizen-characters.com/" />
                                 </MenuItem>
                             </MenuItem>
+
+                            <MenuItem Header="Nástroje"
+                                        FontWeight="Bold">
+                                <MenuItem Header="Otevřít game folder"
+                                          Command="{Binding OpenGameFolderCommand}" />
+                                <Separator/>
+                                <MenuItem Header="Vyčistit logy"
+                                          Command="{Binding ClearLogsCommand}" />
+                                <MenuItem Header="Vymazat shadery"
+                                          Command="{Binding ClearShadersCommand}" />
+                            </MenuItem>
+
                         </Menu>
                     </StackPanel>
 

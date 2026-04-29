@@ -1,3 +1,7 @@
+using Avalonia.Layout;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls;
+using Avalonia;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -97,8 +101,8 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
         OpenDownloadFolderCommand = new RelayCommand(OpenDownloadFolder);
 
         OpenGameFolderCommand = new RelayCommand(OpenGameFolder);
-        ClearLogsCommand = new RelayCommand(ClearLogs);
-        ClearShadersCommand = new RelayCommand(ClearShaders);
+        ClearLogsCommand = new AsyncRelayCommand(ClearLogsAsync);
+        ClearShadersCommand = new AsyncRelayCommand(ClearShadersAsync);
 
 
         // Load last used path
@@ -214,6 +218,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
     public bool CanOpenDownloadFolder => !string.IsNullOrWhiteSpace(LastDownloadFolder) && Directory.Exists(LastDownloadFolder);
 
+    
     public bool ShowDownloadButton => IsAppUpdateAvailable && !IsDownloading;
 
     public bool IsAppUpdateAvailable
@@ -257,6 +262,9 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
 
     
+
+    
+
     private void OpenGameFolder()
     {
         try
@@ -280,14 +288,73 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
         }
     }
 
-    private void ClearLogs()
+
+
+    private async Task ClearLogsAsync()
     {
-        Status = "Vyčištění logů zatím není implementováno.";
+        if (!await _confirmationDialogService.ConfirmAsync("Potvrzení mazání", "Opravdu chcete vymazat logy Star Citizen?", "Ano", "Ne"))
+            return;
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(InputPath) || !Directory.Exists(InputPath))
+            {
+                Status = "Neplatná cesta ke hře.";
+                return;
+            }
+
+            var subDirs = new[] { "LIVE", "PTU" };
+
+            int totalDeleted = 0;
+            int foldersProcessed = 0;
+
+            foreach (var sub in subDirs)
+            {
+                var dir = Path.Combine(InputPath, sub);
+
+                if (!Directory.Exists(dir))
+                {
+                    Console.WriteLine($"[Logs] Nenalezeno: {dir}");
+                    continue;
+                }
+
+                foldersProcessed++;
+
+                var logFiles = Directory.GetFiles(dir, "*.log", SearchOption.TopDirectoryOnly);
+
+                foreach (var file in logFiles)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                        totalDeleted++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Logs] Chyba mazání {file}: {ex.Message}");
+                    }
+                }
+            }
+
+            Status = $"Logy vyčištěny ({foldersProcessed} složky)";
+            Console.WriteLine($"[Logs] Smazáno souborů: {totalDeleted}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Status = "Chyba při mazání logů";
+        }
     }
 
 
-    private void ClearShaders()
+
+
+
+    private async Task ClearShadersAsync()
     {
+        if (!await _confirmationDialogService.ConfirmAsync("Potvrzení mazání", "Opravdu chcete vymazat shader cache?", "Ano", "Ne"))
+            return;
+
         try
         {
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -353,6 +420,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
             Status = "Chyba při mazání shaderů";
         }
     }
+
 
 
     private void OpenDownloadFolder()
