@@ -44,5 +44,5 @@ dotnet run --project src/ScCestinator/ScCestinator.csproj
 ## ▶️ Spuštění (AppImage)
 
 ```bash
-chmod +x SC_Češtinátor-x86_64.AppImage
-./SC_Češtinátor-x86_64.AppImage
+chmod +x sc-cestinator-avalonia-linux-x64-v0.2.0.AppImage
+./sc-cestinator-avalonia-linux-x64-v0.2.0.AppImage
