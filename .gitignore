@@ -2,3 +2,4 @@ bin/
 obj/
 AppDir/
 *.AppImage
+*.bak*
