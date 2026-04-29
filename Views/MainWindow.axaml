@@ -272,8 +272,7 @@
                                        FontSize="11"
                                        Foreground="#FFFFB020"
                                        HorizontalAlignment="Right" />
-                            <Button Command="{Binding OpenUrlCommand}"
-                                    CommandParameter="https://github.com/1walkerit/sc-cestinator-avalonia/releases/latest"
+                            <Button Command="{Binding DownloadLatestVersionCommand}"
                                     IsVisible="{Binding IsAppUpdateAvailable}"
                                     HorizontalAlignment="Right"
                                     Padding="10,4"

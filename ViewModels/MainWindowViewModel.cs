@@ -25,6 +25,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public AsyncRelayCommand UninstallCommand { get; }
     public AsyncRelayCommand BrowseFolderCommand { get; }
     public ICommand OpenUrlCommand { get; }
+    public ICommand DownloadLatestVersionCommand { get; }
 
     public string AppVersion { get; }
 
@@ -85,6 +86,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 Status = "Nepodařilo se otevřít odkaz.";
             }
         });
+DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync);
 
         // Load last used path
         var settings = _settingsService.LoadSettings();
@@ -195,6 +197,80 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
+
+
+    public async Task DownloadLatestVersionAsync()
+    {
+        try
+        {
+            Status = "Stahuji novou verzi...";
+
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("ScCestinator");
+
+            var json = await client.GetStringAsync(Constants.GitHubLatestReleaseApi);
+            using var doc = System.Text.Json.JsonDocument.Parse(json);
+
+            var assets = doc.RootElement.GetProperty("assets");
+            foreach (var asset in assets.EnumerateArray())
+            {
+                var name = asset.GetProperty("name").GetString();
+                if (name != null && name.EndsWith(".AppImage"))
+                {
+                    var url = asset.GetProperty("browser_download_url").GetString();
+
+                    var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    var downloadsDir = GetDownloadFolder();
+                    Directory.CreateDirectory(downloadsDir);
+
+                    var downloadPath = Path.Combine(downloadsDir, name);
+
+                    var bytes = await client.GetByteArrayAsync(url);
+                    await File.WriteAllBytesAsync(downloadPath, bytes);
+
+                    Status = $"Staženo: {downloadPath}";
+                    return;
+                }
+            }
+
+            Status = "AppImage nebyl nalezen.";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Status = $"Chyba při stahování: {ex.Message}";
+        }
+    }
+
+    
+    private string GetDownloadFolder()
+    {
+        try
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = "xdg-user-dir",
+                Arguments = "DOWNLOAD",
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+
+            using var process = Process.Start(psi);
+            var result = process?.StandardOutput.ReadToEnd().Trim();
+
+            if (!string.IsNullOrWhiteSpace(result) && Directory.Exists(result))
+                return result;
+        }
+        catch
+        {
+        }
+
+        // fallback
+        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        var fallback = Path.Combine(home, "SC-Cestinator-downloads");
+        Directory.CreateDirectory(fallback);
+        return fallback;
+    }
 
     private async Task CheckAppUpdateAsync()
     {
