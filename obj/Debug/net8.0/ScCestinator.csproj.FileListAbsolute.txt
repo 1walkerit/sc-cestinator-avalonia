@@ -89,3 +89,4 @@
 /home/pavel/projekty/sc-cestinator-linux-csharp/src/ScCestinator/obj/Debug/net8.0/ScCestinator.pdb
 /home/pavel/projekty/sc-cestinator-linux-csharp/src/ScCestinator/obj/Debug/net8.0/ScCestinator.genruntimeconfig.cache
 /home/pavel/projekty/sc-cestinator-linux-csharp/src/ScCestinator/obj/Debug/net8.0/ref/ScCestinator.dll
+/home/pavel/projekty/sc-cestinator-linux-csharp/src/ScCestinator/obj/Debug/net8.0/ScCestinator.sourcelink.json
