@@ -8,6 +8,11 @@ Toto je nová verze aplikace napsaná v C# / Avalonia UI.
 Původní Python verze:
 https://github.com/1walkerit/sc-cestinator-linux
 
+## 📦 Stažení (Linux)
+
+👉 [Stáhnout AppImage](https://github.com/1walkerit/sc-cestinator-avalonia/releases/latest)
+
+
 ## Funkce
 
 - instalace a aktualizace české lokalizace
@@ -36,7 +41,7 @@ Pro běh ze zdrojového kódu:
 dotnet run --project src/ScCestinator/ScCestinator.csproj
 ```
 
-## ▶️ Spuštění (Linux)
+## ▶️ Spuštění (AppImage)
 
 ```bash
 chmod +x SC_Češtinátor-x86_64.AppImage
