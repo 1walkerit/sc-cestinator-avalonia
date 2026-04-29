@@ -28,36 +28,35 @@ public sealed class GitHubService
             return null;
         }
     }
-}
 
-public async Task<string?> GetLatestAppVersionAsync()
-{
-    try
+    public async Task<string?> GetLatestAppVersionAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, Constants.GitHubLatestReleaseApi);
-        request.Headers.UserAgent.ParseAdd("ScCestinator");
-
-        var response = await _httpClient.SendAsync(request);
-        if (!response.IsSuccessStatusCode)
-            return null;
-
-        var contentBytes = await response.Content.ReadAsByteArrayAsync();
-        var json = JsonDocument.Parse(contentBytes);
-
-        if (json.RootElement.TryGetProperty("tag_name", out var tag))
+        try
         {
-            var tagValue = tag.GetString();
-            if (string.IsNullOrWhiteSpace(tagValue))
+            var request = new HttpRequestMessage(HttpMethod.Get, Constants.GitHubLatestReleaseApi);
+            request.Headers.UserAgent.ParseAdd("ScCestinator");
+
+            var response = await _httpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
                 return null;
 
-            // odstraníme "v" → v0.2.0 → 0.2.0
-            return tagValue.TrimStart('v', 'V');
-        }
+            var contentBytes = await response.Content.ReadAsByteArrayAsync();
+            var json = JsonDocument.Parse(contentBytes);
 
-        return null;
-    }
-    catch
-    {
-        return null;
+            if (json.RootElement.TryGetProperty("tag_name", out var tag))
+            {
+                var tagValue = tag.GetString();
+                if (string.IsNullOrWhiteSpace(tagValue))
+                    return null;
+
+                return tagValue.TrimStart('v', 'V');
+            }
+
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
