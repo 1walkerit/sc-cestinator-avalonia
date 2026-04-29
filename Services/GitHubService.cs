@@ -3,6 +3,7 @@ using System.Text;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace ScCestinator.Services;
 
@@ -26,5 +27,37 @@ public sealed class GitHubService
         {
             return null;
         }
+    }
+}
+
+public async Task<string?> GetLatestAppVersionAsync()
+{
+    try
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, Constants.GitHubLatestReleaseApi);
+        request.Headers.UserAgent.ParseAdd("ScCestinator");
+
+        var response = await _httpClient.SendAsync(request);
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        var contentBytes = await response.Content.ReadAsByteArrayAsync();
+        var json = JsonDocument.Parse(contentBytes);
+
+        if (json.RootElement.TryGetProperty("tag_name", out var tag))
+        {
+            var tagValue = tag.GetString();
+            if (string.IsNullOrWhiteSpace(tagValue))
+                return null;
+
+            // odstraníme "v" → v0.2.0 → 0.2.0
+            return tagValue.TrimStart('v', 'V');
+        }
+
+        return null;
+    }
+    catch
+    {
+        return null;
     }
 }
