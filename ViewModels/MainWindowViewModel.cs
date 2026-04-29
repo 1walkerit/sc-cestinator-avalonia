@@ -26,6 +26,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public AsyncRelayCommand BrowseFolderCommand { get; }
     public ICommand OpenUrlCommand { get; }
     public ICommand DownloadLatestVersionCommand { get; }
+    public ICommand OpenDownloadFolderCommand { get; }
 
     public string AppVersion { get; }
 
@@ -87,6 +88,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             }
         });
 DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync);
+        OpenDownloadFolderCommand = new RelayCommand(OpenDownloadFolder);
 
         // Load last used path
         var settings = _settingsService.LoadSettings();
@@ -161,6 +163,48 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
 
     private bool _isAppUpdateAvailable;
+    
+    private double _downloadProgress;
+    public double DownloadProgress
+    {
+        get => _downloadProgress;
+        set
+        {
+            _downloadProgress = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private bool _isDownloading;
+    public bool IsDownloading
+    {
+        get => _isDownloading;
+        set
+        {
+            _isDownloading = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(ShowDownloadButton));
+        }
+    }
+
+
+
+    private string _lastDownloadFolder = "";
+    public string LastDownloadFolder
+    {
+        get => _lastDownloadFolder;
+        set
+        {
+            _lastDownloadFolder = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(CanOpenDownloadFolder));
+        }
+    }
+
+    public bool CanOpenDownloadFolder => !string.IsNullOrWhiteSpace(LastDownloadFolder) && Directory.Exists(LastDownloadFolder);
+
+    public bool ShowDownloadButton => IsAppUpdateAvailable && !IsDownloading;
+
     public bool IsAppUpdateAvailable
     {
         get => _isAppUpdateAvailable;
@@ -168,6 +212,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
         {
             _isAppUpdateAvailable = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(ShowDownloadButton));
         }
     }
 
@@ -199,6 +244,30 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
 
 
+
+    private void OpenDownloadFolder()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(LastDownloadFolder) || !Directory.Exists(LastDownloadFolder))
+            {
+                Status = "Složka se staženým souborem neexistuje.";
+                return;
+            }
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = LastDownloadFolder,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Status = $"Nepodařilo se otevřít složku: {ex.Message}";
+        }
+    }
+
     public async Task DownloadLatestVersionAsync()
     {
         try
@@ -225,9 +294,36 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
                     var downloadPath = Path.Combine(downloadsDir, name);
 
-                    var bytes = await client.GetByteArrayAsync(url);
-                    await File.WriteAllBytesAsync(downloadPath, bytes);
+IsDownloading = true;
+DownloadProgress = 0;
 
+using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+response.EnsureSuccessStatusCode();
+
+var total = response.Content.Headers.ContentLength ?? -1L;
+var canReport = total != -1;
+
+using var stream = await response.Content.ReadAsStreamAsync();
+using var fs = new FileStream(downloadPath, FileMode.Create, FileAccess.Write, FileShare.None);
+
+var buffer = new byte[8192];
+long totalRead = 0;
+int read;
+
+while ((read = await stream.ReadAsync(buffer)) > 0)
+{
+    await fs.WriteAsync(buffer.AsMemory(0, read));
+    totalRead += read;
+
+    if (canReport)
+    {
+        DownloadProgress = (double)totalRead / total * 100;
+    }
+}
+
+IsDownloading = false;
+
+                    LastDownloadFolder = downloadsDir;
                     Status = $"Staženo: {downloadPath}";
                     return;
                 }
