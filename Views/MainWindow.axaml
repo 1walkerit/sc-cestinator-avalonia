@@ -16,6 +16,7 @@
             <Setter Property="BorderBrush" Value="#55FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
         <Style Selector="Button.browse-button:pointerover">
             <Setter Property="Background" Value="#88304860" />
@@ -42,6 +43,7 @@
             <Setter Property="Padding" Value="12,10" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
         <Style Selector="Button.link-button:pointerover">
             <Setter Property="Background" Value="#88304860" />
@@ -69,6 +71,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="FontSize" Value="12" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
         <Style Selector="Button.link-compact:pointerover">
             <Setter Property="Background" Value="#88304860" />
@@ -82,8 +85,8 @@
             <Setter Property="BorderBrush" Value="#55FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
-
         <Style Selector="Button.action-primary:pointerover">
             <Setter Property="Background" Value="#236291" />
             <Setter Property="Foreground" Value="White" />
@@ -96,8 +99,8 @@
             <Setter Property="BorderBrush" Value="#55FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
-
         <Style Selector="Button.action-danger:pointerover">
             <Setter Property="Background" Value="#A63A3A" />
             <Setter Property="Foreground" Value="White" />
@@ -139,7 +142,7 @@
             <Setter Property="BorderBrush" Value="#40FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="10,6" />
-            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
         <Style Selector="MenuItem:pointerover">
             <Setter Property="Background" Value="#AA1B2F45" />
@@ -152,7 +155,7 @@
             <Setter Property="Background" Value="#CC0B1A2B" />
             <Setter Property="BorderBrush" Value="#40FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
         <Style Selector="MenuItem /template/ Popup ScrollViewer">
             <Setter Property="Background" Value="#CC0B1A2B" />
@@ -160,7 +163,7 @@
         <Style Selector="MenuItem /template/ Popup MenuItem">
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Background" Value="#CC0B1A2B" />
-            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="CornerRadius" Value="8" />
         </Style>
     </Window.Styles>
 
@@ -177,7 +180,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
 
             <!-- Header -->
             <Border Grid.Row="0" Background="#CC1E88E5" Padding="20,12">
@@ -200,6 +202,7 @@
                                       FontWeight="Bold"
                                       Background="#AA0B1A2B"
                                       Foreground="White">
+
                                 <MenuItem Header="Star Citizen Česko Slovensko">
                                     <MenuItem Header="Organizace" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/orgs/CZSK" />
                                     <MenuItem Header="Připojit se na náš Discord" Command="{Binding OpenUrlCommand}" CommandParameter="https://discord.gg/scczsk" />
@@ -251,22 +254,19 @@
                         </Menu>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="2"
-                                Spacing="6"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center">
-                        <Border Background="#AA0B1A2B"
-                                Padding="10,4"
-                                CornerRadius="6"
-                                HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding AppVersion}"
-                                       FontWeight="Bold"
-                                       FontSize="11"
-                                       Foreground="White"
-                                       Opacity="0.95"
-                                       HorizontalAlignment="Right" />
-                        </Border>
-                    </StackPanel>
+                    <Border Grid.Column="2"
+                            Background="#AA0B1A2B"
+                            Padding="10,4"
+                            CornerRadius="8"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding AppVersion}"
+                                   FontWeight="Bold"
+                                   FontSize="11"
+                                   Foreground="White"
+                                   Opacity="0.95"
+                                   HorizontalAlignment="Right" />
+                    </Border>
                 </Grid>
             </Border>
 
@@ -275,122 +275,129 @@
                 <ScrollViewer>
                     <StackPanel Spacing="20">
 
-                <!-- Star Citizen Path Section -->
-                <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                        BorderThickness="1"
-                        CornerRadius="15"
-                        Padding="15"
-                        Margin="10"
-                        Background="#AA0B1A2B">
-                    <StackPanel Spacing="12">
-                        <TextBlock Text="Cesta ke Star Citizen" 
-                                   Foreground="#F0FFFFFF"
-                                   FontSize="16" 
-                                   FontWeight="SemiBold" />
-                        
-                        <Grid ColumnDefinitions="*,Auto">
-                            <TextBox Grid.Column="0"
-                                     Text="{Binding InputPath}"
-                                     PlaceholderText="Zadejte cestu nebo vyberte složku..."
-                                     VerticalContentAlignment="Center"
-                                     Height="36" />
-                             <Button Grid.Column="1" 
-                                     Content="Vybrat složku" 
-                                     Command="{Binding BrowseFolderCommand}"
-                                     Classes="browse-button"
-                                     HorizontalContentAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Margin="10,0,0,0"
-                                    Height="36"
-                                    Padding="12,6" />
-                        </Grid>
-                    </StackPanel>
-                </Border>
+                        <!-- Star Citizen Path Section -->
+                        <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="15"
+                                Margin="10"
+                                Background="#AA0B1A2B">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="Cesta ke Star Citizen"
+                                           Foreground="#F0FFFFFF"
+                                           FontSize="16"
+                                           FontWeight="SemiBold" />
 
-                <!-- Versions Section -->
-                <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                        BorderThickness="1"
-                        CornerRadius="8"
-                        Padding="20"
-                        Background="#AA0B1A2B">
-                    <StackPanel Spacing="12">
-                        <TextBlock Text="Informace o verzi" 
-                                   FontSize="16" 
-                                   FontWeight="SemiBold" 
-                                   Foreground="#F0FFFFFF"/>
-                        
-                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
-                            <TextBlock Grid.Row="0" Grid.Column="0" 
-                                       Text="Lokální verze:" 
-                                       Foreground="#AAFFFFFF"
-                                       FontWeight="Medium"
-                                       Margin="0,0,10,8" />
-                            <TextBlock Grid.Row="0" Grid.Column="1" 
-                                       Text="{Binding LocalVersion}"
-                                       Foreground="White"
-                                       FontWeight="Bold"
-                                       Margin="0,0,0,8" />
-                            
-                            <TextBlock Grid.Row="1" Grid.Column="0" 
-                                       Text="Online verze:" 
-                                       Foreground="#AAFFFFFF"
-                                       FontWeight="Medium"
-                                       Margin="0,0,10,0" />
-                            <TextBlock Grid.Row="1" Grid.Column="1" 
-                                       Text="{Binding OnlineVersion}"
-                                       Foreground="White"
-                                       FontWeight="Bold" />
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <TextBox Grid.Column="0"
+                                             Text="{Binding InputPath}"
+                                             PlaceholderText="Zadejte cestu nebo vyberte složku..."
+                                             VerticalContentAlignment="Center"
+                                             Height="36" />
+                                    <Button Grid.Column="1"
+                                            Content="Vybrat složku"
+                                            Command="{Binding BrowseFolderCommand}"
+                                            Classes="browse-button"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Margin="10,0,0,0"
+                                            Height="36"
+                                            Padding="12,6" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0"
-                                       Text="Status:"
-                                       Foreground="#AAFFFFFF"
-                                       FontWeight="Medium"
-                                       Margin="0,8,10,0" />
-                            <Border Grid.Row="2" Grid.Column="1"
-                                    Background="#E6F4EA"
-                                    CornerRadius="6"
-                                    Padding="8,3"
-                                    Margin="0,8,0,0"
+                        <!-- Versions Section -->
+                        <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="20"
+                                Background="#AA0B1A2B"
+                                Width="380"
+                                HorizontalAlignment="Left">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="Informace o verzi"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Foreground="#F0FFFFFF" />
+
+                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="0"
+                                               Text="Lokální verze:"
+                                               Foreground="#AAFFFFFF"
+                                               FontWeight="Medium"
+                                               Margin="0,0,10,8" />
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="1"
+                                               Text="{Binding LocalVersion}"
+                                               Foreground="White"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,8" />
+
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="0"
+                                               Text="Online verze:"
+                                               Foreground="#AAFFFFFF"
+                                               FontWeight="Medium"
+                                               Margin="0,0,10,0" />
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="1"
+                                               Text="{Binding OnlineVersion}"
+                                               Foreground="White"
+                                               FontWeight="Bold" />
+
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="0"
+                                               Text="Status:"
+                                               Foreground="#AAFFFFFF"
+                                               FontWeight="Medium"
+                                               Margin="0,8,10,0" />
+                                    <Border Grid.Row="2"
+                                            Grid.Column="1"
+                                            Background="#E6F4EA"
+                                            CornerRadius="8"
+                                            Padding="8,3"
+                                            Margin="0,8,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Status}"
+                                                   Foreground="#1A7F37"
+                                                   FontWeight="Bold" />
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Action Buttons -->
+                        <StackPanel Orientation="Vertical"
+                                    Spacing="10"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Status}"
-                                           Foreground="#1A7F37"
-                                           FontWeight="Bold" />
-                            </Border>
-                        </Grid>
-                    </StackPanel>
-                </Border>
+                                    Width="380">
+                            <Button Content="Instalovat / Aktualizovat češtinu"
+                                    Command="{Binding InstallCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Classes="action-primary"
+                                    Height="40"
+                                    FontSize="15"
+                                    Padding="12,6"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center" />
 
-                <!-- Action Buttons -->
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                    <Button Grid.Column="0"
-                            Content="Instalovat / Aktualizovat češtinu"
-                            Command="{Binding InstallCommand}"
-                            HorizontalAlignment="Stretch"
-                            Classes="action-primary"
-                            Height="40"
-                            FontSize="15"
-                            Padding="12,6"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center" />
-
-                    <Button Grid.Column="1"
-                            Content="Odinstalovat češtinu"
-                            Command="{Binding UninstallCommand}"
-                            HorizontalAlignment="Stretch"
-                            Classes="action-danger"
-                            Height="40"
-                            FontSize="15"
-                            Padding="12,6"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center" />
-                </Grid>
+                            <Button Content="Odinstalovat češtinu"
+                                    Command="{Binding UninstallCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Classes="action-danger"
+                                    Height="40"
+                                    FontSize="15"
+                                    Padding="12,6"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center" />
+                        </StackPanel>
 
                     </StackPanel>
                 </ScrollViewer>
-
             </Grid>
         </Grid>
     </Grid>
-
 </Window>
