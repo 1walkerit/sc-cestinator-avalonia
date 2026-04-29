@@ -28,18 +28,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public string AppVersion { get; }
 
-    private string _appUpdateStatus = "";
-    public string AppUpdateStatus
-    {
-        get => _appUpdateStatus;
-        set
-        {
-            _appUpdateStatus = value;
-            OnPropertyChanged();
-        }
-    }
-
-
     public MainWindowViewModel(
         IFolderPickerService folderPickerService,
         IConfirmationDialogService confirmationDialogService)
@@ -92,9 +80,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             InputPath = settings.LastUsedPath;
         }
-
-        // Check for app update automatically on startup
-        _ = CheckAppUpdateAsync();
     }
 
     private string? _inputPath;
@@ -157,18 +142,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-
-    private bool _isAppUpdateAvailable;
-    public bool IsAppUpdateAvailable
-    {
-        get => _isAppUpdateAvailable;
-        set
-        {
-            _isAppUpdateAvailable = value;
-            OnPropertyChanged();
-        }
-    }
-
     private bool _isUpdateAvailable;
     public bool IsUpdateAvailable
     {
@@ -192,35 +165,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             InstallCommand?.RaiseCanExecuteChanged();
             UninstallCommand?.RaiseCanExecuteChanged();
             BrowseFolderCommand?.RaiseCanExecuteChanged();
-        }
-    }
-
-
-    private async Task CheckAppUpdateAsync()
-    {
-        try
-        {
-            var appVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            var currentVersion = $"{appVersion?.Major}.{appVersion?.Minor}.{appVersion?.Build ?? 0}";
-
-            var latestAppVersion = await _gitHubService.GetLatestAppVersionAsync();
-
-            if (!string.IsNullOrWhiteSpace(latestAppVersion) && latestAppVersion != currentVersion)
-            {
-                AppUpdateStatus = $"⚠ Nová verze aplikace: {currentVersion} → {latestAppVersion}";
-                IsAppUpdateAvailable = true;
-            }
-            else
-            {
-                AppUpdateStatus = "";
-                IsAppUpdateAvailable = false;
-            }
-        }
-        catch
-        {
-            // Nechceme rozbíjet start aplikace kvůli kontrole aktualizace
-            AppUpdateStatus = "";
-            IsAppUpdateAvailable = false;
         }
     }
 
@@ -258,8 +202,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
             LocalVersion = "-";
             OnlineVersion = "-";
-            AppUpdateStatus = "";
-            IsAppUpdateAvailable = false;
             IsUpdateAvailable = false;
 
             if (result.LivePath == null)
@@ -313,15 +255,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
             }
             var latestAppVersion = await _gitHubService.GetLatestAppVersionAsync();
 
-            if (!string.IsNullOrWhiteSpace(latestAppVersion) && latestAppVersion != currentVersion)
+            if (!string.IsNullOrWhiteSpace(latestAppVersion))
             {
-                AppUpdateStatus = $"⚠ Nová verze aplikace: {currentVersion} → {latestAppVersion}";
-                IsAppUpdateAvailable = true;
-            }
-            else
-            {
-                AppUpdateStatus = "";
-                IsAppUpdateAvailable = false;
+                if (latestAppVersion != currentVersion)
+                {
+                    Status = $"Je dostupná nová verze aplikace ({currentVersion} → {latestAppVersion})";
+                }
             }
             
             // Save path when validation succeeds (path is valid and has data folder)

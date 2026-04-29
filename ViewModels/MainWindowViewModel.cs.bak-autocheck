@@ -92,9 +92,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             InputPath = settings.LastUsedPath;
         }
-
-        // Check for app update automatically on startup
-        _ = CheckAppUpdateAsync();
     }
 
     private string? _inputPath;
@@ -192,35 +189,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             InstallCommand?.RaiseCanExecuteChanged();
             UninstallCommand?.RaiseCanExecuteChanged();
             BrowseFolderCommand?.RaiseCanExecuteChanged();
-        }
-    }
-
-
-    private async Task CheckAppUpdateAsync()
-    {
-        try
-        {
-            var appVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            var currentVersion = $"{appVersion?.Major}.{appVersion?.Minor}.{appVersion?.Build ?? 0}";
-
-            var latestAppVersion = await _gitHubService.GetLatestAppVersionAsync();
-
-            if (!string.IsNullOrWhiteSpace(latestAppVersion) && latestAppVersion != currentVersion)
-            {
-                AppUpdateStatus = $"⚠ Nová verze aplikace: {currentVersion} → {latestAppVersion}";
-                IsAppUpdateAvailable = true;
-            }
-            else
-            {
-                AppUpdateStatus = "";
-                IsAppUpdateAvailable = false;
-            }
-        }
-        catch
-        {
-            // Nechceme rozbíjet start aplikace kvůli kontrole aktualizace
-            AppUpdateStatus = "";
-            IsAppUpdateAvailable = false;
         }
     }
 
