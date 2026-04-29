@@ -272,8 +272,7 @@
                                        FontSize="11"
                                        Foreground="#FFFFB020"
                                        HorizontalAlignment="Right" />
-                            <Button Content="Stáhnout novou verzi"
-                                    Command="{Binding OpenUrlCommand}"
+                            <Button Command="{Binding OpenUrlCommand}"
                                     CommandParameter="https://github.com/1walkerit/sc-cestinator-avalonia/releases/latest"
                                     IsVisible="{Binding IsAppUpdateAvailable}"
                                     HorizontalAlignment="Right"
@@ -284,7 +283,19 @@
                                     Foreground="#FF08111F"
                                     BorderBrush="#FFFFD27A"
                                     BorderThickness="1"
-                                    CornerRadius="6" />
+                                    CornerRadius="6">
+    <Button.Content>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBlock Text="⬇" FontSize="12"/>
+            <TextBlock Text="Stáhnout novou verzi"/>
+        </StackPanel>
+    </Button.Content>
+    <Button.Styles>
+        <Style Selector="Button:pointerover">
+            <Setter Property="Background" Value="#FFFFC857"/>
+        </Style>
+    </Button.Styles>
+</Button>
                         </StackPanel>
                     </Border>
                 </Grid>
