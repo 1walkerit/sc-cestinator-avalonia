@@ -71,7 +71,7 @@ jobs:
       - name: Build AppImage
         run: |
           ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir
-          mv *.AppImage SC-Cestinator-${{ github.ref_name }}-x86_64.AppImage
+          mv Sc_Cestinator*.AppImage SC-Cestinator-${{ github.ref_name }}-x86_64.AppImage
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
