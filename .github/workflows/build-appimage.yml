@@ -72,7 +72,8 @@ jobs:
 
       - name: Build AppImage
         run: |
-          rm -f ./*.AppImage
+          rm -f ./SC-Cestinator-*.AppImage
+          rm -f ./sc-cestinator-*.AppImage
           ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir
           ls -lh *.AppImage
           built_appimage="$(find . -maxdepth 1 -name '*.AppImage' ! -name 'appimagetool-x86_64.AppImage' | head -n 1)"
