@@ -91,7 +91,7 @@
         </Style>
 
         <Style Selector="Button.action-danger">
-            <Setter Property="Background" Value="#6D2F2F" />
+            <Setter Property="Background" Value="#8B2E2E" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="#55FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
@@ -99,7 +99,7 @@
         </Style>
 
         <Style Selector="Button.action-danger:pointerover">
-            <Setter Property="Background" Value="#834040" />
+            <Setter Property="Background" Value="#A63A3A" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="#AAFFFFFF" />
         </Style>
@@ -110,7 +110,8 @@
             <Setter Property="BorderBrush" Value="#44FFFFFF" />
         </Style>
         <Style Selector="Button.action-primary:disabled">
-            <Setter Property="Background" Value="#2E4960" />
+            <Setter Property="Background" Value="#3A4F63" />
+            <Setter Property="Foreground" Value="#80FFFFFF" />
         </Style>
         <Style Selector="Button.action-danger:disabled">
             <Setter Property="Background" Value="#4A3333" />
@@ -120,7 +121,8 @@
             <Setter Property="BorderBrush" Value="#44FFFFFF" />
         </Style>
         <Style Selector="Button.action-primary:disabled:pointerover">
-            <Setter Property="Background" Value="#2E4960" />
+            <Setter Property="Background" Value="#3A4F63" />
+            <Setter Property="Foreground" Value="#80FFFFFF" />
         </Style>
         <Style Selector="Button.action-danger:disabled:pointerover">
             <Setter Property="Background" Value="#4A3333" />
@@ -132,33 +134,33 @@
             <Setter Property="Foreground" Value="White" />
         </Style>
         <Style Selector="MenuItem">
-            <Setter Property="Background" Value="#AA0B1A2B" />
+            <Setter Property="Background" Value="#CC0B1A2B" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="#40FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="10,6" />
-            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="CornerRadius" Value="4" />
         </Style>
         <Style Selector="MenuItem:pointerover">
-            <Setter Property="Background" Value="#CC2A2A2A" />
+            <Setter Property="Background" Value="#AA1B2F45" />
             <Setter Property="Foreground" Value="White" />
         </Style>
         <Style Selector="MenuItem:open">
-            <Setter Property="Background" Value="#CC1A1A1A" />
+            <Setter Property="Background" Value="#AA1B2F45" />
         </Style>
         <Style Selector="MenuItem /template/ Popup Border">
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="#CC0B1A2B" />
             <Setter Property="BorderBrush" Value="#40FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="4" />
         </Style>
-        <Style Selector="Border#PART_PopupBorder">
-            <Setter Property="Background" Value="#CC102A52" />
-            <Setter Property="BorderBrush" Value="#66FFFFFF" />
-            <Setter Property="BorderThickness" Value="1" />
+        <Style Selector="MenuItem /template/ Popup ScrollViewer">
+            <Setter Property="Background" Value="#CC0B1A2B" />
         </Style>
         <Style Selector="MenuItem /template/ Popup MenuItem">
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="#CC0B1A2B" />
+            <Setter Property="CornerRadius" Value="4" />
         </Style>
     </Window.Styles>
 
@@ -325,7 +327,8 @@
                                        Margin="0,0,10,8" />
                             <TextBlock Grid.Row="0" Grid.Column="1" 
                                        Text="{Binding LocalVersion}"
-                                       Foreground="#AAFFFFFF"
+                                       Foreground="White"
+                                       FontWeight="Bold"
                                        Margin="0,0,0,8" />
                             
                             <TextBlock Grid.Row="1" Grid.Column="0" 
@@ -335,7 +338,8 @@
                                        Margin="0,0,10,0" />
                             <TextBlock Grid.Row="1" Grid.Column="1" 
                                        Text="{Binding OnlineVersion}"
-                                       Foreground="#AAFFFFFF" />
+                                       Foreground="White"
+                                       FontWeight="Bold" />
 
                             <TextBlock Grid.Row="2" Grid.Column="0"
                                        Text="Status:"
@@ -343,14 +347,14 @@
                                        FontWeight="Medium"
                                        Margin="0,8,10,0" />
                             <Border Grid.Row="2" Grid.Column="1"
-                                    Background="#CCFFFFFF"
+                                    Background="#E6F4EA"
                                     CornerRadius="6"
                                     Padding="8,3"
                                     Margin="0,8,0,0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center">
                                 <TextBlock Text="{Binding Status}"
-                                           Foreground="{Binding StatusBrush}"
+                                           Foreground="#1A7F37"
                                            FontWeight="Bold" />
                             </Border>
                         </Grid>
