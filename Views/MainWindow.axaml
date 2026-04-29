@@ -287,7 +287,7 @@
     <Button.Content>
         <StackPanel Orientation="Horizontal" Spacing="5">
             <TextBlock Text="⬇" FontSize="12"/>
-            <TextBlock Text="Stáhnout novou verzi"/>
+            <TextBlock Text="Zobrazit změny a stáhnout"/>
         </StackPanel>
     </Button.Content>
     <Button.Styles>
