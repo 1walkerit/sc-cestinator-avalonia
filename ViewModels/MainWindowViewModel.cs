@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
 using ScCestinator.Services;
+using System.Collections.Generic;
 
 namespace ScCestinator.ViewModels;
 
@@ -363,12 +364,21 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
         {
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            var paths = new[]
-            {
+var winePrefix = FindWinePrefix(InputPath);
+
+var paths = new List<string>
+{
     Path.Combine(home, ".cache", "mesa_shader_cache"),
     Path.Combine(home, ".cache", "nvidia"),
     Path.Combine(home, ".nv", "GLCache")
-            };
+};
+
+if (!string.IsNullOrWhiteSpace(winePrefix) && Directory.Exists(winePrefix))
+{
+paths.Add(Path.Combine(winePrefix, "mesa_shader_cache"));
+paths.Add(Path.Combine(winePrefix, "GLCache"));
+paths.Add(Path.Combine(winePrefix, "radv_builtin_shaders"));
+}
 
             int totalDeleted = 0;
             int foldersProcessed = 0;
@@ -908,4 +918,25 @@ catch (Exception ex)
 
         StatusBrush = Brushes.Black;
     }
+private string? FindWinePrefix(string? path)
+{
+    if (string.IsNullOrWhiteSpace(path))
+        return null;
+
+    var dir = new DirectoryInfo(path);
+
+    while (dir != null)
+    {
+        if (Directory.Exists(Path.Combine(dir.FullName, "drive_c")))
+        {
+            return dir.FullName;
+        }
+
+        dir = dir.Parent;
+    }
+
+    return null;
+}
+
+
 }
