@@ -550,6 +550,19 @@ IsDownloading = false;
 
                     LastDownloadFolder = downloadsDir;
                     Status = $"Staženo: {downloadPath}";
+                    // otevření složky
+var downloadedFileFolder = Path.GetDirectoryName(downloadPath);
+if (!string.IsNullOrEmpty(downloadedFileFolder) && Directory.Exists(downloadedFileFolder))
+{
+    Process.Start(new ProcessStartInfo
+    {
+        FileName = "xdg-open",
+        ArgumentList = { downloadedFileFolder },
+        UseShellExecute = false
+    });
+}
+
+
                     try
 {
     var folder = Path.GetDirectoryName(downloadPath);
