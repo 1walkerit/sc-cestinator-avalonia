@@ -1,5 +1,9 @@
 # SC Češtinátor (Avalonia)
 
+![Build](https://github.com/1walkerit/sc-cestinator-avalonia/actions/workflows/build-appimage.yml/badge.svg)
+![Release](https://img.shields.io/github/v/release/1walkerit/sc-cestinator-avalonia)
+![Downloads](https://img.shields.io/github/downloads/1walkerit/sc-cestinator-avalonia/total)
+
 Linux GUI nástroj pro instalaci, správu a údržbu české lokalizace pro **Star Citizen**.
 
 Moderní rewrite původní Python verze do **C# (.NET 8) + Avalonia UI**.
