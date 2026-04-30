@@ -211,4 +211,75 @@ public class ConfirmationDialogService : IConfirmationDialogService
         await dialog.ShowDialog(_window);
         return result;
     }
+
+    public async Task ShowInfoAsync(string title, string message)
+{
+    if (_window is null)
+        return;
+
+    var dialog = new Window
+    {
+        Title = title,
+        Width = 420,
+        Height = 200,
+        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+        CanResize = false,
+        Background = new SolidColorBrush(Color.Parse("#BB101820"))
+    };
+
+    var okButton = new Button
+    {
+        Content = "OK",
+        Width = 120,
+        Height = 40,
+        Background = new SolidColorBrush(Color.Parse("#6A6A6A")),
+        Foreground = Brushes.White,
+        FontWeight = FontWeight.SemiBold,
+        HorizontalContentAlignment = HorizontalAlignment.Center,
+        VerticalContentAlignment = VerticalAlignment.Center,
+        Padding = new Thickness(12, 6)
+    };
+
+    var okNormalBackground = new SolidColorBrush(Color.Parse("#6A6A6A"));
+    var okHoverBackground = new SolidColorBrush(Color.Parse("#5E5E5E"));
+    okButton.Background = okNormalBackground;
+    okButton.PointerEntered += (_, _) => okButton.Background = okHoverBackground;
+    okButton.PointerExited += (_, _) => okButton.Background = okNormalBackground;
+
+    okButton.Click += (_, _) => dialog.Close();
+
+    dialog.Content = new Border
+    {
+        Margin = new Thickness(16),
+        Padding = new Thickness(18),
+        CornerRadius = new CornerRadius(10),
+        Background = new SolidColorBrush(Color.Parse("#E6FFFFFF")),
+        Child = new StackPanel
+        {
+            Spacing = 16,
+            VerticalAlignment = VerticalAlignment.Center,
+            Children =
+            {
+                new TextBlock
+                {
+                    Text = message,
+                    FontSize = 17,
+                    FontWeight = FontWeight.SemiBold,
+                    Foreground = new SolidColorBrush(Color.Parse("#1C1C1C")),
+                    TextWrapping = TextWrapping.Wrap,
+                    TextAlignment = TextAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                },
+                new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Children = { okButton }
+                }
+            }
+        }
+    };
+
+    await dialog.ShowDialog(_window);
+}
 }

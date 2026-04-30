@@ -413,6 +413,10 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
             }
 
             Status = $"Shadery vyčištěny ({foldersProcessed} složky)";
+            await _confirmationDialogService.ShowInfoAsync(
+    "Hotovo",
+    "Shader cache byla úspěšně vyčištěna."
+);
             Console.WriteLine($"[Shaders] Smazáno souborů: {totalDeleted}");
         }
         catch (Exception ex)
@@ -421,6 +425,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
             Status = "Chyba při mazání shaderů";
         }
     }
+
 
 private void OpenShaderCache()
 {
