@@ -450,7 +450,12 @@ private void OpenShaderCache()
         {
             if (Directory.Exists(path))
             {
-                Process.Start("xdg-open", path);
+               Process.Start(new ProcessStartInfo
+{
+    FileName = "xdg-open",
+    ArgumentList = { path },
+    UseShellExecute = false
+});
                 opened++;
             }
         }
