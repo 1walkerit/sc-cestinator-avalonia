@@ -311,7 +311,7 @@
                                        Foreground="#FFFFB020"
                                        HorizontalAlignment="Right" />
                             <Button Classes="download-button" Command="{Binding DownloadLatestVersionCommand}"
-                                    IsVisible="{Binding !IsDownloading}"
+                                    IsVisible="{Binding ShowDownloadButton}"
                                     HorizontalAlignment="Right"
                                     Padding="10,4"
                                     FontSize="11"
@@ -325,7 +325,7 @@
     <Button.Content>
         <StackPanel Orientation="Horizontal" Spacing="5">
             <TextBlock Text="⬇" FontSize="12"/>
-            <TextBlock Text="Zobrazit změny a stáhnout"/>
+            <TextBlock Text="Stáhnout"/>
         </StackPanel>
     </Button.Content>
 </Button>
