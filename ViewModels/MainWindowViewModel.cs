@@ -550,6 +550,10 @@ IsDownloading = false;
 
                     LastDownloadFolder = downloadsDir;
                     Status = $"Staženo: {downloadPath}";
+                    await _confirmationDialogService.ShowInfoAsync(
+    "Staženo",
+    "Nová verze aplikace byla úspěšně stažena."
+);
                     // otevření složky
 var downloadedFileFolder = Path.GetDirectoryName(downloadPath);
 if (!string.IsNullOrEmpty(downloadedFileFolder) && Directory.Exists(downloadedFileFolder))
