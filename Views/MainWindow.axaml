@@ -281,9 +281,10 @@
 
     <MenuItem Header="Vyčistit logy"
               Command="{Binding ClearLogsCommand}" />
-
+    <Separator /> 
     <MenuItem Header="Vymazat shader cache"
               Command="{Binding ClearShadersCommand}" />
+    <Separator />          
     <MenuItem Header="Otevřít shader cache"
           Command="{Binding OpenShaderCacheCommand}" />
 </MenuItem>
