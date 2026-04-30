@@ -1,48 +1,103 @@
+# SC Češtinátor (Avalonia)
 
-# SC Češtinátor Avalonia
+Linux GUI nástroj pro instalaci, správu a údržbu české lokalizace pro **Star Citizen**.
 
-Linux GUI nástroj pro instalaci a správu české lokalizace do Star Citizen.
+Moderní rewrite původní Python verze do **C# (.NET 8) + Avalonia UI**.
 
-Toto je nová verze aplikace napsaná v C# / Avalonia UI.
+---
 
-Původní Python verze:
-https://github.com/1walkerit/sc-cestinator-linux
+## 📦 Stažení
 
-## 📦 Stažení (Linux)
+👉 **[Stáhnout nejnovější AppImage](https://github.com/1walkerit/sc-cestinator-avalonia/releases/latest)**
 
-👉 [Stáhnout AppImage](https://github.com/1walkerit/sc-cestinator-avalonia/releases/latest)
+---
 
+## ✨ Funkce
 
-## Funkce
+### 🎮 Lokalizace
 
-- instalace a aktualizace české lokalizace
-- odinstalace češtiny se zálohou původního souboru
-- detekce lokální a online verze
-- výběr složky Star Citizen
-- uložení poslední použité cesty
-- užitečné odkazy v horním menu
-- moderní grafické rozhraní pro Linux
+* instalace české lokalizace
+* aktualizace na nejnovější verzi
+* odinstalace (se zálohou originálních souborů)
+* detekce lokální vs online verze
 
-## Screenshot
+### 🧰 Nástroje
 
-<img width="1243" height="716" alt="image" src="https://github.com/user-attachments/assets/80d2928b-00ea-4486-bac0-ee9ee6959174" />
+* vymazání shader cache (`~/.cache/mesa_shader_cache`, `~/.cache/nvidia`)
+* vyčištění logů (LIVE / PTU)
+* otevření game složky
+* uložení poslední použité cesty
 
+### 🔄 Aktualizace aplikace
 
-## Požadavky
+* kontrola nové verze (GitHub API)
+* stažení nové verze
+* progress bar při downloadu
+* otevření složky po stažení
 
-Pro běh ze zdrojového kódu:
+---
 
-- .NET 8 SDK
-- Linux
+## 🖼️ Screenshot
 
-## Spuštění ze zdrojového kódu
+<img width="1243" height="716" src="https://github.com/user-attachments/assets/80d2928b-00ea-4486-bac0-ee9ee6959174" />
+
+---
+
+## 🚀 Spuštění (AppImage)
 
 ```bash
-dotnet run --project src/ScCestinator/ScCestinator.csproj
+chmod +x SC-Cestinator-*.AppImage
+./SC-Cestinator-*.AppImage
 ```
 
-## ▶️ Spuštění (AppImage)
+---
+
+## 🧪 Spuštění ze zdrojového kódu
+
+### Požadavky
+
+* .NET 8 SDK
+* Linux
+
+### Build + run
 
 ```bash
-chmod +x sc-cestinator-avalonia-linux-x64-v0.2.0.AppImage
-./sc-cestinator-avalonia-linux-x64-v0.2.0.AppImage
+dotnet build
+dotnet run
+```
+
+---
+
+## 🏗️ Technologie
+
+* C# (.NET 8)
+* Avalonia UI
+* CommunityToolkit.Mvvm
+* GitHub Actions (build AppImage)
+
+---
+
+## 📁 Struktura projektu
+
+```
+Services/      → logika (GitHub, FS, dialogy)
+ViewModels/    → MVVM
+Views/         → UI (Avalonia XAML)
+Assets/        → ikony, obrázky
+AppDir/        → AppImage struktura
+```
+
+---
+
+## 🔗 Původní projekt
+
+Python verze:
+https://github.com/1walkerit/sc-cestinator-linux
+
+---
+
+## ⚠️ Poznámky
+
+* aplikace je určena pro Linux (Wine / Lutris kompatibilní)
+* testováno primárně na Arch Linux
+* používání na vlastní riziko (zásah do herních souborů)
