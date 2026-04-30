@@ -3,3 +3,6 @@ obj/
 AppDir/
 *.AppImage
 *.bak*
+# backup soubory
+*.bak
+*.bak-*
