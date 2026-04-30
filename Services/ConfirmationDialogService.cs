@@ -56,7 +56,7 @@ public class ConfirmationDialogService : IConfirmationDialogService
             Content = noText,
             Width = 120,
             Height = 40,
-            Background = new SolidColorBrush(Color.Parse("#6A6A6A")),
+            Background = new SolidColorBrush(Color.Parse("#4CAF50")),
             Foreground = Brushes.White,
             FontWeight = FontWeight.SemiBold,
             HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -232,7 +232,7 @@ public class ConfirmationDialogService : IConfirmationDialogService
         Content = "OK",
         Width = 120,
         Height = 40,
-        Background = new SolidColorBrush(Color.Parse("#6A6A6A")),
+        Background = new SolidColorBrush(Color.Parse("#4CAF50")),
         Foreground = Brushes.White,
         FontWeight = FontWeight.SemiBold,
         HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -240,8 +240,8 @@ public class ConfirmationDialogService : IConfirmationDialogService
         Padding = new Thickness(12, 6)
     };
 
-    var okNormalBackground = new SolidColorBrush(Color.Parse("#6A6A6A"));
-    var okHoverBackground = new SolidColorBrush(Color.Parse("#5E5E5E"));
+var okNormalBackground = new SolidColorBrush(Color.Parse("#4CAF50"));
+var okHoverBackground = new SolidColorBrush(Color.Parse("#43A047"));
     okButton.Background = okNormalBackground;
     okButton.PointerEntered += (_, _) => okButton.Background = okHoverBackground;
     okButton.PointerExited += (_, _) => okButton.Background = okNormalBackground;
