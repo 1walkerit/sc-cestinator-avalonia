@@ -337,6 +337,10 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
             }
 
             Status = $"Logy vyčištěny ({foldersProcessed} složky)";
+ await _confirmationDialogService.ShowInfoAsync(
+    "Hotovo",
+    "Logy byly úspěšně vyčištěny."
+);           
             Console.WriteLine($"[Logs] Smazáno souborů: {totalDeleted}");
         }
         catch (Exception ex)
