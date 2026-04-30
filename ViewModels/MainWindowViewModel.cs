@@ -592,7 +592,7 @@ IsDownloading = false;
             }
             else
             {
-                Status = "Výběr složky zrušen";
+                Status = "Výběr složky byl zrušen";
             }
         }
         catch (Exception ex)
