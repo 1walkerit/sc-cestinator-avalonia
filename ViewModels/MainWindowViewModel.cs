@@ -36,7 +36,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand OpenGameFolderCommand { get; }
     public ICommand ClearLogsCommand { get; }
     public ICommand ClearShadersCommand { get; }
-
+    public ICommand OpenShaderCacheCommand { get; }
 
     public string AppVersion { get; }
 
@@ -103,7 +103,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
         OpenGameFolderCommand = new RelayCommand(OpenGameFolder);
         ClearLogsCommand = new AsyncRelayCommand(ClearLogsAsync);
         ClearShadersCommand = new AsyncRelayCommand(ClearShadersAsync);
-
+        OpenShaderCacheCommand = new RelayCommand(OpenShaderCache);
 
         // Load last used path
         var settings = _settingsService.LoadSettings();
@@ -422,7 +422,39 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
         }
     }
 
+private void OpenShaderCache()
+{
+    try
+    {
+        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
+        var shaderPaths = new[]
+        {
+            Path.Combine(home, ".cache", "mesa_shader_cache"),
+            Path.Combine(home, ".cache", "nvidia"),
+            Path.Combine(home, ".nv", "GLCache")
+        };
+
+        var opened = 0;
+
+        foreach (var path in shaderPaths)
+        {
+            if (Directory.Exists(path))
+            {
+                Process.Start("xdg-open", path);
+                opened++;
+            }
+        }
+
+        Status = opened > 0
+            ? $"Otevřeno shader cache ({opened} složky)"
+            : "Shader cache nebyla nalezena.";
+    }
+    catch (Exception ex)
+    {
+        Status = $"Chyba: {ex.Message}";
+    }
+}
 
     private void OpenDownloadFolder()
     {
