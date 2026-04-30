@@ -352,7 +352,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
     private async Task ClearShadersAsync()
     {
-        if (!await _confirmationDialogService.ConfirmAsync("Potvrzení mazání", "Opravdu chcete vymazat shader cache?", "Ano", "Ne"))
+        if (!await _confirmationDialogService.ConfirmAsync("Potvrzení mazání", "Vymazání shader cache může pomoci vyřešit grafické chyby nebo pády hry.\n\nPokračovat?", "Ano", "Ne"))
             return;
 
         try
