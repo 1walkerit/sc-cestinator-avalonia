@@ -357,8 +357,17 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
     private async Task ClearShadersAsync()
     {
-        if (!await _confirmationDialogService.ConfirmAsync("Potvrzení mazání", "Vymazání shader cache může pomoci vyřešit grafické chyby nebo pády hry.\n\nPokračovat?", "Ano", "Ne"))
-            return;
+if (!await _confirmationDialogService.ConfirmAsync(
+        "Potvrzení mazání",
+        "Vymazání shader cache může pomoci vyřešit grafické chyby nebo pády hry.\n\n" +
+        "Budou vyčištěny nalezené cache složky:\n" +
+        "• Mesa shader cache\n" +
+        "• NVIDIA shader cache\n" +
+        "• Wine prefix shader cache pro SC\n\n" +
+        "Hra si shader cache při dalším spuštění znovu vytvoří.\n\n" +
+        "Pokračovat?",
+        "Ano",
+        "Ne"))            return;
 
         try
         {
