@@ -200,6 +200,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
             _isDownloading = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(ShowDownloadButton));
+            OnPropertyChanged(nameof(ShowCurrentVersionInfo));
         }
     }
 
@@ -221,6 +222,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
     
     public bool ShowDownloadButton => IsAppUpdateAvailable && !IsDownloading;
+    public bool ShowCurrentVersionInfo => !IsAppUpdateAvailable && !IsDownloading;
 
     public bool IsAppUpdateAvailable
     {
@@ -230,6 +232,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
             _isAppUpdateAvailable = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(ShowDownloadButton));
+            OnPropertyChanged(nameof(ShowCurrentVersionInfo));
         }
     }
 
@@ -767,7 +770,7 @@ catch (Exception ex)
             }
             else
             {
-                Status = "Máte aktuální verzi ✔";
+                Status = "Máš aktuální verzi ✔";
                 IsUpdateAvailable = false;
             }
             var latestAppVersion = await _gitHubService.GetLatestAppVersionAsync();
