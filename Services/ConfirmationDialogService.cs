@@ -24,10 +24,12 @@ public class ConfirmationDialogService : IConfirmationDialogService
         var dialog = new Window
         {
             Title = title,
-            Width = 420,
-            Height = 200,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            CanResize = false,
+Width = 460,
+MinHeight = 220,
+MaxHeight = 420,
+SizeToContent = SizeToContent.Height,
+WindowStartupLocation = WindowStartupLocation.CenterOwner,
+CanResize = false,
             Background = new SolidColorBrush(Color.Parse("#BB101820"))
         };
 
@@ -89,16 +91,20 @@ public class ConfirmationDialogService : IConfirmationDialogService
                 VerticalAlignment = VerticalAlignment.Center,
                 Children =
                 {
-                    new TextBlock
-                    {
-                        Text = message,
-                        FontSize = 17,
-                        FontWeight = FontWeight.SemiBold,
-                        Foreground = new SolidColorBrush(Color.Parse("#1C1C1C")),
-                        TextWrapping = TextWrapping.Wrap,
-                        TextAlignment = TextAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Center
-                    },
+new ScrollViewer
+{
+    MaxHeight = 260,
+    Content = new TextBlock
+    {
+        Text = message,
+        FontSize = 16,
+        FontWeight = FontWeight.SemiBold,
+        Foreground = new SolidColorBrush(Color.Parse("#1C1C1C")),
+        TextWrapping = TextWrapping.Wrap,
+        TextAlignment = TextAlignment.Center,
+        HorizontalAlignment = HorizontalAlignment.Stretch
+    }
+},
                     new StackPanel
                     {
                         Orientation = Orientation.Horizontal,
