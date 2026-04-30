@@ -545,6 +545,23 @@ IsDownloading = false;
 
                     LastDownloadFolder = downloadsDir;
                     Status = $"Staženo: {downloadPath}";
+                    try
+{
+    var folder = Path.GetDirectoryName(downloadPath);
+    if (!string.IsNullOrEmpty(folder) && Directory.Exists(folder))
+    {
+       Process.Start(new ProcessStartInfo
+{
+    FileName = "xdg-open",
+    ArgumentList = { folder },
+    UseShellExecute = false
+});
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"[Update] Nelze otevřít složku: {ex.Message}");
+}
                     return;
                 }
             }
