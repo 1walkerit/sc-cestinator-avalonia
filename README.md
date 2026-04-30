@@ -50,8 +50,8 @@ Moderní rewrite původní Python verze do **C# (.NET 8) + Avalonia UI**.
 ## 🚀 Spuštění (AppImage)
 
 ```bash
-chmod +x SC-Cestinator-*.AppImage
-./SC-Cestinator-*.AppImage
+chmod +x SC-Cestinator-v0.3.0-x86_64.AppImage
+./SC-Cestinator-v0.3.0-x86_64.AppImage
 ```
 
 ---
