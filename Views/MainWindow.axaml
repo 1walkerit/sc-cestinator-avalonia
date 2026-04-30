@@ -272,16 +272,19 @@
                                 </MenuItem>
                             </MenuItem>
 
-                            <MenuItem Header="Nástroje"
-                                        FontWeight="Bold">
-                                <MenuItem Header="Otevřít game folder"
-                                          Command="{Binding OpenGameFolderCommand}" />
-                                <Separator/>
-                                <MenuItem Header="Vyčistit logy"
-                                          Command="{Binding ClearLogsCommand}" />
-                                <MenuItem Header="Vymazat shadery"
-                                          Command="{Binding ClearShadersCommand}" />
-                            </MenuItem>
+
+<MenuItem Header="_Nástroje">
+    <MenuItem Header="Otevřít složku hry"
+              Command="{Binding OpenGameFolderCommand}" />
+
+    <Separator />
+
+    <MenuItem Header="Vyčistit logy"
+              Command="{Binding ClearLogsCommand}" />
+
+    <MenuItem Header="Vymazat shader cache"
+              Command="{Binding ClearShadersCommand}" />
+</MenuItem>
 
                         </Menu>
                     </StackPanel>
@@ -446,6 +449,8 @@
                                 </Grid>
                             </StackPanel>
                         </Border>
+
+
 
                         <!-- Action Buttons -->
                         <StackPanel Orientation="Vertical"
