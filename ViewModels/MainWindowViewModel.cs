@@ -361,8 +361,9 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
             var paths = new[]
             {
-                Path.Combine(home, ".cache", "mesa_shader_cache"),
-                Path.Combine(home, ".cache", "nvidia")
+    Path.Combine(home, ".cache", "mesa_shader_cache"),
+    Path.Combine(home, ".cache", "nvidia"),
+    Path.Combine(home, ".nv", "GLCache")
             };
 
             int totalDeleted = 0;
