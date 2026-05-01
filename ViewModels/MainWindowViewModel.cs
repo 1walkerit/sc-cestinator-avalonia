@@ -397,23 +397,8 @@ Console.WriteLine($"[Shaders] Smazáno souborů: {totalDeleted}");
     {
         try
         {
-            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+var shaderPaths = _shaderService.GetExistingShaderPaths(InputPath);
 
-            var shaderPaths = new List<string>
-{
-    Path.Combine(home, ".cache", "mesa_shader_cache"),
-    Path.Combine(home, ".cache", "nvidia"),
-    Path.Combine(home, ".nv", "GLCache")
-};
-
-            var winePrefix = FindWinePrefix(InputPath);
-
-            if (!string.IsNullOrWhiteSpace(winePrefix) && Directory.Exists(winePrefix))
-            {
-                shaderPaths.Add(Path.Combine(winePrefix, "mesa_shader_cache"));
-                shaderPaths.Add(Path.Combine(winePrefix, "GLCache"));
-                shaderPaths.Add(Path.Combine(winePrefix, "radv_builtin_shaders"));
-            }
 
             var opened = 0;
 
