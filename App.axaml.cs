@@ -27,7 +27,7 @@ public partial class App : Application
             {
                 DataContext = viewModel
             };
-            
+
             folderPickerService.SetWindow(mainWindow);
             confirmationDialogService.SetWindow(mainWindow);
             desktop.MainWindow = mainWindow;

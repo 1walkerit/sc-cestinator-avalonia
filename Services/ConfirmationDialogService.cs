@@ -24,12 +24,12 @@ public class ConfirmationDialogService : IConfirmationDialogService
         var dialog = new Window
         {
             Title = title,
-Width = 460,
-MinHeight = 220,
-MaxHeight = 420,
-SizeToContent = SizeToContent.Height,
-WindowStartupLocation = WindowStartupLocation.CenterOwner,
-CanResize = false,
+            Width = 460,
+            MinHeight = 220,
+            MaxHeight = 420,
+            SizeToContent = SizeToContent.Height,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            CanResize = false,
             Background = new SolidColorBrush(Color.Parse("#BB101820"))
         };
 
@@ -219,52 +219,52 @@ new ScrollViewer
     }
 
     public async Task ShowInfoAsync(string title, string message)
-{
-    if (_window is null)
-        return;
-
-    var dialog = new Window
     {
-        Title = title,
-        Width = 420,
-        Height = 200,
-        WindowStartupLocation = WindowStartupLocation.CenterOwner,
-        CanResize = false,
-        Background = new SolidColorBrush(Color.Parse("#BB101820"))
-    };
+        if (_window is null)
+            return;
 
-    var okButton = new Button
-    {
-        Content = "OK",
-        Width = 120,
-        Height = 40,
-        Background = new SolidColorBrush(Color.Parse("#4CAF50")),
-        Foreground = Brushes.White,
-        FontWeight = FontWeight.SemiBold,
-        HorizontalContentAlignment = HorizontalAlignment.Center,
-        VerticalContentAlignment = VerticalAlignment.Center,
-        Padding = new Thickness(12, 6)
-    };
-
-var okNormalBackground = new SolidColorBrush(Color.Parse("#4CAF50"));
-var okHoverBackground = new SolidColorBrush(Color.Parse("#43A047"));
-    okButton.Background = okNormalBackground;
-    okButton.PointerEntered += (_, _) => okButton.Background = okHoverBackground;
-    okButton.PointerExited += (_, _) => okButton.Background = okNormalBackground;
-
-    okButton.Click += (_, _) => dialog.Close();
-
-    dialog.Content = new Border
-    {
-        Margin = new Thickness(16),
-        Padding = new Thickness(18),
-        CornerRadius = new CornerRadius(10),
-        Background = new SolidColorBrush(Color.Parse("#E6FFFFFF")),
-        Child = new StackPanel
+        var dialog = new Window
         {
-            Spacing = 16,
-            VerticalAlignment = VerticalAlignment.Center,
-            Children =
+            Title = title,
+            Width = 420,
+            Height = 200,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            CanResize = false,
+            Background = new SolidColorBrush(Color.Parse("#BB101820"))
+        };
+
+        var okButton = new Button
+        {
+            Content = "OK",
+            Width = 120,
+            Height = 40,
+            Background = new SolidColorBrush(Color.Parse("#4CAF50")),
+            Foreground = Brushes.White,
+            FontWeight = FontWeight.SemiBold,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+            VerticalContentAlignment = VerticalAlignment.Center,
+            Padding = new Thickness(12, 6)
+        };
+
+        var okNormalBackground = new SolidColorBrush(Color.Parse("#4CAF50"));
+        var okHoverBackground = new SolidColorBrush(Color.Parse("#43A047"));
+        okButton.Background = okNormalBackground;
+        okButton.PointerEntered += (_, _) => okButton.Background = okHoverBackground;
+        okButton.PointerExited += (_, _) => okButton.Background = okNormalBackground;
+
+        okButton.Click += (_, _) => dialog.Close();
+
+        dialog.Content = new Border
+        {
+            Margin = new Thickness(16),
+            Padding = new Thickness(18),
+            CornerRadius = new CornerRadius(10),
+            Background = new SolidColorBrush(Color.Parse("#E6FFFFFF")),
+            Child = new StackPanel
+            {
+                Spacing = 16,
+                VerticalAlignment = VerticalAlignment.Center,
+                Children =
             {
                 new TextBlock
                 {
@@ -283,9 +283,9 @@ var okHoverBackground = new SolidColorBrush(Color.Parse("#43A047"));
                     Children = { okButton }
                 }
             }
-        }
-    };
+            }
+        };
 
-    await dialog.ShowDialog(_window);
-}
+        await dialog.ShowDialog(_window);
+    }
 }

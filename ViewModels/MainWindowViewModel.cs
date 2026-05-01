@@ -63,7 +63,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // Get app version from assembly
         var version = Assembly.GetExecutingAssembly().GetName().Version;
         AppVersion = $"Verze: {version?.Major}.{version?.Minor}.{version?.Build ?? 0}";
-  
+
 
         InstallCommand = new AsyncRelayCommand(
             execute: InstallAsync,
@@ -98,7 +98,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 Status = "Nepodařilo se otevřít odkaz.";
             }
         });
-DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync);
+        DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync);
         OpenDownloadFolderCommand = new RelayCommand(OpenDownloadFolder);
 
         OpenGameFolderCommand = new RelayCommand(OpenGameFolder);
@@ -125,7 +125,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
         {
             _inputPath = value;
             OnPropertyChanged();
-            
+
             // Fire and forget with proper error handling
             _ = ValidatePathAsync();
         }
@@ -179,7 +179,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
 
     private bool _isAppUpdateAvailable;
-    
+
     private double _downloadProgress;
     public double DownloadProgress
     {
@@ -220,7 +220,7 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
     public bool CanOpenDownloadFolder => !string.IsNullOrWhiteSpace(LastDownloadFolder) && Directory.Exists(LastDownloadFolder);
 
-    
+
     public bool ShowDownloadButton => IsAppUpdateAvailable && !IsDownloading;
     public bool ShowCurrentVersionInfo => !IsAppUpdateAvailable && !IsDownloading;
 
@@ -265,9 +265,9 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
 
 
-    
 
-    
+
+
 
     private void OpenGameFolder()
     {
@@ -341,10 +341,10 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
             }
 
             Status = $"Logy vyčištěny ({foldersProcessed} složky)";
- await _confirmationDialogService.ShowInfoAsync(
-    "Hotovo",
-    "Logy byly úspěšně vyčištěny."
-);           
+            await _confirmationDialogService.ShowInfoAsync(
+               "Hotovo",
+               "Logy byly úspěšně vyčištěny."
+           );
             Console.WriteLine($"[Logs] Smazáno souborů: {totalDeleted}");
         }
         catch (Exception ex)
@@ -360,37 +360,37 @@ DownloadLatestVersionCommand = new AsyncRelayCommand(DownloadLatestVersionAsync)
 
     private async Task ClearShadersAsync()
     {
-if (!await _confirmationDialogService.ConfirmAsync(
-        "Potvrzení mazání",
-        "Vymazání shader cache může pomoci vyřešit grafické chyby nebo pády hry.\n\n" +
-        "Budou vyčištěny nalezené cache složky:\n" +
-        "• Mesa shader cache\n" +
-        "• NVIDIA shader cache\n" +
-        "• Wine prefix shader cache pro SC\n\n" +
-        "Hra si shader cache při dalším spuštění znovu vytvoří.\n\n" +
-        "Pokračovat?",
-        "Ano",
-        "Ne"))            return;
+        if (!await _confirmationDialogService.ConfirmAsync(
+                "Potvrzení mazání",
+                "Vymazání shader cache může pomoci vyřešit grafické chyby nebo pády hry.\n\n" +
+                "Budou vyčištěny nalezené cache složky:\n" +
+                "• Mesa shader cache\n" +
+                "• NVIDIA shader cache\n" +
+                "• Wine prefix shader cache pro SC\n\n" +
+                "Hra si shader cache při dalším spuštění znovu vytvoří.\n\n" +
+                "Pokračovat?",
+                "Ano",
+                "Ne")) return;
 
         try
         {
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-var winePrefix = FindWinePrefix(InputPath);
+            var winePrefix = FindWinePrefix(InputPath);
 
-var paths = new List<string>
+            var paths = new List<string>
 {
     Path.Combine(home, ".cache", "mesa_shader_cache"),
     Path.Combine(home, ".cache", "nvidia"),
     Path.Combine(home, ".nv", "GLCache")
 };
 
-if (!string.IsNullOrWhiteSpace(winePrefix) && Directory.Exists(winePrefix))
-{
-paths.Add(Path.Combine(winePrefix, "mesa_shader_cache"));
-paths.Add(Path.Combine(winePrefix, "GLCache"));
-paths.Add(Path.Combine(winePrefix, "radv_builtin_shaders"));
-}
+            if (!string.IsNullOrWhiteSpace(winePrefix) && Directory.Exists(winePrefix))
+            {
+                paths.Add(Path.Combine(winePrefix, "mesa_shader_cache"));
+                paths.Add(Path.Combine(winePrefix, "GLCache"));
+                paths.Add(Path.Combine(winePrefix, "radv_builtin_shaders"));
+            }
 
             int totalDeleted = 0;
             int foldersProcessed = 0;
@@ -453,53 +453,53 @@ paths.Add(Path.Combine(winePrefix, "radv_builtin_shaders"));
     }
 
 
-private void OpenShaderCache()
-{
-    try
+    private void OpenShaderCache()
     {
-        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        try
+        {
+            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-var shaderPaths = new List<string>
+            var shaderPaths = new List<string>
 {
     Path.Combine(home, ".cache", "mesa_shader_cache"),
     Path.Combine(home, ".cache", "nvidia"),
     Path.Combine(home, ".nv", "GLCache")
 };
 
-var winePrefix = FindWinePrefix(InputPath);
+            var winePrefix = FindWinePrefix(InputPath);
 
-if (!string.IsNullOrWhiteSpace(winePrefix) && Directory.Exists(winePrefix))
-{
-    shaderPaths.Add(Path.Combine(winePrefix, "mesa_shader_cache"));
-    shaderPaths.Add(Path.Combine(winePrefix, "GLCache"));
-    shaderPaths.Add(Path.Combine(winePrefix, "radv_builtin_shaders"));
-}
-
-        var opened = 0;
-
-        foreach (var path in shaderPaths)
-        {
-            if (Directory.Exists(path))
+            if (!string.IsNullOrWhiteSpace(winePrefix) && Directory.Exists(winePrefix))
             {
-               Process.Start(new ProcessStartInfo
-{
-    FileName = "xdg-open",
-    ArgumentList = { path },
-    UseShellExecute = false
-});
-                opened++;
+                shaderPaths.Add(Path.Combine(winePrefix, "mesa_shader_cache"));
+                shaderPaths.Add(Path.Combine(winePrefix, "GLCache"));
+                shaderPaths.Add(Path.Combine(winePrefix, "radv_builtin_shaders"));
             }
-        }
 
-        Status = opened > 0
-            ? $"Otevřeno shader cache ({opened} složky)"
-            : "Shader cache nebyla nalezena.";
+            var opened = 0;
+
+            foreach (var path in shaderPaths)
+            {
+                if (Directory.Exists(path))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "xdg-open",
+                        ArgumentList = { path },
+                        UseShellExecute = false
+                    });
+                    opened++;
+                }
+            }
+
+            Status = opened > 0
+                ? $"Otevřeno shader cache ({opened} složky)"
+                : "Shader cache nebyla nalezena.";
+        }
+        catch (Exception ex)
+        {
+            Status = $"Chyba: {ex.Message}";
+        }
     }
-    catch (Exception ex)
-    {
-        Status = $"Chyba: {ex.Message}";
-    }
-}
 
     private void OpenDownloadFolder()
     {
@@ -550,34 +550,34 @@ if (!string.IsNullOrWhiteSpace(winePrefix) && Directory.Exists(winePrefix))
 
                     var downloadPath = Path.Combine(downloadsDir, name);
 
-IsDownloading = true;
-DownloadProgress = 0;
+                    IsDownloading = true;
+                    DownloadProgress = 0;
 
-using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-response.EnsureSuccessStatusCode();
+                    using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                    response.EnsureSuccessStatusCode();
 
-var total = response.Content.Headers.ContentLength ?? -1L;
-var canReport = total != -1;
+                    var total = response.Content.Headers.ContentLength ?? -1L;
+                    var canReport = total != -1;
 
-using var stream = await response.Content.ReadAsStreamAsync();
-using var fs = new FileStream(downloadPath, FileMode.Create, FileAccess.Write, FileShare.None);
+                    using var stream = await response.Content.ReadAsStreamAsync();
+                    using var fs = new FileStream(downloadPath, FileMode.Create, FileAccess.Write, FileShare.None);
 
-var buffer = new byte[8192];
-long totalRead = 0;
-int read;
+                    var buffer = new byte[8192];
+                    long totalRead = 0;
+                    int read;
 
-while ((read = await stream.ReadAsync(buffer)) > 0)
-{
-    await fs.WriteAsync(buffer.AsMemory(0, read));
-    totalRead += read;
+                    while ((read = await stream.ReadAsync(buffer)) > 0)
+                    {
+                        await fs.WriteAsync(buffer.AsMemory(0, read));
+                        totalRead += read;
 
-    if (canReport)
-    {
-        DownloadProgress = (double)totalRead / total * 100;
-    }
-}
+                        if (canReport)
+                        {
+                            DownloadProgress = (double)totalRead / total * 100;
+                        }
+                    }
 
-IsDownloading = false;
+                    IsDownloading = false;
 
                     LastDownloadFolder = downloadsDir;
                     Status = $"Staženo: {downloadPath}";
@@ -586,35 +586,35 @@ IsDownloading = false;
     "Nová verze aplikace byla úspěšně stažena."
 );
                     // otevření složky
-var downloadedFileFolder = Path.GetDirectoryName(downloadPath);
-if (!string.IsNullOrEmpty(downloadedFileFolder) && Directory.Exists(downloadedFileFolder))
-{
-    Process.Start(new ProcessStartInfo
-    {
-        FileName = "xdg-open",
-        ArgumentList = { downloadedFileFolder },
-        UseShellExecute = false
-    });
-}
+                    var downloadedFileFolder = Path.GetDirectoryName(downloadPath);
+                    if (!string.IsNullOrEmpty(downloadedFileFolder) && Directory.Exists(downloadedFileFolder))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "xdg-open",
+                            ArgumentList = { downloadedFileFolder },
+                            UseShellExecute = false
+                        });
+                    }
 
 
                     try
-{
-    var folder = Path.GetDirectoryName(downloadPath);
-    if (!string.IsNullOrEmpty(folder) && Directory.Exists(folder))
-    {
-       Process.Start(new ProcessStartInfo
-{
-    FileName = "xdg-open",
-    ArgumentList = { folder },
-    UseShellExecute = false
-});
-    }
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"[Update] Nelze otevřít složku: {ex.Message}");
-}
+                    {
+                        var folder = Path.GetDirectoryName(downloadPath);
+                        if (!string.IsNullOrEmpty(folder) && Directory.Exists(folder))
+                        {
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = "xdg-open",
+                                ArgumentList = { folder },
+                                UseShellExecute = false
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[Update] Nelze otevřít složku: {ex.Message}");
+                    }
                     return;
                 }
             }
@@ -628,7 +628,7 @@ catch (Exception ex)
         }
     }
 
-    
+
     private string GetDownloadFolder()
     {
         try
@@ -697,7 +697,7 @@ catch (Exception ex)
             if (selectedPath != null)
             {
                 InputPath = selectedPath;
-                
+
                 // Save path when selected via folder picker
                 _settingsService.SaveSettings(new AppSettings { LastUsedPath = selectedPath });
             }
@@ -755,7 +755,7 @@ catch (Exception ex)
             var online = await _gitHubService.GetOnlineVersionAsync();
             OnlineVersion = online ?? "neznámá";
             var appVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            var currentVersion = $"{appVersion?.Major}.{appVersion?.Minor}.{appVersion?.Build ?? 0}";           
+            var currentVersion = $"{appVersion?.Major}.{appVersion?.Minor}.{appVersion?.Build ?? 0}";
 
 
             if (LocalVersion == "nenainstalováno")
@@ -785,7 +785,7 @@ catch (Exception ex)
                 AppUpdateStatus = "";
                 IsAppUpdateAvailable = false;
             }
-            
+
             // Save path when validation succeeds (path is valid and has data folder)
             if (!string.IsNullOrWhiteSpace(InputPath))
             {
@@ -819,7 +819,7 @@ catch (Exception ex)
                 true,
                 progress => Status = progress
             );
-            
+
             Status = "Hotovo ✔";
             await ValidatePathAsync();
         }
@@ -939,25 +939,25 @@ catch (Exception ex)
 
         StatusBrush = Brushes.Black;
     }
-private string? FindWinePrefix(string? path)
-{
-    if (string.IsNullOrWhiteSpace(path))
-        return null;
-
-    var dir = new DirectoryInfo(path);
-
-    while (dir != null)
+    private string? FindWinePrefix(string? path)
     {
-        if (Directory.Exists(Path.Combine(dir.FullName, "drive_c")))
+        if (string.IsNullOrWhiteSpace(path))
+            return null;
+
+        var dir = new DirectoryInfo(path);
+
+        while (dir != null)
         {
-            return dir.FullName;
+            if (Directory.Exists(Path.Combine(dir.FullName, "drive_c")))
+            {
+                return dir.FullName;
+            }
+
+            dir = dir.Parent;
         }
 
-        dir = dir.Parent;
+        return null;
     }
-
-    return null;
-}
 
 
 }
