@@ -20,6 +20,7 @@ namespace ScCestinator.ViewModels;
 
 public class MainWindowViewModel : INotifyPropertyChanged
 {
+    private readonly ShaderCacheService _shaderService = new();
     private readonly PathService _pathService = new();
     private readonly LocalizationService _localizationService = new();
     private readonly GitHubService _gitHubService = new();
@@ -374,76 +375,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         try
         {
-            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+           var totalDeleted = _shaderService.ClearShaders(InputPath);
 
-            var winePrefix = FindWinePrefix(InputPath);
-
-            var paths = new List<string>
-{
-    Path.Combine(home, ".cache", "mesa_shader_cache"),
-    Path.Combine(home, ".cache", "nvidia"),
-    Path.Combine(home, ".nv", "GLCache")
-};
-
-            if (!string.IsNullOrWhiteSpace(winePrefix) && Directory.Exists(winePrefix))
-            {
-                paths.Add(Path.Combine(winePrefix, "mesa_shader_cache"));
-                paths.Add(Path.Combine(winePrefix, "GLCache"));
-                paths.Add(Path.Combine(winePrefix, "radv_builtin_shaders"));
-            }
-
-            int totalDeleted = 0;
-            int foldersProcessed = 0;
-
-            foreach (var dir in paths)
-            {
-                if (!Directory.Exists(dir))
-                {
-                    Console.WriteLine($"[Shaders] Nenalezeno: {dir}");
-                    continue;
-                }
-
-                foldersProcessed++;
-
-                var files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories);
-                foreach (var file in files)
-                {
-                    try
-                    {
-                        File.Delete(file);
-                        totalDeleted++;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"[Shaders] Chyba mazání {file}: {ex.Message}");
-                    }
-                }
-
-                var subDirs = Directory.GetDirectories(dir, "*", SearchOption.AllDirectories)
-                    .OrderByDescending(d => d.Length);
-
-                foreach (var subDir in subDirs)
-                {
-                    try
-                    {
-                        if (!Directory.EnumerateFileSystemEntries(subDir).Any())
-                        {
-                            Directory.Delete(subDir);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"[Shaders] Chyba mazání složky {subDir}: {ex.Message}");
-                    }
-                }
-            }
-
-            Status = $"Shadery vyčištěny ({foldersProcessed} složky)";
-            await _confirmationDialogService.ShowInfoAsync(
+Status = $"Shader cache vyčištěna ({totalDeleted} souborů)";
+await _confirmationDialogService.ShowInfoAsync(
     "Hotovo",
     "Shader cache byla úspěšně vyčištěna."
 );
-            Console.WriteLine($"[Shaders] Smazáno souborů: {totalDeleted}");
+
+Console.WriteLine($"[Shaders] Smazáno souborů: {totalDeleted}");
         }
         catch (Exception ex)
         {
