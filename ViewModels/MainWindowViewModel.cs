@@ -456,132 +456,48 @@ var shaderPaths = _shaderService.GetExistingShaderPaths(InputPath);
         {
             Status = "Stahuji novou verzi...";
 
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("ScCestinator");
+            IsDownloading = true;
+            DownloadProgress = 0;
 
-            var json = await client.GetStringAsync(Constants.GitHubLatestReleaseApi);
-            using var doc = System.Text.Json.JsonDocument.Parse(json);
+            var progress = new Progress<double>(value => DownloadProgress = value);
+            var downloadPath = await _appUpdateService.DownloadLatestAppImageAsync(progress);
 
-            var assets = doc.RootElement.GetProperty("assets");
-            foreach (var asset in assets.EnumerateArray())
+            LastDownloadFolder = Path.GetDirectoryName(downloadPath) ?? string.Empty;
+            Status = $"Staženo: {downloadPath}";
+            await _confirmationDialogService.ShowInfoAsync(
+                "Staženo",
+                "Nová verze aplikace byla úspěšně stažena."
+            );
+
+            try
             {
-                var name = asset.GetProperty("name").GetString();
-                if (name != null && name.EndsWith(".AppImage"))
+                var folder = Path.GetDirectoryName(downloadPath);
+                if (!string.IsNullOrEmpty(folder) && Directory.Exists(folder))
                 {
-                    var url = asset.GetProperty("browser_download_url").GetString();
-
-                    var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                    var downloadsDir = GetDownloadFolder();
-                    Directory.CreateDirectory(downloadsDir);
-
-                    var downloadPath = Path.Combine(downloadsDir, name);
-
-                    IsDownloading = true;
-                    DownloadProgress = 0;
-
-                    using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-                    response.EnsureSuccessStatusCode();
-
-                    var total = response.Content.Headers.ContentLength ?? -1L;
-                    var canReport = total != -1;
-
-                    using var stream = await response.Content.ReadAsStreamAsync();
-                    using var fs = new FileStream(downloadPath, FileMode.Create, FileAccess.Write, FileShare.None);
-
-                    var buffer = new byte[8192];
-                    long totalRead = 0;
-                    int read;
-
-                    while ((read = await stream.ReadAsync(buffer)) > 0)
+                    Process.Start(new ProcessStartInfo
                     {
-                        await fs.WriteAsync(buffer.AsMemory(0, read));
-                        totalRead += read;
-
-                        if (canReport)
-                        {
-                            DownloadProgress = (double)totalRead / total * 100;
-                        }
-                    }
-
-                    IsDownloading = false;
-
-                    LastDownloadFolder = downloadsDir;
-                    Status = $"Staženo: {downloadPath}";
-                    await _confirmationDialogService.ShowInfoAsync(
-    "Staženo",
-    "Nová verze aplikace byla úspěšně stažena."
-);
-                    // otevření složky
-                    var downloadedFileFolder = Path.GetDirectoryName(downloadPath);
-                    if (!string.IsNullOrEmpty(downloadedFileFolder) && Directory.Exists(downloadedFileFolder))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "xdg-open",
-                            ArgumentList = { downloadedFileFolder },
-                            UseShellExecute = false
-                        });
-                    }
-
-
-                    try
-                    {
-                        var folder = Path.GetDirectoryName(downloadPath);
-                        if (!string.IsNullOrEmpty(folder) && Directory.Exists(folder))
-                        {
-                            Process.Start(new ProcessStartInfo
-                            {
-                                FileName = "xdg-open",
-                                ArgumentList = { folder },
-                                UseShellExecute = false
-                            });
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"[Update] Nelze otevřít složku: {ex.Message}");
-                    }
-                    return;
+                        FileName = "xdg-open",
+                        ArgumentList = { folder },
+                        UseShellExecute = false
+                    });
                 }
             }
-
-            Status = "AppImage nebyl nalezen.";
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Update] Nelze otevřít složku: {ex.Message}");
+            }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
-            Status = $"Chyba při stahování: {ex.Message}";
+            Status = ex is InvalidOperationException
+                ? "AppImage nebyl nalezen."
+                : $"Chyba při stahování: {ex.Message}";
         }
-    }
-
-
-    private string GetDownloadFolder()
-    {
-        try
+        finally
         {
-            var psi = new ProcessStartInfo
-            {
-                FileName = "xdg-user-dir",
-                Arguments = "DOWNLOAD",
-                RedirectStandardOutput = true,
-                UseShellExecute = false
-            };
-
-            using var process = Process.Start(psi);
-            var result = process?.StandardOutput.ReadToEnd().Trim();
-
-            if (!string.IsNullOrWhiteSpace(result) && Directory.Exists(result))
-                return result;
+            IsDownloading = false;
         }
-        catch
-        {
-        }
-
-        // fallback
-        var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        var fallback = Path.Combine(home, "SC-Cestinator-downloads");
-        Directory.CreateDirectory(fallback);
-        return fallback;
     }
 
     private async Task CheckAppUpdateAsync()
