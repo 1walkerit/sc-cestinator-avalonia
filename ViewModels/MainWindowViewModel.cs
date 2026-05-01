@@ -24,6 +24,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly PathService _pathService = new();
     private readonly LocalizationService _localizationService = new();
     private readonly GitHubService _gitHubService = new();
+    private readonly AppUpdateService _appUpdateService = new();
     private readonly IFolderPickerService _folderPickerService;
     private readonly IConfirmationDialogService _confirmationDialogService;
     private readonly SettingsService _settingsService = new();
@@ -585,30 +586,12 @@ var shaderPaths = _shaderService.GetExistingShaderPaths(InputPath);
 
     private async Task CheckAppUpdateAsync()
     {
-        try
-        {
-            var appVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            var currentVersion = $"{appVersion?.Major}.{appVersion?.Minor}.{appVersion?.Build ?? 0}";
+        var appVersion = Assembly.GetExecutingAssembly().GetName().Version;
+        var currentVersion = $"{appVersion?.Major}.{appVersion?.Minor}.{appVersion?.Build ?? 0}";
 
-            var latestAppVersion = await _gitHubService.GetLatestAppVersionAsync();
-
-            if (!string.IsNullOrWhiteSpace(latestAppVersion) && latestAppVersion != currentVersion)
-            {
-                AppUpdateStatus = $"⚠ Nová verze aplikace: {currentVersion} → {latestAppVersion}";
-                IsAppUpdateAvailable = true;
-            }
-            else
-            {
-                AppUpdateStatus = "";
-                IsAppUpdateAvailable = false;
-            }
-        }
-        catch
-        {
-            // Nechceme rozbíjet start aplikace kvůli kontrole aktualizace
-            AppUpdateStatus = "";
-            IsAppUpdateAvailable = false;
-        }
+        var updateResult = await _appUpdateService.CheckForUpdateAsync(currentVersion);
+        AppUpdateStatus = updateResult.StatusMessage;
+        IsAppUpdateAvailable = updateResult.IsUpdateAvailable;
     }
 
     private async Task BrowseFolderAsync()
@@ -698,18 +681,9 @@ var shaderPaths = _shaderService.GetExistingShaderPaths(InputPath);
                 Status = "Máš aktuální verzi ✔";
                 IsUpdateAvailable = false;
             }
-            var latestAppVersion = await _gitHubService.GetLatestAppVersionAsync();
-
-            if (!string.IsNullOrWhiteSpace(latestAppVersion) && latestAppVersion != currentVersion)
-            {
-                AppUpdateStatus = $"⚠ Nová verze aplikace: {currentVersion} → {latestAppVersion}";
-                IsAppUpdateAvailable = true;
-            }
-            else
-            {
-                AppUpdateStatus = "";
-                IsAppUpdateAvailable = false;
-            }
+            var updateResult = await _appUpdateService.CheckForUpdateAsync(currentVersion);
+            AppUpdateStatus = updateResult.StatusMessage;
+            IsAppUpdateAvailable = updateResult.IsUpdateAvailable;
 
             // Save path when validation succeeds (path is valid and has data folder)
             if (!string.IsNullOrWhiteSpace(InputPath))
