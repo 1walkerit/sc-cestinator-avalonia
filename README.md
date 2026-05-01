@@ -4,104 +4,82 @@
 ![Release](https://img.shields.io/github/v/release/1walkerit/sc-cestinator-avalonia)
 ![Downloads](https://img.shields.io/github/downloads/1walkerit/sc-cestinator-avalonia/total)
 
-Linux GUI nástroj pro instalaci, správu a údržbu české lokalizace pro **Star Citizen**.
 
-Moderní rewrite původní Python verze do **C# (.NET 8) + Avalonia UI**.
+Jednoduchý nástroj pro instalaci české lokalizace do hry Star Citizen na Linuxu.
 
----
-
-## 📦 Stažení
-
-👉 **[Stáhnout nejnovější AppImage](https://github.com/1walkerit/sc-cestinator-avalonia/releases/latest)**
+> ⚠️ Tento projekt není oficiální součástí projektu Cestinator ani s ním není přímo spojen. Jedná se o komunitní nástroj pro Linux.
 
 ---
 
-## ✨ Funkce
+## ✨ Co aplikace dělá
 
-### 🎮 Lokalizace
-
-* instalace české lokalizace
-* aktualizace na nejnovější verzi
-* odinstalace (se zálohou originálních souborů)
-* detekce lokální vs online verze
-
-### 🧰 Nástroje
-
-* vymazání shader cache (`~/.cache/mesa_shader_cache`, `~/.cache/nvidia`)
-* vyčištění logů (LIVE / PTU)
-* otevření game složky
-* uložení poslední použité cesty
-
-### 🔄 Aktualizace aplikace
-
-* kontrola nové verze (GitHub API)
-* stažení nové verze
-* progress bar při downloadu
-* otevření složky po stažení
+* stáhne aktuální českou lokalizaci
+* nainstaluje ji do hry Star Citizen
+* neprovádí žádné úpravy lokalizačních souborů
 
 ---
 
-## 🖼️ Screenshot
+## 🐧 Pro koho je to určeno
 
-<img width="1243" height="716" src="https://github.com/user-attachments/assets/80d2928b-00ea-4486-bac0-ee9ee6959174" />
-
----
-
-## 🚀 Spuštění (AppImage)
-
-```bash
-chmod +x SC-Cestinator-v0.3.0-x86_64.AppImage
-./SC-Cestinator-v0.3.0-x86_64.AppImage
-```
+* hráči Star Citizen na Linuxu (LUG / Wine / Proton)
+* uživatelé, kteří chtějí jednoduchou instalaci češtiny bez ručních zásahů
 
 ---
 
-## 🧪 Spuštění ze zdrojového kódu
+## 📦 Použitá lokalizace (CZ)
 
-### Požadavky
+Tento projekt využívá českou lokalizaci vytvořenou komunitním týmem kolem projektu Cestinator.
 
-* .NET 8 SDK
-* Linux
+👉 Zdroj lokalizace:
+https://github.com/JarredSC/Star-Citizen-CZ-lokalizace
 
-### Build + run
+Veškerá práva k lokalizačním souborům náleží jejich autorům.
+Tento nástroj slouží pouze jako instalátor pro Linux a do samotných dat nijak nezasahuje ani je neupravuje.
 
-```bash
-dotnet build
-dotnet run
-```
+Velké díky patří autorům lokalizace za jejich dlouhodobou práci ❤️
 
 ---
 
-## 🏗️ Technologie
+## 🔐 Soukromí
 
-* C# (.NET 8)
-* Avalonia UI
-* CommunityToolkit.Mvvm
-* GitHub Actions (build AppImage)
+Aplikace:
 
----
-
-## 📁 Struktura projektu
-
-```
-Services/      → logika (GitHub, FS, dialogy)
-ViewModels/    → MVVM
-Views/         → UI (Avalonia XAML)
-Assets/        → ikony, obrázky
-AppDir/        → AppImage struktura
-```
+* nesbírá žádná uživatelská data
+* neodesílá žádná data na internet (kromě stažení lokalizace z GitHubu)
 
 ---
 
-## 🔗 Původní projekt
+## 🚀 Spuštění
 
-Python verze:
-https://github.com/1walkerit/sc-cestinator-linux
+1. stáhni AppImage
+2. nastav práva:
+
+   ```bash
+   chmod +x SC-Cestinator-*.AppImage
+   ```
+3. spusť:
+
+   ```bash
+   ./SC-Cestinator-*.AppImage
+   ```
 
 ---
 
-## ⚠️ Poznámky
+## 🛠️ Technologie
 
-* aplikace je určena pro Linux (Wine / Lutris kompatibilní)
-* testováno primárně na Arch Linux
-* používání na vlastní riziko (zásah do herních souborů)
+* .NET (Avalonia UI)
+* Linux (AppImage)
+
+---
+
+## 📄 Licence
+
+Tento projekt je samostatný nástroj.
+Lokalizační data nejsou součástí tohoto repozitáře a podléhají podmínkám jejich autorů.
+
+---
+
+## ❤️ Autor
+
+Vytvořil: 1walkerit
+Linux komunita 🤝 Star Citizen CZ komunita
