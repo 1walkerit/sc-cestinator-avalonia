@@ -32,6 +32,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public AsyncRelayCommand InstallCommand { get; }
     public AsyncRelayCommand UninstallCommand { get; }
     public AsyncRelayCommand BrowseFolderCommand { get; }
+    public ICommand FindInstallationCommand { get; }
     public ICommand OpenUrlCommand { get; }
     public ICommand DownloadLatestVersionCommand { get; }
     public ICommand OpenDownloadFolderCommand { get; }
@@ -82,6 +83,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
             canExecute: () => !IsBusy
         );
 
+        FindInstallationCommand = new AsyncRelayCommand(FindInstallationAsync);
+
         OpenUrlCommand = new RelayCommand(param =>
         {
             try
@@ -117,6 +120,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         // Check for app update automatically on startup
         _ = CheckAppUpdateAsync();
+
+
     }
 
     private string? _inputPath;
@@ -236,6 +241,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(ShowDownloadButton));
             OnPropertyChanged(nameof(ShowCurrentVersionInfo));
         }
+        
     }
 
     private bool _isUpdateAvailable;
@@ -533,6 +539,37 @@ var shaderPaths = _shaderService.GetExistingShaderPaths(InputPath);
         catch (Exception ex)
         {
             Status = $"Chyba: {ex.Message}";
+        }
+    }
+
+    private async Task FindInstallationAsync()
+    {
+        var installs = new InstallationService().FindStarCitizenInstallations();
+
+        if (installs.Count == 0)
+        {
+            await _confirmationDialogService.ShowInfoAsync(
+                "Nenalezeno",
+                "Instalace Star Citizen nebyla nalezena. Vyber cestu ručně."
+            );
+            return;
+        }
+
+        if (installs.Count == 1)
+        {
+           InputPath = installs[0];
+Status = $"Použita instalace: {InputPath}";
+_ = ValidatePathAsync();
+return;
+        }
+
+InputPath = installs[0];
+Status = $"Nalezeno více instalací ({installs.Count}), použita první.";
+_ = ValidatePathAsync();
+
+        foreach (var i in installs)
+        {
+            Console.WriteLine($"[SC] Candidate: {i}");
         }
     }
 

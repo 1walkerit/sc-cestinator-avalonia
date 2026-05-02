@@ -383,7 +383,7 @@
                                            FontSize="16"
                                            FontWeight="SemiBold" />
 
-                                <Grid ColumnDefinitions="*,Auto">
+                                <Grid ColumnDefinitions="*,Auto,Auto">
                                     <TextBox Grid.Column="0"
                                              Text="{Binding InputPath}"
                                              PlaceholderText="Zadejte cestu nebo vyberte složku..."
@@ -396,6 +396,15 @@
                                             HorizontalContentAlignment="Center"
                                             VerticalContentAlignment="Center"
                                             Margin="10,0,0,0"
+                                            Height="36"
+                                            Padding="12,6" />
+                                    <Button Grid.Column="2"
+                                            Content="Najít instalaci"
+                                            Command="{Binding FindInstallationCommand}"
+                                            Classes="browse-button"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Margin="5,0,0,0"
                                             Height="36"
                                             Padding="12,6" />
                                 </Grid>
