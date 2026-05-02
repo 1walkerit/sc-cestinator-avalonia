@@ -15,6 +15,7 @@ using System.Windows.Input;
 using Avalonia.Media;
 using ScCestinator.Services;
 using System.Collections.Generic;
+using ScCestinator.Views;
 
 namespace ScCestinator.ViewModels;
 
@@ -241,7 +242,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(ShowDownloadButton));
             OnPropertyChanged(nameof(ShowCurrentVersionInfo));
         }
-        
+
     }
 
     private bool _isUpdateAvailable;
@@ -382,15 +383,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         try
         {
-           var totalDeleted = _shaderService.ClearShaders(InputPath);
+            var totalDeleted = _shaderService.ClearShaders(InputPath);
 
-Status = $"Shader cache vyčištěna ({totalDeleted} souborů)";
-await _confirmationDialogService.ShowInfoAsync(
-    "Hotovo",
-    "Shader cache byla úspěšně vyčištěna."
-);
+            Status = $"Shader cache vyčištěna ({totalDeleted} souborů)";
+            await _confirmationDialogService.ShowInfoAsync(
+                "Hotovo",
+                "Shader cache byla úspěšně vyčištěna."
+            );
 
-Console.WriteLine($"[Shaders] Smazáno souborů: {totalDeleted}");
+            Console.WriteLine($"[Shaders] Smazáno souborů: {totalDeleted}");
         }
         catch (Exception ex)
         {
@@ -404,7 +405,7 @@ Console.WriteLine($"[Shaders] Smazáno souborů: {totalDeleted}");
     {
         try
         {
-var shaderPaths = _shaderService.GetExistingShaderPaths(InputPath);
+            var shaderPaths = _shaderService.GetExistingShaderPaths(InputPath);
 
 
             var opened = 0;
@@ -557,20 +558,38 @@ var shaderPaths = _shaderService.GetExistingShaderPaths(InputPath);
 
         if (installs.Count == 1)
         {
-           InputPath = installs[0];
-Status = $"Použita instalace: {InputPath}";
-_ = ValidatePathAsync();
-return;
+            InputPath = installs[0];
+            Status = $"Použita instalace: {InputPath}";
+            await ValidatePathAsync();
+            return;
         }
-
-InputPath = installs[0];
-Status = $"Nalezeno více instalací ({installs.Count}), použita první.";
-_ = ValidatePathAsync();
 
         foreach (var i in installs)
         {
             Console.WriteLine($"[SC] Candidate: {i}");
         }
+
+        var dialog = new InstallationSelectionDialog(installs);
+
+        var desktop = App.Current?.ApplicationLifetime
+            as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime;
+
+        if (desktop?.MainWindow == null)
+        {
+            Status = "Nelze otevřít dialog výběru instalace.";
+            return;
+        }
+
+        var selectedPath = await dialog.ShowDialog<string?>(desktop.MainWindow);
+        if (string.IsNullOrWhiteSpace(selectedPath))
+        {
+            Status = $"Nalezeno více instalací ({installs.Count}), výběr zrušen.";
+            return;
+        }
+
+        InputPath = selectedPath;
+        Status = $"Použita instalace: {InputPath}";
+        await ValidatePathAsync();
     }
 
     private async Task ValidatePathAsync()
