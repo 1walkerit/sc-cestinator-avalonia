@@ -42,6 +42,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand ClearLogsCommand { get; }
     public ICommand ClearShadersCommand { get; }
     public ICommand OpenShaderCacheCommand { get; }
+    public ICommand ShowCreditsCommand { get; }
 
     public string AppVersion { get; }
 
@@ -111,6 +112,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ClearLogsCommand = new AsyncRelayCommand(ClearLogsAsync);
         ClearShadersCommand = new AsyncRelayCommand(ClearShadersAsync);
         OpenShaderCacheCommand = new RelayCommand(OpenShaderCache);
+        ShowCreditsCommand = new RelayCommand(async _ => await ShowCreditsAsync());
 
         // Load last used path
         var settings = _settingsService.LoadSettings();
@@ -456,6 +458,28 @@ public class MainWindowViewModel : INotifyPropertyChanged
             Status = $"Nepodařilo se otevřít složku: {ex.Message}";
         }
     }
+
+private async Task ShowCreditsAsync()
+{
+    var desktop = App.Current?.ApplicationLifetime
+        as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime;
+
+    if (desktop?.MainWindow == null)
+    {
+        await _confirmationDialogService.ShowInfoAsync(
+            "Licence / Autoři",
+            "SC Češtinátor – Linux verze\n\n" +
+            "Tato aplikace není oficiálním nástrojem týmu Cestinator.\n\n" +
+            "Česká lokalizace hry Star Citizen je dílem týmu Cestinator.\n" +
+            "https://github.com/cestinator\n\n" +
+            "Aplikace neodesílá žádná uživatelská data."
+        );
+        return;
+    }
+
+    var dialog = new CreditsDialog();
+    await dialog.ShowDialog(desktop.MainWindow);
+}
 
     public async Task DownloadLatestVersionAsync()
     {

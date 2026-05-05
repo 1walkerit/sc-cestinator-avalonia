@@ -1,0 +1,140 @@
+
+
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ScCestinator.Views.CreditsDialog"
+        Title="Licence / Autoři"
+        Width="760"
+        Height="700"
+        MinWidth="640"
+        MinHeight="460"
+        WindowStartupLocation="CenterOwner"
+        Background="#111827">
+
+    <Border Margin="20"
+            Padding="20"
+            Background="#F8FAFC"
+            CornerRadius="14">
+
+        <DockPanel>
+
+            <StackPanel DockPanel.Dock="Top"
+                        Margin="0,0,0,18">
+                <TextBlock Text="Licence / Autoři"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="#0F172A" />
+
+                <TextBlock Text="Informace o původu lokalizace, autorech a vztahu k projektu Cestinator."
+                           FontSize="14"
+                           Foreground="#475569"
+                           TextWrapping="Wrap"
+                           Margin="0,6,0,0" />
+            </StackPanel>
+
+<Button DockPanel.Dock="Bottom"
+        Content="Zavřít"
+        Width="120"
+        Height="38"
+        HorizontalAlignment="Right"
+        Margin="0,18,0,0"
+        Background="#1E5F8F"
+        Foreground="White"
+        FontWeight="Bold"
+        CornerRadius="8"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center"
+        Click="Close_Click" />
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="14">
+
+                    <Border Background="#E0F2FE"
+                            Padding="14"
+                            CornerRadius="10">
+                        <TextBlock Text="SC Češtinátor – Linux verze"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   Foreground="#0C4A6E"
+                                   TextWrapping="Wrap" />
+                    </Border>
+
+                    <Border Background="#FEF3C7"
+                            Padding="14"
+                            CornerRadius="10">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Neoficiální nástroj"
+                                       FontSize="17"
+                                       FontWeight="Bold"
+                                       Foreground="#78350F" />
+                            <TextBlock Text="Tato aplikace není oficiálním nástrojem týmu Cestinator."
+                                       FontSize="15"
+                                       Foreground="#1F2937"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#EEF2FF"
+                            Padding="14"
+                            CornerRadius="10">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Autoři lokalizace"
+                                       FontSize="17"
+                                       FontWeight="Bold"
+                                       Foreground="#3730A3" />
+                            <TextBlock Text="Česká lokalizace hry Star Citizen je dílem týmu Cestinator."
+                                       FontSize="15"
+                                       Foreground="#1F2937"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Text="Projekt / autoři lokalizace:"
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       Foreground="#1F2937" />
+<Button Content="https://github.com/JarredSC/Star-Citizen-CZ-lokalizace/"
+        Background="Transparent"
+        BorderThickness="0"
+        Padding="0"
+        HorizontalAlignment="Left"
+        Foreground="#1D4ED8"
+        FontSize="15"
+        Cursor="Hand"
+        Click="OpenCestinatorGithub_Click" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#F1F5F9"
+                            Padding="14"
+                            CornerRadius="10">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Práva k lokalizačním souborům"
+                                       FontSize="17"
+                                       FontWeight="Bold"
+                                       Foreground="#0F172A" />
+                            <TextBlock Text="Veškerá práva k lokalizačním souborům náleží jejich autorům."
+                                       FontSize="15"
+                                       Foreground="#1F2937"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#DCFCE7"
+                            Padding="14"
+                            CornerRadius="10">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Soukromí"
+                                       FontSize="17"
+                                       FontWeight="Bold"
+                                       Foreground="#14532D" />
+                            <TextBlock Text="Tato aplikace slouží pouze jako linuxový pomocný nástroj pro instalaci/použití lokalizace. Aplikace neodesílá žádná uživatelská data."
+                                       FontSize="15"
+                                       Foreground="#1F2937"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+        </DockPanel>
+    </Border>
+</Window>
