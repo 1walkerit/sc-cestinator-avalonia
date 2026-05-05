@@ -1,9 +1,8 @@
-# SC Češtinátor (Avalonia)
+# SC CZ Toolkit – Star Citizen Linux Utility
 
 ![Build](https://github.com/1walkerit/sc-cestinator-avalonia/actions/workflows/build-appimage.yml/badge.svg)
 ![Release](https://img.shields.io/github/v/release/1walkerit/sc-cestinator-avalonia)
 ![Downloads](https://img.shields.io/github/downloads/1walkerit/sc-cestinator-avalonia/total)
-
 
 Jednoduchý nástroj pro instalaci české lokalizace do hry Star Citizen na Linuxu.
 
@@ -13,16 +12,16 @@ Jednoduchý nástroj pro instalaci české lokalizace do hry Star Citizen na Lin
 
 ## ✨ Co aplikace dělá
 
-* stáhne aktuální českou lokalizaci
-* nainstaluje ji do hry Star Citizen
-* neprovádí žádné úpravy lokalizačních souborů
+- stáhne aktuální českou lokalizaci
+- nainstaluje ji do hry Star Citizen
+- neprovádí žádné úpravy lokalizačních souborů
 
 ---
 
 ## 🐧 Pro koho je to určeno
 
-* hráči Star Citizen na Linuxu (LUG / Wine / Proton)
-* uživatelé, kteří chtějí jednoduchou instalaci češtiny bez ručních zásahů
+- hráči Star Citizen na Linuxu (LUG / Wine / Proton)
+- uživatelé, kteří chtějí jednoduchou instalaci češtiny bez ručních zásahů
 
 ---
 
@@ -44,8 +43,8 @@ Velké díky patří autorům lokalizace za jejich dlouhodobou práci ❤️
 
 Aplikace:
 
-* nesbírá žádná uživatelská data
-* neodesílá žádná data na internet (kromě stažení lokalizace z GitHubu)
+- nesbírá žádná uživatelská data
+- neodesílá žádná data na internet (kromě stažení lokalizace z GitHubu)
 
 ---
 
@@ -54,21 +53,22 @@ Aplikace:
 1. stáhni AppImage
 2. nastav práva:
 
-   ```bash
-   chmod +x SC-Cestinator-*.AppImage
-   ```
+    ```bash
+    chmod +x SC-Cestinator-*.AppImage
+    ```
+
 3. spusť:
 
-   ```bash
-   ./SC-Cestinator-*.AppImage
-   ```
+    ```bash
+    ./SC-Cestinator-*.AppImage
+    ```
 
 ---
 
 ## 🛠️ Technologie
 
-* .NET (Avalonia UI)
-* Linux (AppImage)
+- .NET (Avalonia UI)
+- Linux (AppImage)
 
 ---
 

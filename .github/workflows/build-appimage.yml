@@ -1,94 +1,94 @@
 name: Build AppImage
 
 on:
-  push:
-    tags:
-      - "v*"
+    push:
+        tags:
+            - "v*"
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  build-appimage:
-    runs-on: ubuntu-22.04
+    build-appimage:
+        runs-on: ubuntu-22.04
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.x"
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: "8.0.x"
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libfuse2 wget desktop-file-utils
+            - name: Install dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y libfuse2 wget desktop-file-utils
 
-      - name: Restore
-        run: dotnet restore
+            - name: Restore
+              run: dotnet restore
 
-      - name: Publish Linux x64
-        run: |
-          dotnet publish -c Release -r linux-x64 --self-contained true -o publish
+            - name: Publish Linux x64
+              run: |
+                  dotnet publish -c Release -r linux-x64 --self-contained true -o publish
 
-      - name: Prepare AppDir
-        run: |
-          mkdir -p AppDir/usr/bin
-          mkdir -p AppDir/usr/share/applications
-          mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+            - name: Prepare AppDir
+              run: |
+                  mkdir -p AppDir/usr/bin
+                  mkdir -p AppDir/usr/share/applications
+                  mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
 
-          cp -r publish/* AppDir/usr/bin/
+                  cp -r publish/* AppDir/usr/bin/
 
-          cat > AppDir/AppRun << 'EOF'
-          #!/bin/bash
-          HERE="$(dirname "$(readlink -f "${0}")")"
-          exec "$HERE/usr/bin/ScCestinator" "$@"
-          EOF
+                  cat > AppDir/AppRun << 'EOF'
+                  #!/bin/bash
+                  HERE="$(dirname "$(readlink -f "${0}")")"
+                  exec "$HERE/usr/bin/ScCestinator" "$@"
+                  EOF
 
-          chmod +x AppDir/AppRun
+                  chmod +x AppDir/AppRun
 
-          cat > AppDir/sc-cestinator.desktop << 'EOF'
-          [Desktop Entry]
-          Type=Application
-          Name=SC Češtinátor
-          Exec=ScCestinator
-          Icon=sc-cestinator
-          Categories=Utility;
-          Terminal=false
-          EOF
+                  cat > AppDir/sc-cestinator.desktop << 'EOF'
+                  [Desktop Entry]
+                  Type=Application
+                  Name=SC Češtinátor
+                  Exec=ScCestinator
+                  Icon=sc-cestinator
+                  Categories=Utility;
+                  Terminal=false
+                  EOF
 
-          cp AppDir/sc-cestinator.desktop AppDir/usr/share/applications/sc-cestinator.desktop
+                  cp AppDir/sc-cestinator.desktop AppDir/usr/share/applications/sc-cestinator.desktop
 
-          if [ -f "Assets/icon.png" ]; then
-            cp Assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/sc-cestinator.png
-            cp Assets/icon.png AppDir/sc-cestinator.png
-          fi
+                  if [ -f "Assets/icon.png" ]; then
+                    cp Assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/sc-cestinator.png
+                    cp Assets/icon.png AppDir/sc-cestinator.png
+                  fi
 
-      - name: Download appimagetool
-        run: |
-          wget -O appimagetool-x86_64.AppImage https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
-          chmod +x appimagetool-x86_64.AppImage
+            - name: Download appimagetool
+              run: |
+                  wget -O appimagetool-x86_64.AppImage https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+                  chmod +x appimagetool-x86_64.AppImage
 
-      - name: Build AppImage
-        run: |
-          rm -f ./SC-Cestinator-*.AppImage
-          rm -f ./sc-cestinator-*.AppImage
-          ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir
-          ls -lh *.AppImage
-          built_appimage="./SC_Češtinátor-x86_64.AppImage"
-          echo "Built AppImage: $built_appimage"
-          mv "$built_appimage" "SC-Cestinator-${{ github.ref_name }}-x86_64.AppImage"
+            - name: Build AppImage
+              run: |
+                  rm -f ./SC-Cestinator-*.AppImage
+                  rm -f ./sc-cestinator-*.AppImage
+                  ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir
+                  ls -lh *.AppImage
+                  built_appimage="./SC_Češtinátor-x86_64.AppImage"
+                  echo "Built AppImage: $built_appimage"
+                  mv "$built_appimage" "SC-CZ-Toolkit-${{ github.ref_name }}-x86_64.AppImage"
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: SC-Cestinator-AppImage
-          path: SC-Cestinator-*.AppImage
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: SC-Cestinator-AppImage
+                  path: SC-Cestinator-*.AppImage
 
-      - name: Upload to GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: SC-Cestinator-${{ github.ref_name }}-x86_64.AppImage
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Upload to GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: SC-Cestinator-${{ github.ref_name }}-x86_64.AppImage
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

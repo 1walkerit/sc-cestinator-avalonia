@@ -3,7 +3,7 @@
         xmlns:vm="using:ScCestinator.ViewModels"
         x:Class="ScCestinator.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Title="SC Češtinátor Linux"
+        Title="SC CZ Toolkit"
         Width="1000"
         Height="560"
         MinWidth="1000"
@@ -208,7 +208,7 @@
                                 Orientation="Horizontal"
                                 Spacing="16"
                                 VerticalAlignment="Center">
-                        <TextBlock Text="SC Češtinátor Linux"
+                        <TextBlock Text="SC CZ Toolkit (Linux)"
                                    FontSize="24"
                                    FontWeight="Bold"
                                    Foreground="White"
@@ -289,7 +289,14 @@
           Command="{Binding OpenShaderCacheCommand}" />
 </MenuItem>
 
+<MenuItem Header="_Licence"
+          Command="{Binding ShowCreditsCommand}"
+          FontWeight="Bold" />
+
+
                         </Menu>
+
+
                     </StackPanel>
 
                     <Border Grid.Column="2"
@@ -500,16 +507,6 @@
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center" />
 
-                            <Button Content="Licence / Autoři"
-        Command="{Binding ShowCreditsCommand}"
-        Height="44"
-        Margin="0,8,0,0"
-        FontWeight="Bold"
-        Background="#1E5F8F"
-        Foreground="White"
-        CornerRadius="8"
-        HorizontalContentAlignment="Center"
-        VerticalContentAlignment="Center" />
                         </StackPanel>
 
                     </StackPanel>

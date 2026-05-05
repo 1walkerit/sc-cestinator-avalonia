@@ -468,7 +468,7 @@ private async Task ShowCreditsAsync()
     {
         await _confirmationDialogService.ShowInfoAsync(
             "Licence / Autoři",
-            "SC Češtinátor – Linux verze\n\n" +
+            "SC CZ Toolkit – Linux verze\n\n" +
             "Tato aplikace není oficiálním nástrojem týmu Cestinator.\n\n" +
             "Česká lokalizace hry Star Citizen je dílem týmu Cestinator.\n" +
             "https://github.com/cestinator\n\n" +

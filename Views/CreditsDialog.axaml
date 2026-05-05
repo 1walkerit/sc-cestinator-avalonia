@@ -52,7 +52,7 @@
                     <Border Background="#E0F2FE"
                             Padding="14"
                             CornerRadius="10">
-                        <TextBlock Text="SC Češtinátor – Linux verze"
+                        <TextBlock Text="SC CZ Toolkit – Linux verze"
                                    FontSize="22"
                                    FontWeight="Bold"
                                    Foreground="#0C4A6E"
