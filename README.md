@@ -54,13 +54,13 @@ Aplikace:
 2. nastav práva:
 
     ```bash
-    chmod +x SC-Cestinator-*.AppImage
+    chmod +x SC-CZ-toolkit-*.AppImage
     ```
 
 3. spusť:
 
     ```bash
-    ./SC-Cestinator-*.AppImage
+    ./SC-CZ-Toolkit-*.AppImage
     ```
 
 ---
