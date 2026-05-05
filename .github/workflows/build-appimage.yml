@@ -48,22 +48,22 @@ jobs:
 
                   chmod +x AppDir/AppRun
 
-                  cat > AppDir/sc-cestinator.desktop << 'EOF'
-                  [Desktop Entry]
-                  Type=Application
-                  Name=SC Češtinátor
-                  Exec=ScCestinator
-                  Icon=sc-cestinator
-                  Categories=Utility;
-                  Terminal=false
-                  EOF
+cat > AppDir/sc-cz-toolkit.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=SC CZ Toolkit
+Exec=ScCestinator
+Icon=sc-cz-toolkit
+Categories=Utility;
+Terminal=false
+EOF
 
-                  cp AppDir/sc-cestinator.desktop AppDir/usr/share/applications/sc-cestinator.desktop
+cp AppDir/sc-cz-toolkit.desktop AppDir/usr/share/applications/sc-cz-toolkit.desktop
 
-                  if [ -f "Assets/icon.png" ]; then
-                    cp Assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/sc-cestinator.png
-                    cp Assets/icon.png AppDir/sc-cestinator.png
-                  fi
+if [ -f "Assets/icon.png" ]; then
+  cp Assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/sc-cz-toolkit.png
+  cp Assets/icon.png AppDir/sc-cz-toolkit.png
+fi
 
             - name: Download appimagetool
               run: |
@@ -74,6 +74,8 @@ jobs:
               run: |
                   rm -f ./SC-Cestinator-*.AppImage
                   rm -f ./sc-cestinator-*.AppImage
+                  rm -f ./SC-CZ-Toolkit-*.AppImage
+                  rm -f ./sc-cz-toolkit-*.AppImage
                   ARCH=x86_64 ./appimagetool-x86_64.AppImage AppDir
                   ls -lh *.AppImage
                   built_appimage="./SC_Češtinátor-x86_64.AppImage"
