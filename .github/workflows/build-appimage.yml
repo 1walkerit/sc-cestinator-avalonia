@@ -48,22 +48,22 @@ jobs:
 
                   chmod +x AppDir/AppRun
 
-cat > AppDir/sc-cz-toolkit.desktop << 'EOF'
-[Desktop Entry]
-Type=Application
-Name=SC CZ Toolkit
-Exec=ScCestinator
-Icon=sc-cz-toolkit
-Categories=Utility;
-Terminal=false
-EOF
+                  cat > AppDir/sc-cz-toolkit.desktop << 'EOF'
+                  [Desktop Entry]
+                  Type=Application
+                  Name=SC CZ Toolkit
+                  Exec=ScCestinator
+                  Icon=sc-cz-toolkit
+                  Categories=Utility;
+                  Terminal=false
+                  EOF
 
-cp AppDir/sc-cz-toolkit.desktop AppDir/usr/share/applications/sc-cz-toolkit.desktop
+                cp AppDir/sc-cz-toolkit.desktop AppDir/usr/share/applications/sc-cz-toolkit.desktop
 
-if [ -f "Assets/icon.png" ]; then
-  cp Assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/sc-cz-toolkit.png
-  cp Assets/icon.png AppDir/sc-cz-toolkit.png
-fi
+                if [ -f "Assets/icon.png" ]; then
+                  cp Assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/sc-cz-toolkit.png
+                  cp Assets/icon.png AppDir/sc-cz-toolkit.png
+                fi
 
             - name: Download appimagetool
               run: |
