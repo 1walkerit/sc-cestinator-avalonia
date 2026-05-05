@@ -1,7 +1,7 @@
 # SC CZ Toolkit – Star Citizen Linux Utility
 
 ![Build](https://github.com/1walkerit/sc-cz-toolkit/actions/workflows/build-appimage.yml/badge.svg)
-![Release](https://img.shields.io/github/v/release/1walkerit/sc-cz-toolikt)
+![Release](https://img.shields.io/github/v/release/1walkerit/sc-cz-toolkit)
 ![Downloads](https://img.shields.io/github/downloads/1walkerit/sc-cz-toolkit/total)
 
 Jednoduchý nástroj pro instalaci české lokalizace do hry Star Citizen na Linuxu.
