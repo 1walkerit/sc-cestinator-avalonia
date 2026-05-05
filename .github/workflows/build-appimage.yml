@@ -31,7 +31,7 @@ jobs:
             - name: Publish Linux x64
               run: |
                   dotnet publish -c Release -r linux-x64 --self-contained true -o publish
-                  
+
             - name: Prepare AppDir
               run: |
                   mkdir -p AppDir/usr/bin
@@ -58,12 +58,12 @@ jobs:
                   Terminal=false
                   EOF
 
-                cp AppDir/sc-cz-toolkit.desktop AppDir/usr/share/applications/sc-cz-toolkit.desktop
+                  cp AppDir/sc-cz-toolkit.desktop AppDir/usr/share/applications/sc-cz-toolkit.desktop
 
-                if [ -f "Assets/icon.png" ]; then
-                  cp Assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/sc-cz-toolkit.png
-                  cp Assets/icon.png AppDir/sc-cz-toolkit.png
-                fi
+                  if [ -f "Assets/icon.png" ]; then
+                    cp Assets/icon.png AppDir/usr/share/icons/hicolor/256x256/apps/sc-cz-toolkit.png
+                    cp Assets/icon.png AppDir/sc-cz-toolkit.png
+                  fi
 
             - name: Download appimagetool
               run: |
