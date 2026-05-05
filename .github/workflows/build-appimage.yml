@@ -83,12 +83,12 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: SC-Cestinator-AppImage
-                  path: SC-Cestinator-*.AppImage
+                  name: SC-CZ-Toolkit-AppImage
+                  path: SC-CZ-Toolkit-*.AppImage
 
             - name: Upload to GitHub Release
               uses: softprops/action-gh-release@v2
               with:
-                  files: SC-Cestinator-${{ github.ref_name }}-x86_64.AppImage
+                  files: SC-CZ-Toolkit-${{ github.ref_name }}-x86_64.AppImage
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
