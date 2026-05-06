@@ -8,6 +8,9 @@ Jednoduchý nástroj pro instalaci české lokalizace do hry Star Citizen na Lin
 
 > ⚠️ Tento projekt není oficiální součástí projektu Cestinator ani s ním není přímo spojen. Jedná se o komunitní nástroj pro Linux.
 
+
+<img width="1252" height="735" alt="image" src="https://github.com/user-attachments/assets/91bbf008-83d4-4519-93f3-726edf77fb31" />
+
 ---
 
 ## ✨ Co aplikace dělá
