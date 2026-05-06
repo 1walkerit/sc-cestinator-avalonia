@@ -318,7 +318,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 return;
             }
 
-            var subDirs = new[] { "LIVE", "PTU" };
+            var subDirs = new[] { "LIVE", "PTU", "EPTU" };
 
             int totalDeleted = 0;
             int foldersProcessed = 0;
