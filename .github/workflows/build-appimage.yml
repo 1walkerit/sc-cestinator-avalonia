@@ -39,6 +39,7 @@ jobs:
                   mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
 
                   cp -r publish/* AppDir/usr/bin/
+                  ln -sf ScCestinator AppDir/usr/bin/sc-cz-toolkit
 
                   cat > AppDir/AppRun << 'EOF'
                   #!/bin/bash
@@ -52,7 +53,7 @@ jobs:
                   [Desktop Entry]
                   Type=Application
                   Name=SC CZ Toolkit
-                  Exec=ScCestinator
+                  Exec=sc-cz-toolkit
                   Icon=sc-cz-toolkit
                   Categories=Utility;
                   Terminal=false

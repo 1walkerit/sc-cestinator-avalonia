@@ -4,6 +4,7 @@
         x:Class="ScCestinator.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="SC CZ Toolkit"
+        Icon="/Assets/icon.png"
         Width="1000"
         Height="560"
         MinWidth="1000"
