@@ -131,10 +131,13 @@ public sealed class InstallationService
         if (string.IsNullOrWhiteSpace(candidate) || !Directory.Exists(candidate))
             return false;
 
-        var livePath = Path.Combine(candidate, "LIVE");
-        var dataP4kPath = Path.Combine(livePath, "Data.p4k");
+        return Constants.SupportedStarCitizenBranches.Any(branch =>
+        {
+            var branchPath = Path.Combine(candidate, branch);
+            var dataP4kPath = Path.Combine(branchPath, "Data.p4k");
 
-        return Directory.Exists(livePath)
-               && File.Exists(dataP4kPath);
+            return Directory.Exists(branchPath)
+                   && File.Exists(dataP4kPath);
+        });
     }
 }
