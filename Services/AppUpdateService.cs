@@ -27,7 +27,7 @@ public class AppUpdateService
                 return new AppUpdateResult(
                     IsUpdateAvailable: true,
                     LatestVersion: latestAppVersion,
-                    StatusMessage: $"⚠ Nová verze aplikace: {currentVersion} → {latestAppVersion}");
+                    StatusMessage: $"⚠ Je dostupná nová verze SC CZ Toolkit ({currentVersion} → {latestAppVersion})");
             }
 
             return new AppUpdateResult(
