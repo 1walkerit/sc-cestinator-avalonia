@@ -600,10 +600,25 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         if (installs.Count == 0)
         {
+            var message =
+                "Instalace Star Citizen nebyla nalezena.\n\n" +
+                "Vyber cestu ručně.";
+
+            if (OperatingSystem.IsLinux()
+                && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FLATPAK_ID")))
+            {
+                message +=
+                    "\n\n" +
+                    "Pokud používáš Flatpak a máš hru mimo domovský adresář,\n" +
+                    "povol přístup například:\n\n" +
+                    "flatpak override --user --filesystem=/home/data com.sccommunity.SCCZToolkit";
+            }
+
             await _confirmationDialogService.ShowInfoAsync(
                 "Nenalezeno",
-                "Instalace Star Citizen nebyla nalezena. Vyber cestu ručně."
+                message
             );
+
             return;
         }
 
