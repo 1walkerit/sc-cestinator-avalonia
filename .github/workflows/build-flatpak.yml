@@ -1,0 +1,71 @@
+name: Build Flatpak
+
+on:
+    push:
+        tags:
+            - "v*"
+
+permissions:
+    contents: write
+
+jobs:
+    build-flatpak:
+        runs-on: ubuntu-22.04
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: "8.0.x"
+
+            - name: Install dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y flatpak flatpak-builder
+
+            - name: Add Flathub
+              run: |
+                  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+            - name: Install Flatpak SDK
+              run: |
+                  flatpak install -y flathub \
+                    org.freedesktop.Platform//24.08 \
+                    org.freedesktop.Sdk//24.08
+
+            - name: Restore
+              run: dotnet restore
+
+            - name: Publish Linux x64
+              run: |
+                  dotnet publish -c Release -r linux-x64 \
+                    --self-contained true \
+                    -p:PublishSingleFile=true \
+                    -o publish
+
+            - name: Build Flatpak
+              run: |
+                  flatpak-builder --force-clean build-dir \
+                    flatpak/com.sccommunity.SCCZToolkit.yml
+
+            - name: Create Flatpak bundle
+              run: |
+                  flatpak build-bundle ~/.local/share/flatpak/repo \
+                    SC-CZ-Toolkit-${{ github.ref_name }}-x86_64.flatpak \
+                    com.sccommunity.SCCZToolkit
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: SC-CZ-Toolkit-Flatpak
+                  path: SC-CZ-Toolkit-*.flatpak
+
+            - name: Upload to GitHub Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: SC-CZ-Toolkit-${{ github.ref_name }}-x86_64.flatpak
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
