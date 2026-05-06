@@ -8,7 +8,7 @@ namespace ScCestinator.Services;
 
 public sealed class InstallationService
 {
-    private const int MaxDepth = 3;
+    private const int MaxDepth = 5;
     private static readonly string[] RelativeTargets =
     {
         Path.Combine("drive_c", "Program Files", "Roberts Space Industries", "StarCitizen"),
@@ -77,6 +77,11 @@ public sealed class InstallationService
             yield return Path.Combine(home, "Games");
             yield return Path.Combine(home, ".local", "share");
         }
+
+        yield return "/mnt";
+        yield return "/media";
+        yield return "/run/media";
+        yield return "/home/data";
     }
 
     private static void ScanDirectory(string currentDir, int depth, HashSet<string> found)
