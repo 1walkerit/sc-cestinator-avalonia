@@ -1,0 +1,32 @@
+app-id: com.sccommunity.SCCZToolkit
+runtime: org.freedesktop.Platform
+runtime-version: "24.08"
+sdk: org.freedesktop.Sdk
+command: sc-cz-toolkit
+
+finish-args:
+    - --share=network
+    - --socket=x11
+    - --socket=wayland
+    - --filesystem=home
+
+modules:
+    - name: sc-cz-toolkit
+      buildsystem: simple
+      build-commands:
+          - install -Dm755 ScCestinator /app/bin/sc-cz-toolkit
+          - install -Dm755 libSkiaSharp.so /app/bin/libSkiaSharp.so
+          - install -Dm755 libHarfBuzzSharp.so /app/bin/libHarfBuzzSharp.so
+          - install -Dm644 icon.png /app/share/icons/hicolor/256x256/apps/com.sccommunity.SCCZToolkit.png
+          - install -Dm644 com.sccommunity.SCCZToolkit.desktop /app/share/applications/com.sccommunity.SCCZToolkit.desktop
+      sources:
+          - type: file
+            path: ../publish/ScCestinator
+          - type: file
+            path: ../publish/libSkiaSharp.so
+          - type: file
+            path: ../publish/libHarfBuzzSharp.so
+          - type: file
+            path: ../Assets/icon.png
+          - type: file
+            path: com.sccommunity.SCCZToolkit.desktop

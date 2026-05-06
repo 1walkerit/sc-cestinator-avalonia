@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=SC CZ Toolkit
+Comment=Linux toolkit pro Star Citizen češtinu
+Exec=sc-cz-toolkit
+Icon=com.sccommunity.SCCZToolkit
+Categories=Utility;Game;
+Terminal=false
