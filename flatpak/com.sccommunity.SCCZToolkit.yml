@@ -19,6 +19,7 @@ modules:
           - install -Dm755 libHarfBuzzSharp.so /app/bin/libHarfBuzzSharp.so
           - install -Dm644 icon.png /app/share/icons/hicolor/256x256/apps/com.sccommunity.SCCZToolkit.png
           - install -Dm644 com.sccommunity.SCCZToolkit.desktop /app/share/applications/com.sccommunity.SCCZToolkit.desktop
+          - install -Dm644 com.sccommunity.SCCZToolkit.metainfo.xml /app/share/metainfo/com.sccommunity.SCCZToolkit.metainfo.xml
       sources:
           - type: file
             path: ../publish/ScCestinator
@@ -30,3 +31,5 @@ modules:
             path: ../Assets/icon.png
           - type: file
             path: com.sccommunity.SCCZToolkit.desktop
+          - type: file
+            path: com.sccommunity.SCCZToolkit.metainfo.xml

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.sccommunity.SCCZToolkit</id>
+
+  <name>SC CZ Toolkit</name>
+
+  <summary>
+    Linux toolkit pro správu české lokalizace Star Citizen
+  </summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+
+  <developer id="cz.sccommunity">
+    <name>SC CZ Community</name>
+  </developer>
+
+  <url type="homepage">
+    https://github.com/1walkerit/sc-cestinator-avalonia
+  </url>
+
+  <description>
+    <p>
+      SC CZ Toolkit je linuxový nástroj pro instalaci a správu
+      české lokalizace hry Star Citizen.
+    </p>
+
+    <p>
+      Podporuje LIVE, PTU a EPTU větve, autodetekci instalace,
+      AppImage i Flatpak distribuci.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">
+    com.sccommunity.SCCZToolkit.desktop
+  </launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>
+        https://raw.githubusercontent.com/1walkerit/sc-cestinator-avalonia/main/docs/screenshot-main.png
+      </image>
+    </screenshot>
+  </screenshots>
+
+  <releases>
+    <release version="0.5.1" date="2026-05-06"/>
+  </releases>
+</component>
