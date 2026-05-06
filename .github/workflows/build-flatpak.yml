@@ -28,11 +28,11 @@ jobs:
 
             - name: Add Flathub
               run: |
-                  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                  flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
             - name: Install Flatpak SDK
               run: |
-                  flatpak install -y flathub \
+                  flatpak --user install -y flathub \
                     org.freedesktop.Platform//24.08 \
                     org.freedesktop.Sdk//24.08
 
