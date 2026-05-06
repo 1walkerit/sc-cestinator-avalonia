@@ -3,6 +3,7 @@ runtime: org.freedesktop.Platform
 runtime-version: "24.08"
 sdk: org.freedesktop.Sdk
 command: sc-cz-toolkit
+appstream-compose: false
 
 finish-args:
     - --share=network
