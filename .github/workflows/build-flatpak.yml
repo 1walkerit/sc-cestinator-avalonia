@@ -52,14 +52,17 @@ jobs:
 
             - name: Build Flatpak
               run: |
-                  flatpak-builder --force-clean build-dir \
+                  flatpak-builder --force-clean \
+                    --repo=flatpak-repo \
+                    build-dir \
                     flatpak/com.sccommunity.SCCZToolkit.yml
 
             - name: Create Flatpak bundle
               run: |
-                  flatpak build-bundle ~/.local/share/flatpak/repo \
+                  flatpak build-bundle flatpak-repo \
                     SC-CZ-Toolkit-${{ github.ref_name }}-x86_64.flatpak \
-                    com.sccommunity.SCCZToolkit
+                    com.sccommunity.SCCZToolkit \
+                    master
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
