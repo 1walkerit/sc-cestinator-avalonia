@@ -1,8 +1,5 @@
-using Avalonia.Layout;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls;
-using Avalonia;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -12,9 +9,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Layout;
 using Avalonia.Media;
 using ScCestinator.Services;
-using System.Collections.Generic;
 using ScCestinator.Views;
 
 namespace ScCestinator.ViewModels;
@@ -459,27 +459,27 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-private async Task ShowCreditsAsync()
-{
-    var desktop = App.Current?.ApplicationLifetime
-        as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime;
-
-    if (desktop?.MainWindow == null)
+    private async Task ShowCreditsAsync()
     {
-        await _confirmationDialogService.ShowInfoAsync(
-            "Licence / Autoři",
-            "SC CZ Toolkit – Linux verze\n\n" +
-            "Tato aplikace není oficiálním nástrojem týmu Cestinator.\n\n" +
-            "Česká lokalizace hry Star Citizen je dílem týmu Cestinator.\n" +
-            "https://github.com/cestinator\n\n" +
-            "Aplikace neodesílá žádná uživatelská data."
-        );
-        return;
-    }
+        var desktop = App.Current?.ApplicationLifetime
+            as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime;
 
-    var dialog = new CreditsDialog();
-    await dialog.ShowDialog(desktop.MainWindow);
-}
+        if (desktop?.MainWindow == null)
+        {
+            await _confirmationDialogService.ShowInfoAsync(
+                "Licence / Autoři",
+                "SC CZ Toolkit – Linux verze\n\n" +
+                "Tato aplikace není oficiálním nástrojem týmu Cestinator.\n\n" +
+                "Česká lokalizace hry Star Citizen je dílem týmu Cestinator.\n" +
+                "https://github.com/cestinator\n\n" +
+                "Aplikace neodesílá žádná uživatelská data."
+            );
+            return;
+        }
+
+        var dialog = new CreditsDialog();
+        await dialog.ShowDialog(desktop.MainWindow);
+    }
 
     public async Task DownloadLatestVersionAsync()
     {
@@ -569,7 +569,7 @@ private async Task ShowCreditsAsync()
 
     private async Task FindInstallationAsync()
     {
-        var installs = new InstallationService().FindStarCitizenInstallations();
+        var installs = await new InstallationService().FindStarCitizenInstallationsAsync();
 
         if (installs.Count == 0)
         {
