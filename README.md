@@ -1,13 +1,13 @@
 # SC CZ Toolkit – Star Citizen Linux Utility
 
-![Build](https://github.com/1walkerit/sc-cz-toolkit/actions/workflows/build-appimage.yml/badge.svg)
+![AppImage Build](https://github.com/1walkerit/sc-cz-toolkit/actions/workflows/build-appimage.yml/badge.svg)
+![Flatpak Build](https://github.com/1walkerit/sc-cz-toolkit/actions/workflows/build-flatpak.yml/badge.svg)
 ![Release](https://img.shields.io/github/v/release/1walkerit/sc-cz-toolkit)
 ![Downloads](https://img.shields.io/github/downloads/1walkerit/sc-cz-toolkit/total)
 
 Jednoduchý nástroj pro instalaci české lokalizace do hry Star Citizen na Linuxu.
 
 > ⚠️ Tento projekt není oficiální součástí projektu Cestinator ani s ním není přímo spojen. Jedná se o komunitní nástroj pro Linux.
-
 
 <img width="1252" height="735" alt="image" src="https://github.com/user-attachments/assets/91bbf008-83d4-4519-93f3-726edf77fb31" />
 
@@ -17,6 +17,10 @@ Jednoduchý nástroj pro instalaci české lokalizace do hry Star Citizen na Lin
 
 - stáhne aktuální českou lokalizaci
 - nainstaluje ji do hry Star Citizen
+- podporuje LIVE / PTU / EPTU větve
+- automaticky detekuje instalaci hry
+- funguje jako AppImage i Flatpak aplikace
+- integruje se do Linux desktop prostředí
 - neprovádí žádné úpravy lokalizačních souborů
 
 ---
@@ -51,6 +55,20 @@ Aplikace:
 
 ---
 
+## 📦 Distribuce
+
+### AppImage
+
+Přenosná verze bez instalace.
+
+### Flatpak
+
+Integrovaná Linux desktop aplikace.
+
+Flatpak bundle je dostupný v GitHub Releases.
+
+---
+
 ## 🚀 Spuštění
 
 1. stáhni AppImage
@@ -66,12 +84,32 @@ Aplikace:
     ./SC-CZ-Toolkit-*.AppImage
     ```
 
+## 🔒 Flatpak a přístup ke hrám
+
+Pokud máš Star Citizen mimo domovský adresář (`HOME`),
+může být potřeba povolit přístup například:
+
+```bash
+flatpak override --user --filesystem=/home/data com.sccommunity.SCCZToolkit
+```
+
 ---
 
 ## 🛠️ Technologie
 
-- .NET (Avalonia UI)
-- Linux (AppImage)
+- .NET 8
+- Avalonia UI
+- Linux
+- AppImage
+- Flatpak
+- GitHub Actions CI/CD
+
+---
+
+## ⬇️ Stažení
+
+Aktuální verze:
+https://github.com/1walkerit/sc-cz-toolkit/releases
 
 ---
 
