@@ -692,9 +692,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 return;
             }
 
-            if (!result.DataExists)
+            if (!result.DataP4kExists)
             {
-                Status = "Chybí složka data";
+                Status = $"Chybí soubor Data.p4k ve větvi {result.BranchName}";
                 return;
             }
 

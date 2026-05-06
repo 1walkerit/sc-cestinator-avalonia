@@ -12,6 +12,7 @@ public sealed class PathValidationResult
     public string GlobalIniPath { get; init; } = string.Empty;
 
     public bool LiveExists { get; init; }
+    public bool DataP4kExists { get; init; }
     public bool DataExists { get; init; }
     public bool LocalizationExists { get; init; }
     public bool GlobalIniExists { get; init; }
@@ -34,18 +35,11 @@ public sealed class PathService
 
         var normalizedPath = Path.GetFullPath(inputPath.Trim());
         var normalizedBranch = NormalizeBranchName(branchName);
+        var installationRootPath = GetInstallationRootPath(normalizedPath);
 
-        string branchPath;
+        var branchPath = Path.Combine(installationRootPath, normalizedBranch);
 
-        if (string.Equals(Path.GetFileName(normalizedPath), normalizedBranch, StringComparison.OrdinalIgnoreCase))
-        {
-            branchPath = normalizedPath;
-        }
-        else
-        {
-            branchPath = Path.Combine(normalizedPath, normalizedBranch);
-        }
-
+        var dataP4kPath = Path.Combine(branchPath, "Data.p4k");
         var dataPath = Path.Combine(branchPath, "data");
         var localizationPath = Path.Combine(dataPath, "Localization");
         var englishPath = Path.Combine(localizationPath, "english");
@@ -59,6 +53,7 @@ public sealed class PathService
             LiveExists = Directory.Exists(branchPath),
             DataExists = Directory.Exists(dataPath),
             LocalizationExists = Directory.Exists(localizationPath),
+            DataP4kExists = File.Exists(dataP4kPath),
             GlobalIniExists = File.Exists(globalIniPath)
         };
     }
@@ -69,13 +64,12 @@ public sealed class PathService
             return Array.Empty<string>();
 
         var normalizedPath = Path.GetFullPath(inputPath.Trim());
+        var installationRootPath = GetInstallationRootPath(normalizedPath);
         var candidates = new List<string>(Constants.SupportedStarCitizenBranches.Length);
 
         foreach (var branch in Constants.SupportedStarCitizenBranches)
         {
-            var branchPath = string.Equals(Path.GetFileName(normalizedPath), branch, StringComparison.OrdinalIgnoreCase)
-                ? normalizedPath
-                : Path.Combine(normalizedPath, branch);
+            var branchPath = Path.Combine(installationRootPath, branch);
 
             if (Directory.Exists(branchPath))
             {
@@ -84,6 +78,20 @@ public sealed class PathService
         }
 
         return candidates;
+    }
+
+    private static string GetInstallationRootPath(string normalizedPath)
+    {
+        var directoryName = Path.GetFileName(
+            normalizedPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+
+        var isBranchPath = Constants.SupportedStarCitizenBranches
+            .Any(x => string.Equals(x, directoryName, StringComparison.OrdinalIgnoreCase));
+
+        if (!isBranchPath)
+            return normalizedPath;
+
+        return Directory.GetParent(normalizedPath)?.FullName ?? normalizedPath;
     }
 
     private static string NormalizeBranchName(string? branchName)
