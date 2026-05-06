@@ -47,13 +47,13 @@ public class ShaderCacheService
 
         return paths;
     }
-    
+
     public List<string> GetExistingShaderPaths(string? inputPath)
-{
-    return GetShaderPaths(inputPath)
-        .Where(Directory.Exists)
-        .ToList();
-}
+    {
+        return GetShaderPaths(inputPath)
+            .Where(Directory.Exists)
+            .ToList();
+    }
     public int ClearShaders(string? inputPath)
     {
         var paths = GetShaderPaths(inputPath);

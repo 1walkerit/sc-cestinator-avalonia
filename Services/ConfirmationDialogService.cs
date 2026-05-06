@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media;
 using Avalonia.Layout;
+using Avalonia.Media;
 
 namespace ScCestinator.Services;
 

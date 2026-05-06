@@ -271,6 +271,13 @@
                                     <MenuItem Header="SC Ships Performances Viewer" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.spviewer.eu/" />
                                     <MenuItem Header="Star Citizen Characters" Command="{Binding OpenUrlCommand}" CommandParameter="https://www.star-citizen-characters.com/" />
                                 </MenuItem>
+
+                                <MenuItem Header="Linux komunita">
+                                    <MenuItem Header="Star Citizen Linux Users Group Wiki" Command="{Binding OpenUrlCommand}" CommandParameter="https://wiki.starcitizen-lug.org" />
+                                    <MenuItem Header="Linux Users Group (LUG)" Command="{Binding OpenUrlCommand}" CommandParameter="https://robertsspaceindustries.com/en/orgs/LUG" />
+                                    <MenuItem Header="Linux Users Group Discord" Command="{Binding OpenUrlCommand}" CommandParameter="https://discord.com/invite/meCFYPj" />
+                                    <MenuItem Header="Star Citizen Česko-Slovensko Discord" Command="{Binding OpenUrlCommand}" CommandParameter="https://discord.gg/scczsk" />
+                                </MenuItem>
                             </MenuItem>
 
 
