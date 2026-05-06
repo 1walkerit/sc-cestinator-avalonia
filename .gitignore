@@ -6,3 +6,7 @@ AppDir/
 # backup soubory
 *.bak
 *.bak-*
+publish/
+*.flatpak
+build-dir/
+.flatpak-builder/
