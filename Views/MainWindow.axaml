@@ -390,7 +390,7 @@
                                 BorderThickness="1"
                                 CornerRadius="8"
                                 Padding="15"
-                                Margin="10"
+                                HorizontalAlignment="Left"
                                 Background="#AA0B1A2B">
                             <StackPanel Spacing="12">
                                 <TextBlock Text="Cesta ke Star Citizen"
