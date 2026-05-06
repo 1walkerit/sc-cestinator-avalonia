@@ -128,6 +128,33 @@ public class MainWindowViewModel : INotifyPropertyChanged
     }
 
     private string? _inputPath;
+    private bool _suppressBranchValidation;
+    private List<string> _availableBranches = new() { "LIVE" };
+    private string _selectedBranch = "LIVE";
+
+    public IReadOnlyList<string> AvailableBranches => _availableBranches;
+
+    public bool HasMultipleBranches => _availableBranches.Count > 1;
+
+    public string SelectedBranch
+    {
+        get => _selectedBranch;
+        set
+        {
+            var normalized = string.IsNullOrWhiteSpace(value) ? "LIVE" : value;
+            if (string.Equals(_selectedBranch, normalized, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            _selectedBranch = normalized;
+            OnPropertyChanged();
+
+            if (!_suppressBranchValidation)
+            {
+                _ = ValidatePathAsync();
+            }
+        }
+    }
+
     public string? InputPath
     {
         get => _inputPath;
@@ -620,7 +647,28 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         try
         {
-            var result = _pathService.ValidateStarCitizenPath(InputPath);
+            var detectedBranches = _pathService.DetectExistingBranches(InputPath).ToList();
+            if (detectedBranches.Count == 0)
+            {
+                detectedBranches.Add("LIVE");
+            }
+
+            _availableBranches = detectedBranches;
+            OnPropertyChanged(nameof(AvailableBranches));
+            OnPropertyChanged(nameof(HasMultipleBranches));
+
+            var branchToUse = SelectedBranch;
+            if (!_availableBranches.Any(x => string.Equals(x, branchToUse, StringComparison.OrdinalIgnoreCase)))
+            {
+                branchToUse = _availableBranches.FirstOrDefault(x => string.Equals(x, "LIVE", StringComparison.OrdinalIgnoreCase))
+                              ?? _availableBranches[0];
+
+                _suppressBranchValidation = true;
+                SelectedBranch = branchToUse;
+                _suppressBranchValidation = false;
+            }
+
+            var result = _pathService.ValidateStarCitizenPath(InputPath, branchToUse);
 
             LocalVersion = "-";
             OnlineVersion = "-";
@@ -700,7 +748,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return;
 
         Status = "Kontroluji cestu ke Star Citizenu...";
-        var result = _pathService.ValidateStarCitizenPath(InputPath);
+        var result = _pathService.ValidateStarCitizenPath(InputPath, SelectedBranch);
 
         if (result.LivePath == null)
             return;
@@ -757,7 +805,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
 
         Status = "Kontroluji cestu ke Star Citizenu...";
-        var result = _pathService.ValidateStarCitizenPath(InputPath);
+        var result = _pathService.ValidateStarCitizenPath(InputPath, SelectedBranch);
 
         if (result.LivePath == null)
             return;
