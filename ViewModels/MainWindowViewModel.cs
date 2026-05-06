@@ -150,7 +150,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
             if (!_suppressBranchValidation)
             {
-                _ = ValidatePathAsync();
+                _ = ValidatePathAsync(refreshBranches: false);
             }
         }
     }
@@ -643,19 +643,23 @@ public class MainWindowViewModel : INotifyPropertyChanged
         await ValidatePathAsync();
     }
 
-    private async Task ValidatePathAsync()
+    private async Task ValidatePathAsync(bool refreshBranches = true)
     {
         try
         {
-            var detectedBranches = _pathService.DetectExistingBranches(InputPath).ToList();
-            if (detectedBranches.Count == 0)
+            if (refreshBranches)
             {
-                detectedBranches.Add("LIVE");
-            }
+                var detectedBranches = _pathService.DetectExistingBranches(InputPath).ToList();
 
-            _availableBranches = detectedBranches;
-            OnPropertyChanged(nameof(AvailableBranches));
-            OnPropertyChanged(nameof(HasMultipleBranches));
+                if (detectedBranches.Count == 0)
+                {
+                    detectedBranches.Add("LIVE");
+                }
+
+                _availableBranches = detectedBranches;
+                OnPropertyChanged(nameof(AvailableBranches));
+                OnPropertyChanged(nameof(HasMultipleBranches));
+            }
 
             var branchToUse = SelectedBranch;
             if (!_availableBranches.Any(x => string.Equals(x, branchToUse, StringComparison.OrdinalIgnoreCase)))
