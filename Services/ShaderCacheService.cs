@@ -55,32 +55,44 @@ public class ShaderCacheService
             .ToList();
     }
     public int ClearShaders(string? inputPath)
+{
+    var paths = GetShaderPaths(inputPath);
+
+    int totalDeleted = 0;
+
+    foreach (var dir in paths)
     {
-        var paths = GetShaderPaths(inputPath);
+        if (!Directory.Exists(dir))
+            continue;
 
-        int totalDeleted = 0;
-
-        foreach (var dir in paths)
+        foreach (var file in Directory.GetFiles(dir, "*", SearchOption.AllDirectories))
         {
-            if (!Directory.Exists(dir))
-                continue;
-
-            var files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories);
-
-            foreach (var file in files)
+            try
             {
-                try
-                {
-                    File.Delete(file);
-                    totalDeleted++;
-                }
-                catch
-                {
-                    // ignorujeme chyby
-                }
+                File.Delete(file);
+                totalDeleted++;
+            }
+            catch
+            {
+                // ignorujeme chyby jednotlivých souborů
             }
         }
 
-        return totalDeleted;
+        foreach (var subDir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories)
+                     .OrderByDescending(path => path.Length))
+        {
+            try
+            {
+                Directory.Delete(subDir, recursive: false);
+                totalDeleted++;
+            }
+            catch
+            {
+                // ignorujeme neprázdné nebo zamčené adresáře
+            }
+        }
     }
+
+    return totalDeleted;
+}
 }
