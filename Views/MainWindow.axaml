@@ -388,14 +388,15 @@
                         <!-- Star Citizen Path Section -->
                         <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                                 BorderThickness="1"
-                                CornerRadius="8"
+                                CornerRadius="10"
                                 Padding="15"
                                 HorizontalAlignment="Left"
-                                Background="#AA0B1A2B">
+                                Background="#BB0B1A2B">
                             <StackPanel Spacing="12">
                                 <TextBlock Text="Cesta ke Star Citizen"
                                            Foreground="#F0FFFFFF"
-                                           FontSize="16"
+                                           FontSize="18"
+                                           Margin="0,0,0,2"
                                            FontWeight="SemiBold" />
 
                                 <Grid ColumnDefinitions="*,Auto,Auto">
@@ -440,14 +441,15 @@
                         <!-- Versions Section -->
                         <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
                                 BorderThickness="1"
-                                CornerRadius="8"
+                                CornerRadius="10"
                                 Padding="20"
-                                Background="#AA0B1A2B"
+                                Background="#BB0B1A2B"
                                 Width="380"
                                 HorizontalAlignment="Left">
                             <StackPanel Spacing="12">
                                 <TextBlock Text="Informace o verzi"
-                                           FontSize="16"
+                                           FontSize="18"
+                                           Margin="0,0,0,2"
                                            FontWeight="SemiBold"
                                            Foreground="#F0FFFFFF" />
 
