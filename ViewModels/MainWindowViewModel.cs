@@ -329,7 +329,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             if (string.IsNullOrWhiteSpace(InputPath) || !Directory.Exists(InputPath))
             {
-                Status = "Neplatná cesta ke hře.";
+                Status = "Vybraná cesta není platná instalace Star Citizen.";
                 return;
             }
 
@@ -713,7 +713,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
             if (result.LivePath == null)
             {
-                Status = "Neplatná cesta";
+                Status = "Vybraná cesta není platná.";
                 return;
             }
 
@@ -747,12 +747,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
             if (LocalVersion == "nenainstalováno")
             {
-                Status = "Lokalizace není nainstalována";
+                Status = "Čeština zatím není nainstalovaná.";
                 IsUpdateAvailable = true;
             }
             else if (LocalVersion != OnlineVersion)
             {
-                Status = $"Je dostupná aktualizace ({LocalVersion} → {OnlineVersion})";
+                Status = $"Je dostupná nová verze češtiny ({LocalVersion} → {OnlineVersion}).";
                 IsUpdateAvailable = true;
             }
             else
