@@ -4,6 +4,8 @@ runtime: org.freedesktop.Platform
 runtime-version: "24.08"
 sdk: org.freedesktop.Sdk
 command: sc-cz-toolkit
+metadata:
+    X-Flatpak-Version: "0.5.6"
 appstream-compose: false
 
 finish-args:
