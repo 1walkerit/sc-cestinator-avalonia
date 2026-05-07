@@ -741,7 +741,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             }
             else
             {
-                Status = "Máš aktuální verzi ✔";
+                Status = $"Čeština je aktuální pro větev {SelectedBranch} ✔";
                 IsUpdateAvailable = false;
             }
             var updateResult = await _appUpdateService.CheckForUpdateAsync(currentVersion);
