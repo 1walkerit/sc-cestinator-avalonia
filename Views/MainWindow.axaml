@@ -219,7 +219,7 @@
                                 Spacing="16"
                                 VerticalAlignment="Center">
                         <TextBlock Text="SC CZ Toolkit"
-                                   FontSize="24"
+                                   FontSize="23"
                                    FontWeight="Bold"
                                    Foreground="White"
                                    VerticalAlignment="Center" />
