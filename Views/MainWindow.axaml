@@ -290,20 +290,24 @@
                             </MenuItem>
 
 
-<MenuItem Header="_Nástroje" FontWeight="Bold">
-    <MenuItem Header="Otevřít složku hry"
+<MenuItem Header="Nástroje" FontWeight="Bold">
+    <MenuItem Header="🗁 Otevřít složku hry"
               Command="{Binding OpenGameFolderCommand}" />
 
     <Separator />
 
-    <MenuItem Header="Vyčistit logy"
+    <MenuItem Header="🧹 Vyčistit logy"
               Command="{Binding ClearLogsCommand}" />
-    <Separator /> 
-    <MenuItem Header="Vymazat shader cache"
+
+    <Separator />
+
+    <MenuItem Header="🧹 Vymazat shader cache"
               Command="{Binding ClearShadersCommand}" />
-    <Separator />          
-    <MenuItem Header="Otevřít shader cache"
-          Command="{Binding OpenShaderCacheCommand}" />
+
+    <Separator />
+
+    <MenuItem Header="🗁 Otevřít shader cache"
+              Command="{Binding OpenShaderCacheCommand}" />
 </MenuItem>
 
 <MenuItem Header="_Licence"
