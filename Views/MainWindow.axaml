@@ -30,6 +30,17 @@
             <Setter Property="Foreground" Value="#FFFFFFFF"/>
             <Setter Property="BorderBrush" Value="#FFFFE0A0"/>
         </Style>
+        <Style Selector="Button.download-button:disabled">
+            <Setter Property="Background" Value="#5A5F6875"/>
+            <Setter Property="Foreground" Value="#B8F4F6FA"/>
+            <Setter Property="BorderBrush" Value="#707B8798"/>
+            <Setter Property="Opacity" Value="0.72"/>
+        </Style>
+        <Style Selector="Button.download-button:disabled:pointerover">
+            <Setter Property="Background" Value="#5A5F6875"/>
+            <Setter Property="Foreground" Value="#B8F4F6FA"/>
+            <Setter Property="BorderBrush" Value="#707B8798"/>
+        </Style>
 
         <Style Selector="Button.browse-button">
             <Setter Property="Background" Value="#55203040" />
@@ -45,15 +56,15 @@
             <Setter Property="BorderBrush" Value="#AAFFFFFF" />
         </Style>
         <Style Selector="Button.browse-button:disabled">
-            <Setter Property="Background" Value="#33203040" />
-            <Setter Property="Foreground" Value="#B0FFFFFF" />
-            <Setter Property="BorderBrush" Value="#44FFFFFF" />
-            <Setter Property="Opacity" Value="0.75" />
+            <Setter Property="Background" Value="#5A5F6875" />
+            <Setter Property="Foreground" Value="#B8F4F6FA" />
+            <Setter Property="BorderBrush" Value="#707B8798" />
+            <Setter Property="Opacity" Value="0.72" />
         </Style>
         <Style Selector="Button.browse-button:disabled:pointerover">
-            <Setter Property="Background" Value="#33203040" />
-            <Setter Property="Foreground" Value="#B0FFFFFF" />
-            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+            <Setter Property="Background" Value="#5A5F6875" />
+            <Setter Property="Foreground" Value="#B8F4F6FA" />
+            <Setter Property="BorderBrush" Value="#707B8798" />
         </Style>
 
         <Style Selector="Button.link-button">
@@ -72,15 +83,15 @@
             <Setter Property="BorderBrush" Value="#AAFFFFFF" />
         </Style>
         <Style Selector="Button.link-button:disabled">
-            <Setter Property="Background" Value="#33203040" />
-            <Setter Property="Foreground" Value="#B0FFFFFF" />
-            <Setter Property="BorderBrush" Value="#44FFFFFF" />
-            <Setter Property="Opacity" Value="0.75" />
+            <Setter Property="Background" Value="#5A5F6875" />
+            <Setter Property="Foreground" Value="#B8F4F6FA" />
+            <Setter Property="BorderBrush" Value="#707B8798" />
+            <Setter Property="Opacity" Value="0.72" />
         </Style>
         <Style Selector="Button.link-button:disabled:pointerover">
-            <Setter Property="Background" Value="#33203040" />
-            <Setter Property="Foreground" Value="#B0FFFFFF" />
-            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+            <Setter Property="Background" Value="#5A5F6875" />
+            <Setter Property="Foreground" Value="#B8F4F6FA" />
+            <Setter Property="BorderBrush" Value="#707B8798" />
         </Style>
 
         <Style Selector="Button.link-compact">
@@ -129,27 +140,25 @@
         </Style>
 
         <Style Selector="Button.action-primary:disabled, Button.action-danger:disabled">
-            <Setter Property="Opacity" Value="0.75" />
-            <Setter Property="Foreground" Value="#B0FFFFFF" />
-            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+            <Setter Property="Opacity" Value="0.72" />
+            <Setter Property="Foreground" Value="#B8F4F6FA" />
+            <Setter Property="BorderBrush" Value="#707B8798" />
         </Style>
         <Style Selector="Button.action-primary:disabled">
-            <Setter Property="Background" Value="#3A4F63" />
-            <Setter Property="Foreground" Value="#80FFFFFF" />
+            <Setter Property="Background" Value="#5A5F6875" />
         </Style>
         <Style Selector="Button.action-danger:disabled">
-            <Setter Property="Background" Value="#4A3333" />
+            <Setter Property="Background" Value="#5A5F6875" />
         </Style>
         <Style Selector="Button.action-primary:disabled:pointerover, Button.action-danger:disabled:pointerover">
-            <Setter Property="Foreground" Value="#B0FFFFFF" />
-            <Setter Property="BorderBrush" Value="#44FFFFFF" />
+            <Setter Property="Foreground" Value="#B8F4F6FA" />
+            <Setter Property="BorderBrush" Value="#707B8798" />
         </Style>
         <Style Selector="Button.action-primary:disabled:pointerover">
-            <Setter Property="Background" Value="#3A4F63" />
-            <Setter Property="Foreground" Value="#80FFFFFF" />
+            <Setter Property="Background" Value="#5A5F6875" />
         </Style>
         <Style Selector="Button.action-danger:disabled:pointerover">
-            <Setter Property="Background" Value="#4A3333" />
+            <Setter Property="Background" Value="#5A5F6875" />
         </Style>
 
         <!-- Dark transparent glass look for header menu and submenu items -->
@@ -309,11 +318,12 @@
 
                     <Border Grid.Column="2"
                             Background="#AA0B1A2B"
-                            Padding="10,4"
+                            Padding="10,5"
                             CornerRadius="8"
+                            Margin="8,0,0,0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center">
-                        <StackPanel Spacing="0">
+                        <StackPanel Spacing="2">
                             <TextBlock Text="{Binding AppVersion}"
                                        FontWeight="Bold"
                                        FontSize="11"
@@ -386,12 +396,12 @@
                     <StackPanel Spacing="20">
 
                         <!-- Star Citizen Path Section -->
-                        <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                        <Border BorderBrush="#55FFFFFF"
                                 BorderThickness="1"
-                                CornerRadius="10"
-                                Padding="15"
+                                CornerRadius="11"
+                                Padding="16"
                                 HorizontalAlignment="Left"
-                                Background="#BB0B1A2B">
+                                Background="#C00D1F31">
                             <StackPanel Spacing="12">
                                 <TextBlock Text="Cesta ke Star Citizen"
                                            Foreground="#F0FFFFFF"
@@ -415,7 +425,7 @@
                                             Height="36"
                                             Padding="12,6" />
                                     <Button Grid.Column="2"
-                                            Content="Najít instalaci"
+                                            Content="Najít instalaci hry"
                                             Command="{Binding FindInstallationCommand}"
                                             Classes="browse-button"
                                             HorizontalContentAlignment="Center"
@@ -439,11 +449,11 @@
                         </Border>
 
                         <!-- Versions Section -->
-                        <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                        <Border BorderBrush="#55FFFFFF"
                                 BorderThickness="1"
-                                CornerRadius="10"
-                                Padding="20"
-                                Background="#BB0B1A2B"
+                                CornerRadius="11"
+                                Padding="18"
+                                Background="#C00D1F31"
                                 Width="380"
                                 HorizontalAlignment="Left">
                             <StackPanel Spacing="12">
@@ -518,7 +528,7 @@
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center" />
 
-                            <Button Content="Odinstalovat češtinu"
+                            <Button Content="Odinstalovat český překlad"
                                     Command="{Binding UninstallCommand}"
                                     HorizontalAlignment="Stretch"
                                     Classes="action-danger"
