@@ -12,6 +12,9 @@
 
     <Window.Styles>
 
+<Style Selector="Button">
+    <Setter Property="Cursor" Value="Hand" />
+</Style>
         <!-- Download button custom style -->
         <Style Selector="Button.download-button">
             <Setter Property="Background" Value="#FFFFB020"/>
@@ -182,6 +185,7 @@
             <Setter Property="Foreground" Value="White" />
         </Style>
         <Style Selector="MenuItem">
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Background" Value="#CC0B1A2B" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="#40FFFFFF" />
