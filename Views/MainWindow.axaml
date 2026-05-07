@@ -408,13 +408,13 @@
                                            FontSize="18"
                                            Margin="0,0,0,2"
                                            FontWeight="SemiBold" />
-                                    <Border Background="#33000000"
+                                    <Border Background="#55000000"
         BorderBrush="#33FFFFFF"
         BorderThickness="1"
         CornerRadius="8"
         Padding="8,5">
     <TextBlock Text="{Binding Status}"
-               Foreground="{Binding StatusBrush}"
+               Foreground="White"
                FontSize="12"
                FontWeight="SemiBold"
                TextWrapping="Wrap" />
@@ -513,6 +513,7 @@
                                     Width="380">
                             <Button Content="Instalovat / Aktualizovat češtinu"
                                     Command="{Binding InstallCommand}"
+                                    IsVisible="{Binding IsUpdateAvailable}"
                                     HorizontalAlignment="Stretch"
                                     Classes="action-primary"
                                     Height="40"
@@ -520,6 +521,18 @@
                                     Padding="12,6"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center" />
+                            <Border Background="#223A7A3A"
+        BorderBrush="#5577CC77"
+        BorderThickness="1"
+        CornerRadius="8"
+        Padding="12,10"
+        IsVisible="{Binding !IsUpdateAvailable}">
+    <TextBlock Text="Čeština je aktuální ✔"
+               Foreground="#A8E6A3"
+               FontWeight="SemiBold"
+               HorizontalAlignment="Center"
+               TextAlignment="Center"/>
+</Border>
 
                             <Button Content="Odinstalovat český překlad"
                                     Command="{Binding UninstallCommand}"

@@ -741,7 +741,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             }
             else
             {
-                Status = $"Čeština je aktuální pro větev {SelectedBranch} ✔";
+                Status = "Instalace Star Citizen je připravena ✔";
                 IsUpdateAvailable = false;
             }
             var updateResult = await _appUpdateService.CheckForUpdateAsync(currentVersion);
