@@ -55,44 +55,44 @@ public class ShaderCacheService
             .ToList();
     }
     public int ClearShaders(string? inputPath)
-{
-    var paths = GetShaderPaths(inputPath);
-
-    int totalDeleted = 0;
-
-    foreach (var dir in paths)
     {
-        if (!Directory.Exists(dir))
-            continue;
+        var paths = GetShaderPaths(inputPath);
 
-        foreach (var file in Directory.GetFiles(dir, "*", SearchOption.AllDirectories))
+        int totalDeleted = 0;
+
+        foreach (var dir in paths)
         {
-            try
+            if (!Directory.Exists(dir))
+                continue;
+
+            foreach (var file in Directory.GetFiles(dir, "*", SearchOption.AllDirectories))
             {
-                File.Delete(file);
-                totalDeleted++;
+                try
+                {
+                    File.Delete(file);
+                    totalDeleted++;
+                }
+                catch
+                {
+                    // ignorujeme chyby jednotlivých souborů
+                }
             }
-            catch
+
+            foreach (var subDir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories)
+                         .OrderByDescending(path => path.Length))
             {
-                // ignorujeme chyby jednotlivých souborů
+                try
+                {
+                    Directory.Delete(subDir, recursive: false);
+                    totalDeleted++;
+                }
+                catch
+                {
+                    // ignorujeme neprázdné nebo zamčené adresáře
+                }
             }
         }
 
-        foreach (var subDir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories)
-                     .OrderByDescending(path => path.Length))
-        {
-            try
-            {
-                Directory.Delete(subDir, recursive: false);
-                totalDeleted++;
-            }
-            catch
-            {
-                // ignorujeme neprázdné nebo zamčené adresáře
-            }
-        }
+        return totalDeleted;
     }
-
-    return totalDeleted;
-}
 }

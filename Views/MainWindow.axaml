@@ -112,7 +112,7 @@
         </Style>
 
         <Style Selector="Button.action-primary">
-            <Setter Property="Background" Value="#1B4E78" />
+            <Setter Property="Background" Value="#1565C0" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="#55FFFFFF" />
             <Setter Property="BorderThickness" Value="1" />
@@ -120,7 +120,7 @@
             <Setter Property="CornerRadius" Value="8" />
         </Style>
         <Style Selector="Button.action-primary:pointerover">
-            <Setter Property="Background" Value="#236291" />
+            <Setter Property="Background" Value="#1976D2" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="#AAFFFFFF" />
         </Style>
@@ -437,6 +437,7 @@
                                             Padding="12,6" />
                                     <Button Grid.Column="2"
                                             Content="Najít instalaci hry"
+                                            
                                             Command="{Binding FindInstallationCommand}"
                                             Classes="browse-button"
                                             HorizontalContentAlignment="Center"

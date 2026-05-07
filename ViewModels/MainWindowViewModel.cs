@@ -115,25 +115,25 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ShowCreditsCommand = new RelayCommand(async _ => await ShowCreditsAsync());
 
         // Load last used path
-var settings = _settingsService.LoadSettings();
+        var settings = _settingsService.LoadSettings();
 
-if (!string.IsNullOrWhiteSpace(settings.LastUsedPath))
-{
-    var savedPathResult = _pathService.ValidateStarCitizenPath(settings.LastUsedPath);
+        if (!string.IsNullOrWhiteSpace(settings.LastUsedPath))
+        {
+            var savedPathResult = _pathService.ValidateStarCitizenPath(settings.LastUsedPath);
 
-    if (savedPathResult.IsValidLivePath)
-    {
-        InputPath = settings.LastUsedPath;
-    }
-    else
-    {
-        _ = FindInstallationAsync();
-    }
-}
-else
-{
-    _ = FindInstallationAsync();
-}
+            if (savedPathResult.IsValidLivePath)
+            {
+                InputPath = settings.LastUsedPath;
+            }
+            else
+            {
+                _ = FindInstallationAsync();
+            }
+        }
+        else
+        {
+            _ = FindInstallationAsync();
+        }
 
         // Check for app update automatically on startup
         _ = CheckAppUpdateAsync();
