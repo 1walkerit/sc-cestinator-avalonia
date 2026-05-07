@@ -117,7 +117,19 @@ public sealed class InstallationService
 
             foreach (var subdir in subdirs)
             {
-                ScanDirectory(subdir, depth + 1, found);
+                try
+                {
+                    var attributes = File.GetAttributes(subdir);
+
+                    if ((attributes & FileAttributes.ReparsePoint) != 0)
+                        continue;
+
+                    ScanDirectory(subdir, depth + 1, found);
+                }
+                catch
+                {
+                    // Ignore broken symlinks/inaccessible directories.
+                }
             }
         }
         catch
