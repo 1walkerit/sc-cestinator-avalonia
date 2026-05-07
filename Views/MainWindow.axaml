@@ -521,16 +521,21 @@
                                     Spacing="10"
                                     HorizontalAlignment="Left"
                                     Width="380">
-                            <Button Content="Instalovat / Aktualizovat češtinu"
-                                    Command="{Binding InstallCommand}"
-                                    IsVisible="{Binding IsUpdateAvailable}"
-                                    HorizontalAlignment="Stretch"
-                                    Classes="action-primary"
-                                    Height="40"
-                                    FontSize="15"
-                                    Padding="12,6"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center" />
+<Button Command="{Binding InstallCommand}"
+ IsVisible="{Binding IsUpdateAvailable}"
+        HorizontalAlignment="Stretch"
+        Classes="action-primary"
+        Height="40"
+        FontSize="15"
+        Padding="12,6"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center">
+
+    <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBlock Text="⬇" FontSize="16"/>
+        <TextBlock Text="Instalovat / aktualizovat češtinu"/>
+    </StackPanel>
+</Button>
                             <Border Background="#223A7A3A"
         BorderBrush="#5577CC77"
         BorderThickness="1"
@@ -543,17 +548,20 @@
                HorizontalAlignment="Center"
                TextAlignment="Center"/>
 </Border>
+<Button Command="{Binding UninstallCommand}"
+        HorizontalAlignment="Stretch"
+        Classes="action-danger"
+        Height="40"
+        FontSize="15"
+        Padding="12,6"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center">
 
-                            <Button Content="Odinstalovat český překlad"
-                                    Command="{Binding UninstallCommand}"
-                                    HorizontalAlignment="Stretch"
-                                    Classes="action-danger"
-                                    Height="40"
-                                    FontSize="15"
-                                    Padding="12,6"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center" />
-                            
+    <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBlock Text="🗑" FontSize="15"/>
+        <TextBlock Text="Odinstalovat český překlad"/>
+    </StackPanel>
+</Button>              
 
                         </StackPanel>
 
