@@ -19,6 +19,7 @@ using ScCestinator.Views;
 
 namespace ScCestinator.ViewModels;
 
+
 public class MainWindowViewModel : INotifyPropertyChanged
 {
     private readonly ShaderCacheService _shaderService = new();
@@ -45,7 +46,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand ShowCreditsCommand { get; }
 
     public string AppVersion { get; }
-
+    public bool IsRunningInFlatpak =>
+        File.Exists("/.flatpak-info");
     private string _appUpdateStatus = "";
     public string AppUpdateStatus
     {
@@ -618,13 +620,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 "Instalace Star Citizen nebyla nalezena.\n\n" +
                 "Vyber cestu ručně.";
 
-            if (OperatingSystem.IsLinux()
-                && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("FLATPAK_ID")))
+            if (IsRunningInFlatpak)
             {
                 message +=
                     "\n\n" +
-                    "Pokud používáš Flatpak a máš hru mimo domovský adresář,\n" +
-                    "povol přístup například:\n\n" +
+"Pokud používáš Flatpak a máš hru mimo domovský adresář,\n" +
+"je potřeba povolit přístup k danému umístění.\n\n" +
+"Příklad:\n\n" +
                     "flatpak override --user --filesystem=/home/data com.sccommunity.SCCZToolkit";
             }
 
