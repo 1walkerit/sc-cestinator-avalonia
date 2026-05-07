@@ -69,7 +69,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         // Get app version from assembly
         var version = Assembly.GetExecutingAssembly().GetName().Version;
-        AppVersion = $"Verze: {version?.Major}.{version?.Minor}.{version?.Build ?? 0}";
+        AppVersion = $"SC CZ Toolkit v{version?.Major}.{version?.Minor}.{version?.Build ?? 0}";
 
 
         InstallCommand = new AsyncRelayCommand(
