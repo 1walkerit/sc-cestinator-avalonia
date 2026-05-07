@@ -218,7 +218,7 @@
                                 Orientation="Horizontal"
                                 Spacing="16"
                                 VerticalAlignment="Center">
-                        <TextBlock Text="SC CZ Toolkit (Linux)"
+                        <TextBlock Text="SC CZ Toolkit"
                                    FontSize="24"
                                    FontWeight="Bold"
                                    Foreground="White"
@@ -423,7 +423,7 @@
                                 <Grid ColumnDefinitions="*,Auto,Auto">
                                     <TextBox Grid.Column="0"
                                              Text="{Binding InputPath}"
-                                             PlaceholderText="Zadejte cestu nebo vyberte složku..."
+                                             PlaceholderText="Cesta k instalaci Star Citizen..."
                                              VerticalContentAlignment="Center"
                                              Height="36" />
                                     <Button Grid.Column="1"
