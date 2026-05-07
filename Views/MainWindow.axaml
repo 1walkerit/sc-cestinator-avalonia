@@ -530,12 +530,7 @@
                                     Padding="12,6"
                                     HorizontalContentAlignment="Center"
                                     VerticalContentAlignment="Center" />
-                            <TextBlock Text="{Binding Status}"
-           FontSize="11"
-           Foreground="#CCFFFFFF"
-           TextWrapping="Wrap"
-           Margin="4,2,0,0"
-           Opacity="0.85"/>
+                            
 
                         </StackPanel>
 
